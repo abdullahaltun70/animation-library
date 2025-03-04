@@ -1,0 +1,19 @@
+// globals.scss
+@import 'variables';
+
+// Importeer keyframes
+@import 'keyframes/fade-keyframes';
+@import 'keyframes/scale-keyframes';
+@import 'keyframes/slide-keyframes';
+@import 'keyframes/rotate-keyframes';
+@import 'keyframes/bounce-keyframes';
+
+// Importeer mixins
+@import 'mixins/fade-mixins';
+@import 'mixins/scale-mixins';
+@import 'mixins/slide-mixins';
+@import 'mixins/rotate-mixins';
+@import 'mixins/bounce-mixins';
+
+// Importeer utility classes
+@import 'animation-utilities';

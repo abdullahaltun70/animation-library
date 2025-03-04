@@ -1,0 +1,78 @@
+// Fade utilities
+@if $use-fade {
+  .fade-in {
+    @include fade-in;
+  }
+
+  .fade-out {
+    @include fade-out;
+  }
+}
+
+// Scale utilities
+@if $use-scale {
+  .scale-in {
+    @include scale-in;
+  }
+
+  .scale-out {
+    @include scale-out;
+  }
+}
+
+// Slide utilities
+@if $use-slide {
+  .slide-in-left {
+    @include slide-in-left;
+  }
+
+  .slide-in-right {
+    @include slide-in-right;
+  }
+
+  .slide-in-top {
+    @include slide-in-top;
+  }
+
+  .slide-in-bottom {
+    @include slide-in-bottom;
+  }
+
+  .slide-out-left {
+    @include slide-out-left;
+  }
+
+  .slide-out-right {
+    @include slide-out-right;
+  }
+
+  .slide-out-top {
+    @include slide-out-top;
+  }
+
+  .slide-out-bottom {
+    @include slide-out-bottom;
+  }
+}
+
+// Rotate utilities
+@if $use-rotate {
+  .rotate-in {
+    @include rotate-in;
+  }
+
+  .rotate-out {
+    @include rotate-out;
+  }
+}
+
+// Bounce utilities
+@if $use-bounce {
+  .bounce-in {
+    @include bounce-in;
+  }
+
+  .bounce-out {
+    @include bounce-out;
+  }
+}

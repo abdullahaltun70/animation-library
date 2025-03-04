@@ -1,0 +1,103 @@
+@mixin slide-in-left(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideInFromLeft var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-in-right(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideInFromRight var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-in-top(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideInFromTop var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-in-bottom(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideInFromBottom var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-out-left(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideOutToLeft var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-out-right(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideOutToRight var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-out-top(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideOutToTop var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}
+
+@mixin slide-out-bottom(
+  $duration: $slide-duration,
+  $easing: $slide-easing,
+  $delay: $slide-delay,
+  $distance: $slide-distance
+) {
+  --slide-duration: #{$duration};
+  --slide-easing: #{$easing};
+  --slide-delay: #{$delay};
+  --slide-distance: #{$distance};
+  animation: slideOutToBottom var(--slide-duration) var(--slide-easing) var(--slide-delay) forwards;
+}

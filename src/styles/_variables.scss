@@ -1,0 +1,34 @@
+// Fade variabelen
+$fade-duration: 0.5s !default;
+$fade-easing: ease-out !default;
+$fade-delay: 0s !default;
+$use-fade: true !default;
+
+// Scale variabelen
+$scale-duration: 0.5s !default;
+$scale-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275) !default; // Elastisch effect
+$scale-delay: 0s !default;
+$scale-from: 0.8 !default; // Start op 80% voor scale-in
+$scale-to: 1.2 !default; // Groei tot 120% voor scale-out
+$use-scale: true !default;
+
+// Slide variabelen
+$slide-duration: 0.6s !default;
+$slide-easing: ease-out !default;
+$slide-delay: 0s !default;
+$slide-distance: 50px !default; // Standaard afstand om te verschuiven
+$use-slide: true !default;
+
+// Rotate variabelen
+$rotate-duration: 0.7s !default;
+$rotate-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275) !default;
+$rotate-delay: 0s !default;
+$rotate-degrees: 360deg !default;
+$use-rotate: true !default;
+
+// Bounce variabelen
+$bounce-duration: 0.8s !default;
+$bounce-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275) !default;
+$bounce-delay: 0s !default;
+$bounce-height: 30px !default;
+$use-bounce: true !default;

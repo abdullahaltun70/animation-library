@@ -5,9 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/_animation-utilities.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/animations/_fade.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/animations/_scale.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/animations/_slide.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/globals.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/keyframes/_bounce-keyframes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/keyframes/_fade-keyframes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/keyframes/_rotate-keyframes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/keyframes/_scale-keyframes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/keyframes/_slide-keyframes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/mixins/_bounce-mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/mixins/_fade-mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/mixins/_rotate-mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/mixins/_scale-mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/mixins/_slide-mixins.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.cjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +47,26 @@
     "assignee": "abdullahaltun70"
   }
 }]]></component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDOOC4wZM6NSdSE",
+        "number": 1
+      },
+      "lastSeen": 1741086498081
+    }
+  ]
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/abdullahaltun70/animation-library.git",
     "accountId": "6b1972a5-213c-43a7-85aa-de08ccf63612"
   }
 }]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -50,7 +83,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging config",
+    "git-widget-placeholder": "config",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,7 +110,7 @@
       <option name="presentableId" value="Default" />
       <updated>1741079356983</updated>
       <workItem from="1741079359725" duration="73000" />
-      <workItem from="1741079450847" duration="2912000" />
+      <workItem from="1741079450847" duration="10189000" />
     </task>
     <servers />
   </component>
