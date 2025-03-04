@@ -1,0 +1,25 @@
+@mixin bounce-in(
+  $duration: $bounce-duration,
+  $easing: $bounce-easing,
+  $delay: $bounce-delay,
+  $height: $bounce-height
+) {
+  --bounce-duration: #{$duration};
+  --bounce-easing: #{$easing};
+  --bounce-delay: #{$delay};
+  --bounce-height: #{$height};
+  animation: bounceIn var(--bounce-duration) var(--bounce-easing) var(--bounce-delay) forwards;
+}
+
+@mixin bounce-out(
+  $duration: $bounce-duration,
+  $easing: $bounce-easing,
+  $delay: $bounce-delay,
+  $height: $bounce-height
+) {
+  --bounce-duration: #{$duration};
+  --bounce-easing: #{$easing};
+  --bounce-delay: #{$delay};
+  --bounce-height: #{$height};
+  animation: bounceOut var(--bounce-duration) var(--bounce-easing) var(--bounce-delay) forwards;
+}

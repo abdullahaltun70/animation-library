@@ -1,11 +1,30 @@
 {
-  "name": "animation-library",
-  "version": "0.1.0",
-  "private": true,
+  "name": "animation-library-test-abdullah-altun",
+  "version": "1.0.6",
+  "description": "test npm package voor SCSS animatie library",
+  "keywords": [
+    "animations",
+    "scss",
+    "reacy"
+  ],
+  "homepage": "https://github.com/abdullahaltun70/animation-library#readme",
+  "bugs": {
+    "url": "https://github.com/abdullahaltun70/animation-library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdullahaltun70/animation-library.git"
+  },
+  "license": "MIT",
+  "author": "Abdullah Altun",
+  "type": "module",
+  "main": "src/styles/globals.scss",
+  "style": "src/styles/globals.scss",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "scripts/test",
     "lint": "next lint",
     "format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,md,scss,sass}\"",
     "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,md,scss,sass}\""

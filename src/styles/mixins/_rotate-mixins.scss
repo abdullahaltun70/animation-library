@@ -1,0 +1,25 @@
+@mixin rotate-in(
+  $duration: $rotate-duration,
+  $easing: $rotate-easing,
+  $delay: $rotate-delay,
+  $degrees: $rotate-degrees
+) {
+  --rotate-duration: #{$duration};
+  --rotate-easing: #{$easing};
+  --rotate-delay: #{$delay};
+  --rotate-degrees: #{$degrees};
+  animation: rotateIn var(--rotate-duration) var(--rotate-easing) var(--rotate-delay) forwards;
+}
+
+@mixin rotate-out(
+  $duration: $rotate-duration,
+  $easing: $rotate-easing,
+  $delay: $rotate-delay,
+  $degrees: $rotate-degrees
+) {
+  --rotate-duration: #{$duration};
+  --rotate-easing: #{$easing};
+  --rotate-delay: #{$delay};
+  --rotate-degrees: #{$degrees};
+  animation: rotateOut var(--rotate-duration) var(--rotate-easing) var(--rotate-delay) forwards;
+}

@@ -1,0 +1,13 @@
+@mixin fade-in($duration: $fade-duration, $easing: $fade-easing, $delay: $fade-delay) {
+  --fade-duration: #{$duration};
+  --fade-easing: #{$easing};
+  --fade-delay: #{$delay};
+  animation: fadeIn var(--fade-duration) var(--fade-easing) var(--fade-delay) forwards;
+}
+
+@mixin fade-out($duration: $fade-duration, $easing: $fade-easing, $delay: $fade-delay) {
+  --fade-duration: #{$duration};
+  --fade-easing: #{$easing};
+  --fade-delay: #{$delay};
+  animation: fadeOut var(--fade-duration) var(--fade-easing) var(--fade-delay) forwards;
+}

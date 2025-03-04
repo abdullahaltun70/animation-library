@@ -1,0 +1,39 @@
+@keyframes bounceIn {
+  0% {
+    transform: translateY($bounce-height);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(-$bounce-height * 0.3);
+  }
+  60% {
+    transform: translateY($bounce-height * 0.15);
+  }
+  80% {
+    transform: translateY(-$bounce-height * 0.05);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translateY(-$bounce-height * 0.1);
+  }
+  40% {
+    transform: translateY($bounce-height * 0.2);
+  }
+  60% {
+    transform: translateY(-$bounce-height * 0.3);
+  }
+  100% {
+    transform: translateY($bounce-height);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,17 @@
+@keyframes scaleIn {
+  from {
+    transform: scale($scale-from);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale($scale-to);
+  }
+}

@@ -1,0 +1,25 @@
+@mixin scale-in(
+  $duration: $scale-duration,
+  $easing: $scale-easing,
+  $delay: $scale-delay,
+  $from: $scale-from
+) {
+  --scale-duration: #{$duration};
+  --scale-easing: #{$easing};
+  --scale-delay: #{$delay};
+  --scale-from: #{$from};
+  animation: scaleIn var(--scale-duration) var(--scale-easing) var(--scale-delay) forwards;
+}
+
+@mixin scale-out(
+  $duration: $scale-duration,
+  $easing: $scale-easing,
+  $delay: $scale-delay,
+  $to: $scale-to
+) {
+  --scale-duration: #{$duration};
+  --scale-easing: #{$easing};
+  --scale-delay: #{$delay};
+  --scale-to: #{$to};
+  animation: scaleOut var(--scale-duration) var(--scale-easing) var(--scale-delay) forwards;
+}

@@ -1,0 +1,21 @@
+@keyframes rotateIn {
+  from {
+    transform: rotate(-$rotate-degrees);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateOut {
+  from {
+    transform: rotate(0);
+    opacity: 1;
+  }
+  to {
+    transform: rotate($rotate-degrees);
+    opacity: 0;
+  }
+}
