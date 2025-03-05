@@ -32,3 +32,10 @@ $bounce-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275) !default;
 $bounce-delay: 0s !default;
 $bounce-height: 30px !default;
 $use-bounce: true !default;
+
+
+$use-fade: true !default;
+$use-scale: true !default;
+$use-slide: true !default;
+$use-rotate: true !default;
+$use-bounce: true !default;
