@@ -1,49 +1,13 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "test npm package voor SCSS animatie library",
-  "keywords": [
-    "animations",
-    "scss",
-    "reacy"
+  "main": "styles/globals.scss",
+  "files": [
+    "./styles"
   ],
-  "homepage": "https://github.com/abdullahaltun70/animation-library#readme",
-  "bugs": {
-    "url": "https://github.com/abdullahaltun70/animation-library/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/abdullahaltun70/animation-library.git"
-  },
-  "license": "MIT",
-  "author": "Abdullah Altun",
-  "type": "module",
-  "main": "src/styles/globals.scss",
-  "style": "src/styles/globals.scss",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "scripts/test",
-    "lint": "next lint",
-    "format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,md,scss,sass}\"",
-    "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,md,scss,sass}\""
-  },
-  "dependencies": {
-    "next": "15.2.1",
-    "prettier": "3.5.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "sass": "^1.85.1"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.1",
-    "typescript": "^5"
-  },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "keywords": ["scss", "animations", "css"],
+  "publishConfig": {
+    "access": "public"
+  }
 }
