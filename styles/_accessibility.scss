@@ -1,0 +1,26 @@
+// _accessibility.scss
+/**
+ * Accessibility module
+ *
+ * Contains mixins to support WCAG 2.1 guidelines,
+ * specifically for prefers-reduced-motion (2.3.3)
+ */
+
+// Mixin to respect prefers-reduced-motion
+@mixin respect-motion-preferences {
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Alternative mixin that slows down animations instead of disabling them
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: calc(var(--animation-duration, 0.5s) * 3) !important;
+    transition-duration: calc(var(--transition-duration, 0.5s) * 3) !important;
+  }
+}

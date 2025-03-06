@@ -1,25 +1,70 @@
+// mixins/_scale-mixins.scss
+/**
+ * Scale mixins
+ * 
+ * @param {time} $duration - Duration of the animation (default: $scale-duration)
+ * @param {string} $easing - Timing function (default: $scale-easing)
+ * @param {time} $delay - Delay for the animation (default: $scale-delay)
+ * @param {number} $from - Start value for scale-in (default: $scale-from)
+ * @param {number} $to - End value for scale-out (default: $scale-to)
+ * @param {string} $origin - Transform origin for the scaling (default: $scale-origin)
+ */
 @mixin scale-in(
   $duration: $scale-duration,
   $easing: $scale-easing,
   $delay: $scale-delay,
-  $from: $scale-from
+  $from: $scale-from,
+  $origin: $scale-origin
 ) {
+  // Validation
+  $duration: validate-value($duration, 'time', $scale-duration, 'scale-in $duration');
+  $from: validate-value($from, 'number', $scale-from, 'scale-in $from');
+
+  // CSS custom properties
   --scale-duration: #{$duration};
   --scale-easing: #{$easing};
   --scale-delay: #{$delay};
   --scale-from: #{$from};
+  --fade-opacity-start: #{$fade-opacity-start};
+  --fade-opacity-end: #{$fade-opacity-end};
+
+  // Properties
+  transform-origin: $origin;
   animation: scaleIn var(--scale-duration) var(--scale-easing) var(--scale-delay) forwards;
+
+  // Performance optimization
+  will-change: transform, opacity;
+
+  // Accessibility
+  @include respect-motion-preferences;
 }
 
 @mixin scale-out(
   $duration: $scale-duration,
   $easing: $scale-easing,
   $delay: $scale-delay,
-  $to: $scale-to
+  $to: $scale-to,
+  $origin: $scale-origin
 ) {
+  // Validation
+  $duration: validate-value($duration, 'time', $scale-duration, 'scale-out $duration');
+  $to: validate-value($to, 'number', $scale-to, 'scale-out $to');
+
+  // CSS custom properties
   --scale-duration: #{$duration};
   --scale-easing: #{$easing};
   --scale-delay: #{$delay};
   --scale-to: #{$to};
+  --fade-opacity-start: #{$fade-opacity-start};
+  --fade-opacity-end: #{$fade-opacity-end};
+
+  // Properties
+  transform-origin: $origin;
   animation: scaleOut var(--scale-duration) var(--scale-easing) var(--scale-delay) forwards;
+
+  // Performance optimization
+  will-change: transform, opacity;
+
+  // Accessibility
+  @include respect-motion-preferences;
 }

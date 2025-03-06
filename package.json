@@ -1,6 +1,6 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "test npm package voor SCSS animatie library",
   "main": "styles/globals.scss",
   "files": [

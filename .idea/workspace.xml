@@ -5,42 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/styles/_accessibility.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/_animation-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_animation-utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/animations/_fade.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/animations/_scale.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/animations/_slide.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/keyframes/_fade-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/keyframes/_scale-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/keyframes/_slide-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/mixins/_bounce-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/mixins/_fade-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/mixins/_rotate-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/mixins/_scale-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/mixins/_slide-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_animation-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_animation-utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

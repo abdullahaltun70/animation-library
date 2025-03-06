@@ -1,39 +1,39 @@
+// keyframes/_bounce-keyframes.scss
+/**
+ * Bounce keyframe animations
+ */
 @keyframes bounceIn {
   0% {
-    transform: translateY($bounce-height);
-    opacity: 0;
+    transform: translateY(var(--bounce-height, 30px));
+    opacity: var(--fade-opacity-start, 0);
   }
-  40% {
-    transform: translateY(-$bounce-height * 0.3);
+  50% {
+    transform: translateY(calc(-0.2 * var(--bounce-height, 30px)));
+    opacity: var(--fade-opacity-end, 1);
   }
-  60% {
-    transform: translateY($bounce-height * 0.15);
-  }
-  80% {
-    transform: translateY(-$bounce-height * 0.05);
+  75% {
+    transform: translateY(calc(0.1 * var(--bounce-height, 30px)));
   }
   100% {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
 @keyframes bounceOut {
   0% {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
   20% {
-    transform: translateY(-$bounce-height * 0.1);
+    transform: translateY(calc(-0.1 * var(--bounce-height, 30px)));
   }
-  40% {
-    transform: translateY($bounce-height * 0.2);
-  }
-  60% {
-    transform: translateY(-$bounce-height * 0.3);
+  50% {
+    transform: translateY(calc(0.2 * var(--bounce-height, 30px)));
+    opacity: var(--fade-opacity-end, 1);
   }
   100% {
-    transform: translateY($bounce-height);
-    opacity: 0;
+    transform: translateY(var(--bounce-height, 30px));
+    opacity: var(--fade-opacity-start, 0);
   }
 }

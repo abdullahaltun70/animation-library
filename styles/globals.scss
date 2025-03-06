@@ -1,19 +1,34 @@
 // globals.scss
+/**
+ * Framna Animation Library
+ * Accessible, performant animation library that meets WCAG 2.1 guidelines
+ *
+ * Use: Import this file in your main stylesheet
+ * @version 1.0.0
+ *
+ * @license MIT
+ * @author Abdullah Altun
+ */
+
+// Base variables
 @import 'variables';
 
-// Importeer keyframes
+// Accessibility
+@import 'accessibility';
+
+// Keyframe animations
 @import 'keyframes/fade-keyframes';
 @import 'keyframes/scale-keyframes';
 @import 'keyframes/slide-keyframes';
 @import 'keyframes/rotate-keyframes';
 @import 'keyframes/bounce-keyframes';
 
-// Importeer mixins
+// Mixins
 @import 'mixins/fade-mixins';
 @import 'mixins/scale-mixins';
 @import 'mixins/slide-mixins';
 @import 'mixins/rotate-mixins';
 @import 'mixins/bounce-mixins';
 
-// Importeer utility classes
+// Utility classes
 @import 'animation-utilities';

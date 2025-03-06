@@ -1,21 +1,25 @@
+// keyframes/_rotate-keyframes.scss
+/**
+ * Rotate keyframe animations
+ */
 @keyframes rotateIn {
   from {
-    transform: rotate(-$rotate-degrees);
-    opacity: 0;
+    transform: rotate(calc(-1 * var(--rotate-degrees, 360deg)));
+    opacity: var(--fade-opacity-start, 0);
   }
   to {
-    transform: rotate(0);
-    opacity: 1;
+    transform: rotate(0deg);
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
 @keyframes rotateOut {
   from {
-    transform: rotate(0);
-    opacity: 1;
+    transform: rotate(0deg);
+    opacity: var(--fade-opacity-end, 1);
   }
   to {
-    transform: rotate($rotate-degrees);
-    opacity: 0;
+    transform: rotate(var(--rotate-degrees, 360deg));
+    opacity: var(--fade-opacity-start, 0);
   }
 }

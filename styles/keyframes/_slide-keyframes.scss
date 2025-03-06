@@ -1,87 +1,91 @@
-@keyframes slideInFromLeft {
+// keyframes/_slide-keyframes.scss
+/**
+ * Slide keyframe animations
+ */
+@keyframes slideInLeft {
   from {
-    transform: translateX(-$slide-distance);
-    opacity: 0;
+    transform: translateX(calc(-1 * var(--slide-distance, 50px)));
+    opacity: var(--fade-opacity-start, 0);
   }
   to {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
-@keyframes slideInFromRight {
+@keyframes slideInRight {
   from {
-    transform: translateX($slide-distance);
-    opacity: 0;
+    transform: translateX(var(--slide-distance, 50px));
+    opacity: var(--fade-opacity-start, 0);
   }
   to {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
-@keyframes slideInFromTop {
+@keyframes slideInUp {
   from {
-    transform: translateY(-$slide-distance);
-    opacity: 0;
+    transform: translateY(calc(-1 * var(--slide-distance, 50px)));
+    opacity: var(--fade-opacity-start, 0);
   }
   to {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
-@keyframes slideInFromBottom {
+@keyframes slideInDown {
   from {
-    transform: translateY($slide-distance);
-    opacity: 0;
+    transform: translateY(var(--slide-distance, 50px));
+    opacity: var(--fade-opacity-start, 0);
   }
   to {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
 }
 
-@keyframes slideOutToLeft {
+@keyframes slideOutLeft {
   from {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
   to {
-    transform: translateX(-$slide-distance);
-    opacity: 0;
+    transform: translateX(calc(-1 * var(--slide-distance, 50px)));
+    opacity: var(--fade-opacity-start, 0);
   }
 }
 
-@keyframes slideOutToRight {
+@keyframes slideOutRight {
   from {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
   to {
-    transform: translateX($slide-distance);
-    opacity: 0;
+    transform: translateX(var(--slide-distance, 50px));
+    opacity: var(--fade-opacity-start, 0);
   }
 }
 
-@keyframes slideOutToTop {
+@keyframes slideOutTop {
   from {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
   to {
-    transform: translateY(-$slide-distance);
-    opacity: 0;
+    transform: translateY(calc(-1 * var(--slide-distance, 50px)));
+    opacity: var(--fade-opacity-start, 0);
   }
 }
 
-@keyframes slideOutToBottom {
+@keyframes slideOutBottom {
   from {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--fade-opacity-end, 1);
   }
   to {
-    transform: translateY($slide-distance);
-    opacity: 0;
+    transform: translateY(var(--slide-distance, 50px));
+    opacity: var(--fade-opacity-start, 0);
   }
 }
