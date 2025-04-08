@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/styles/_accessibility.scss" afterDir="false" />
+    <list default="true" id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="added test branch">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/_animation-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_animation-utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,22 +62,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;config&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/abdullah.altun/Projects/animation-library/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "test",
+    "last_opened_file_path": "/Users/abdullah.altun/Projects/animation-library",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "ts.external.directory.path": "/Users/abdullah.altun/Projects/animation-library/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -96,7 +87,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
       </set>
     </attachedChunks>
   </component>
@@ -110,10 +101,22 @@
       <updated>1741079356983</updated>
       <workItem from="1741079359725" duration="73000" />
       <workItem from="1741079450847" duration="10189000" />
+      <workItem from="1744147324862" duration="309000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -171,7 +171,7 @@
   @include respect-motion-preferences;
 }
 
-@mixin slide-out-top(
+@mixin slide-out-up(
   $duration: $slide-duration,
   $easing: $slide-easing,
   $delay: $slide-delay,
@@ -198,7 +198,7 @@
   @include respect-motion-preferences;
 }
 
-@mixin slide-out-bottom(
+@mixin slide-out-down(
   $duration: $slide-duration,
   $easing: $slide-easing,
   $delay: $slide-delay,

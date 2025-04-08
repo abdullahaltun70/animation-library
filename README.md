@@ -115,7 +115,7 @@ The library includes several animation categories:
 
 ## Customization
 
-You can customize the animations by setting variables before importing:
+You can customize the animations by setting css variables:
 
 ```scss
 // Animation durations
