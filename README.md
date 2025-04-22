@@ -1,236 +1,208 @@
-# SCSS Animation Library
-
-A lightweight, customizable animation library that provides ready-to-use CSS animations for your web projects.
+# Animation Library - Abdullah Altun
 
 [![npm version](https://img.shields.io/npm/v/animation-library-test-abdullah-altun.svg)](https://www.npmjs.com/package/animation-library-test-abdullah-altun)
-[![license](https://img.shields.io/npm/l/animation-library-test-abdullah-altun.svg)](https://github.com/yourusername/animation-library/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/animation-library-test-abdullah-altun.svg)](https://github.com/abdullahaltun70/animation-library-test-abdullah-altun/blob/main/LICENSE) <!-- Update URL if needed -->
+
+A lightweight, performant, and customizable animation library for React applications, powered by SCSS and CSS Custom Properties. Easily add entrance animations to your components.
 
 ## Features
 
-- Collection of smooth, performant animations
-- Fully customizable via SCSS variables
-- Modular architecture - import only what you need
-- Compatible with any modern frontend framework
-- Written in SCSS for maximum flexibility
+- **React Component & Hook:** Use the simple `<Animate>` component or the flexible `useAnimation` hook.
+- **SCSS Powered:** Leverages SCSS for defining animations and variables. CSS Custom Properties allow runtime adjustments via React props.
+- **Dynamic & Directional:** Animations like `slide`, `rotate`, and `bounce` respect direction based on prop values (`distance`, `degrees`).
+- **Customizable:** Override default timings, easings, distances, etc., via SCSS variables or component props.
+- **Performant:** Uses hardware-accelerated CSS properties (`transform`, `opacity`).
+- **Accessible:** Automatically respects `prefers-reduced-motion`.
+- **TypeScript:** Fully typed for a better developer experience.
+- **Tree-Shakable:** Modular SCSS allows importing only needed styles (though global import is easiest).
 
 ## Installation
 
 ```bash
 npm install animation-library-test-abdullah-altun
-```
-
-or
-
-```bash
+# or
 yarn add animation-library-test-abdullah-altun
 ```
 
 ## Usage
 
-### Basic Usage
-
-Import the entire library in your main SCSS file:
-
-```scss
-// In your main.scss or globals.scss
-@import 'animation-library-test-abdullah-altun/styles/globals';
-
-// Optional: Configure which animation types to use
-$use-fade: true;
-$use-slide: true;
-$use-bounce: true;
-```
-
-Then apply the animation classes in your HTML/JSX:
-
-```html
-<div class="fade-in">This content will fade in</div>
-<div class="slide-in-left">This content will slide in from left</div>
-<div class="bounce-in">This content will bounce in</div>
-```
-
-### Selective Imports
-
-For optimal bundle size, import only the animations you need:
+1. Import Global Styles:
+   Import the library's main stylesheet into your global CSS/SCSS file (e.g., globals.scss, index.css, or directly in your root layout/app file).
 
 ```scss
-// Import base requirements
-@import 'animation-library-test-abdullah-altun/styles/_variables';
-@import 'animation-library-test-abdullah-altun/styles/keyframes/_all';
-@import 'animation-library-test-abdullah-altun/styles/mixins/_all';
-
-// Import only specific animation modules
-@import 'animation-library-test-abdullah-altun/styles/animations/_fade';
-@import 'animation-library-test-abdullah-altun/styles/animations/_slide';
+// In styles/globals.scss or similar
+@import "animation-library-test-abdullah-altun/styles/main.scss";
 ```
 
-### Using with Next.js
-
-In your Next.js project:
+2. Use the <Animate> Component (Client Components Only):
+   Wrap the element you want to animate with the <Animate> component. Make sure the component where you use <Animate> is marked as a Client Component ('use client';) if using frameworks like Next.js App Router.
 
 ```tsx
-// app/layout.tsx or pages/_app.tsx
-import './globals.scss'; // Where you've imported the animation library
-```
+"use client"; // Necessary if this component isn't already client-side
 
-```scss
-// app/globals.scss or styles/globals.scss
-@import 'animation-library-test-abdullah-altun/styles/globals';
-
-// Optional configuration
-$use-fade: true;
-$use-slide: true;
-$animation-duration: 0.5s;
-```
-
-## Available Animations
-
-The library includes several animation categories:
-
-### Fade Animations
-- `fade-in`
-- `fade-out`
-- `fade-in-up`
-- `fade-in-down`
-- `fade-in-left`
-- `fade-in-right`
-
-### Slide Animations
-- `slide-in-up`
-- `slide-in-down`
-- `slide-in-left`
-- `slide-in-right`
-- `slide-out-up`
-- `slide-out-down`
-- `slide-out-left`
-- `slide-out-right`
-
-### Bounce Animations
-- `bounce-in`
-- `bounce-out`
-- `bounce-in-up`
-- `bounce-in-down`
-- `bounce-in-left`
-- `bounce-in-right`
-
-## Customization
-
-You can customize the animations by setting variables before importing:
-
-```scss
-// Animation durations
-$animation-duration: 0.5s;
-$animation-delay: 0s;
-
-// Animation timing functions
-$animation-timing: ease-out;
-
-// Distances (for slide/translate animations)
-$animation-distance-small: 10px;
-$animation-distance-medium: 30px;
-$animation-distance-large: 60px;
-
-// Enable/disable specific animation types
-$use-fade: true;
-$use-slide: true;
-$use-bounce: true;
-
-// Now import the library
-@import 'animation-library-test-abdullah-altun/styles/globals';
-```
-
-## Using with JavaScript Frameworks
-
-### React/Next.js
-
-```jsx
-import 'animation-library-test-abdullah-altun/styles/globals';
+import { Animate } from "animation-library-test-abdullah-altun";
+// Ensure styles are imported globally as shown in Step 1
 
 function MyComponent() {
   return (
-    <div className="fade-in">
-      This will animate on mount
+    <div>
+      <Animate type="fade" duration={0.8}>
+        <h2>Fade In Title</h2>
+      </Animate>
+
+      <Animate type="slide" distance={-100} delay={0.2}>
+        <p>Slides in from the left.</p>
+      </Animate>
+
+      <Animate type="bounce" distance={25} easing="ease-in-out">
+        <button>Bounce Me Up</button>
+      </Animate>
+
+      <Animate type="scale" scale={0.5} duration={0.4}>
+        <span>Scale In</span>
+      </Animate>
+
+      <Animate type="rotate" degrees={-90} delay={0.5}>
+        <div>Rotate Counter-Clockwise</div>
+      </Animate>
     </div>
   );
 }
 ```
 
-### Vue.js
+**Important**: The `<Animate>` component clones its direct child to apply the necessary `ref` and `key`. Ensure the direct child is a single React element that can accept a ref (like standard HTML elements `div`, `p`, `button`, or components using `React.forwardRef`).
 
-```vue
-<template>
-  <div class="slide-in-up">
-    This will slide in from bottom
-  </div>
-</template>
+3. (_Advanced_) Use the useAnimation Hook (Client Components Only):
 
-<style lang="scss">
-@import 'animation-library-test-abdullah-altun/styles/globals';
-</style>
+_For more control, use the hook directly._
+
+```tsx
+"use client";
+
+import {
+  useAnimation,
+  AnimationConfig,
+} from "animation-library-test-abdullah-altun";
+// Ensure styles are imported globally as shown in Step 1
+
+function MyAdvancedComponent() {
+  const config: AnimationConfig = {
+    type: "slide",
+    distance: 150,
+    duration: 0.7,
+    easing: "cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Example custom easing
+  };
+
+  const { ref, key, replay } = useAnimation<HTMLDivElement>(config);
+
+  return (
+    <div>
+      <div
+        ref={ref}
+        key={key}
+        style={{ padding: "20px", background: "lightcoral" }}
+      >
+        Animated with Hook!
+      </div>
+      <button onClick={replay} style={{ marginTop: "10px" }}>
+        Replay Slide
+      </button>
+    </div>
+  );
+}
 ```
 
-## Using with SCSS
+## Available Animations & Control
 
-If you prefer to use with animation:
+The library applies animations based on the `type` prop. Directionality and other parameters are controlled via specific props:
+
+- `fade`: Controlled by `opacity: { start, end }`.
+- `slide`: Direction controlled by the sign of distance (positive = right/down - currently defaults to X-axis, negative = left/up). Magnitude controlled by `distance` (in pixels).
+- `scale`: Starting scale controlled by `scale`.
+  rotate: Direction controlled by the sign of `degrees` (positive = clockwise, negative = counter-clockwise). Magnitude controlled by `degrees`.
+- `bounce`: Direction controlled by the sign of `distance` (positive = up, negative = down). Height controlled by `distance` (in pixels).
+
+## Component API (_`<Animate>`_)
+
+| Prop                | Type                                                    | Default    | Description                                                                                        |
+| ------------------- | ------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| type                | 'fade' \| 'slide' \| 'scale' \| 'rotate' \| 'bounce'    | Required   | The type of animation to apply.                                                                    |
+| children            | React.ReactElement                                      | Required   | A single React element child to be animated. Must accept a ref.                                    |
+| as                  | keyof JSX.IntrinsicElements \| React.ComponentType<any> | 'div'      | The HTML tag or React component to render as the wrapper element.                                  |
+| duration            | number                                                  | 0.5        | Animation duration in seconds.                                                                     |
+| delay               | number                                                  | 0          | Delay before the animation starts in seconds.                                                      |
+| easing              | string                                                  | 'ease-out' | CSS animation timing function (e.g., 'linear', 'ease-in', 'cubic-bezier(...)').                    |
+| distance            | number                                                  | 50         | Magnitude (px) and direction (sign) for slide and bounce animations.                               |
+| degrees             | number                                                  | 360        | Magnitude (deg) and direction (sign) for rotate animations.                                        |
+| scale               | number                                                  | 0.8        | Starting scale factor for scale animations (e.g., 0.5 means start at 50%).                         |
+| opacity             | { start?: number, end?: number }                        | {}         | Starting and ending opacity (0 to 1) for fade animations. Defaults to { start: 0, end: 1 }.        |
+| className           | string                                                  | ''         | Additional CSS classes to apply to the wrapper element.                                            |
+| onAnimationComplete | () => void                                              | undefined  | Callback function triggered when the animation finishes.                                           |
+| ...props            | HTMLAttributes<HTMLDivElement>                          | -          | Any other standard HTML attributes (like style, id, onClick, etc.) applied to the wrapper element. |
+
+## Customization via SCSS
+
+You can override the default animation parameters by defining SCSS variables before importing the library's `main.scss`.
 
 ```scss
+// src/styles/globals.scss
 
-.my-element {
-  animation: slideInFromLeft 1s ease-in 0s forwards;
-}
+// --- Custom Variables (Define BEFORE importing) ---
+$animation-duration: 0.8s; // Default duration for all animations
+$animation-delay: 0.1s; // Default delay
+$animation-easing: cubic-bezier(0.25, 0.1, 0.25, 1); // Default easing
 
-.another-element {
-  animation: scaleIn 0.8s 0s forwards;
-}
+// Example: Customize specific defaults
+$default-slide-distance: 100px;
+$default-bounce-height: 40px;
+$default-fade-opacity-start: 0.1;
+
+// --- Import the Library ---
+@import "animation-library-test-abdullah-altun/styles/main.scss";
+
+// --- Your Other Global Styles ---
 ```
 
-Or if you prefer to use the animations through mixins:
+`Key Variables:`
 
-```scss
-@import 'animation-library-test-abdullah-altun/styles/mixins/_all';
+- $animation-duration: Default duration (e.g., 0.5s).
+- $animation-delay: Default delay (e.g., 0s).
+- $animation-easing: Default timing function (e.g., ease-out).
+- $default-opacity-start: Default start opacity for fade (e.g., 0).
+- $default-opacity-end: Default end opacity for fade (e.g., 1).
+- $default-scale-start: Default start scale factor (e.g., 0.8).
+- $default-slide-distance: Default distance for slide (magnitude, e.g., - 50px).
+- $default-rotate-degrees: Default degrees for rotate (magnitude, e.g., - 360deg).
+- $default-bounce-height: Default height for bounce (magnitude, e.g., 30px).
 
-.my-element {
-  @include fade-in(0.8s, ease-in-out, 0.2s);
-}
+### Accessibility
 
-.another-element {
-  @include slide-in-left(0.5s);
-}
-```
+The library includes styles that respect the prefers-reduced-motion media query, significantly reducing or disabling animations for users who have enabled this preference in their system settings.
 
-## Browser Support
+### Browser Support
 
-This library uses standard CSS animations and transformations, supported by all modern browsers:
+This library relies on standard CSS Animations and Custom Properties, supported by all modern browsers:
 
-- Chrome 43+
-- Firefox 16+
-- Safari 9+
-- Edge 12+
-- Opera 30+
+- Chrome 49+
+- Firefox 31+
+- Safari 9.1+
+- Edge 15+
+- Opera 36+
 
-## Contributing
+### Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit issues or Pull Requests.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork the repository.
+2. Create your feature branch (git checkout -b feature/your-feature).
+3. Commit your changes (git commit -m 'Add some feature').
+4. Push to the branch (git push origin feature/your-feature).
+5. Open a Pull Request.
 
-## License
+### License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details. <!-- Ensure you have a LICENSE file -->
 
-## Author
+### Author
 
 Abdullah Altun
-
-## Acknowledgments
-
-- Inspired by Animate.css and other animation libraries
-
-
----
-
-Build with ❤️ for the web animation community 

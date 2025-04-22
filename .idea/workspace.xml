@@ -4,23 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/styles/_accessibility.scss" afterDir="false" />
+    <list default="true" id="3b81bb4b-ffd1-4306-a592-1469cc035c27" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/hooks/useAnimation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/_animation-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_animation-utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_accessibility.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_animation-utilities.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,88 +31,59 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;abdullahaltun70&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "abdullahaltun70"
   }
-}</component>
-  <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
-    {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOOC4wZM6NSdSE&quot;,
-        &quot;number&quot;: 1
-      },
-      &quot;lastSeen&quot;: 1741086498081
-    }
-  ]
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/abdullahaltun70/animation-library.git&quot;,
-    &quot;accountId&quot;: &quot;6b1972a5-213c-43a7-85aa-de08ccf63612&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/abdullahaltun70/animation-library.git",
+    "accountId": "6b1972a5-213c-43a7-85aa-de08ccf63612"
   }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
-  <component name="ProjectId" id="2tqUypLpYKVihWFDuBTvqO2QLLG" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2w2dugBElsQAEyTcNXqZ7ThrbzI" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;config&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/abdullah.altun/Projects/animation-library/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "settings.sync",
+    "ts.external.directory.path": "/Users/abdullah.altun/WebstormProjects/animation-library/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
       </set>
     </attachedChunks>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8677723f-7a9a-4818-b794-f1da30a37b04" name="Changes" comment="" />
-      <created>1741079356983</created>
+      <changelist id="3b81bb4b-ffd1-4306-a592-1469cc035c27" name="Changes" comment="" />
+      <created>1745243827144</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1741079356983</updated>
-      <workItem from="1741079359725" duration="73000" />
-      <workItem from="1741079450847" duration="10189000" />
+      <updated>1745243827144</updated>
+      <workItem from="1745243828362" duration="5641000" />
     </task>
     <servers />
   </component>

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Modern target, widely supported
+    "module": "ESNext", // Use modern module format
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "react-jsx", // Modern JSX transform
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Generate sourcemaps for declarations
+    "sourceMap": true, // Generate sourcemaps for JS files
+    "outDir": "./dist", // Output directory
+    "rootDir": "./src", // Root directory of source files
+    "composite": false, // Typically false for libraries unless part of monorepo setup
+    "removeComments": false, // Keep comments in declaration files
+    "esModuleInterop": true, // Standard interop setting
+    "forceConsistentCasingInFileNames": true, // Good practice
+    "strict": true, // Enable all strict type-checking options
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ], // Include only source files
+  "exclude": [
+    "node_modules",
+    "dist",
+    "examples",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ] // Exclude build/test files
+}

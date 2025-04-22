@@ -1,17 +1,54 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.12",
-  "description": "test npm package voor SCSS animatie library",
-  "main": "styles/globals.scss",
+  "version": "1.0.20",
+  "description": "React animation library using SCSS and CSS Custom Properties",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "./styles"
+    "dist",
+    "src"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./styles": "./styles/main.scss",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
   "keywords": [
     "scss",
     "animations",
-    "css"
+    "css",
+    "react",
+    "nextjs",
+    "typescript"
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "tsup": "^8.2.3",
+    "typescript": "^5"
+  },
+  "license": "MIT"
 }
