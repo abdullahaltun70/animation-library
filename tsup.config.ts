@@ -8,4 +8,6 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   outDir: 'dist',
+  minify: true,    // Minify output code
+  treeshake: true, // Enable tree shaking
 });
