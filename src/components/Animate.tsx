@@ -3,25 +3,14 @@
 // src/components/Animate.tsx
 import React, { forwardRef, HTMLAttributes, JSX, ReactNode } from 'react';
 import { useAnimation } from '@/hooks/useAnimation';
+import { AnimationConfig, AnimationType } from '@/types/index';
 
 
 // Animation types supported by the component
-type AnimationType = 'fade' | 'slide' | 'scale' | 'rotate' | 'bounce';
+
 
 // Animation configuration interface
-export interface AnimationConfig {
-  type: AnimationType;
-  duration?: number;
-  delay?: number;
-  easing?: string;
-  distance?: number;
-  degrees?: number;
-  scale?: number;
-  opacity?: {
-    start?: number;
-    end?: number;
-  };
-}
+
 
 // Props for the Animate component
 interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
@@ -45,6 +34,19 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * A wrapper component to easily apply animations using the useAnimation hook.
  * Supports forwarding refs and can render as any HTML element or component.
+ * 
+ * @property {ReactNode} children - The content to animate.
+ * @property {AnimationType} type - The type of animation to apply (e.g., "fade", "slide").
+ * @property {number} duration - Duration of the animation in seconds.
+ * @property {number} delay - Delay before the animation starts in seconds.
+ * @property {string} easing - Easing function for the animation.
+ * @property {number} distance - Distance for slide or bounce animations.
+ * @property {number} degrees - Degrees for rotate animations.
+ * @property {number} scale - Scale factor for scale animations.
+ * @property {object} opacity - Opacity settings for fade animations.
+ * @property {string} className - Additional CSS classes to apply.
+ * @property {string} as - The HTML element or component to render as.
+ * @property {function} onAnimationComplete - Callback function when the animation completes.
  *
  * @example
  * <Animate 
@@ -70,7 +72,7 @@ export const Animate = forwardRef<HTMLDivElement, AnimateProps>(
     degrees,
     scale,
     opacity,
-    ...props 
+    ...props
   }, forwardedRef) => {
     // Create animation config object from props
     const animationConfig: AnimationConfig = {
@@ -91,7 +93,7 @@ export const Animate = forwardRef<HTMLDivElement, AnimateProps>(
     const setRefs = (element: HTMLDivElement | null) => {
       // Set the local ref from useAnimation
       if (typeof ref === 'object' && ref !== null) {
-        (ref as React.MutableRefObject<HTMLDivElement | null>).current = element;
+        (ref as React.RefObject<HTMLDivElement | null>).current = element;
       }
       
       // Set the forwarded ref
@@ -99,7 +101,7 @@ export const Animate = forwardRef<HTMLDivElement, AnimateProps>(
         if (typeof forwardedRef === 'function') {
           forwardedRef(element);
         } else {
-          (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
+          (forwardedRef as React.RefObject<HTMLDivElement | null>).current = element;
         }
       }
     };
