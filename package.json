@@ -1,13 +1,14 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.22",
+  "version": "1.0.24",
   "description": "React animation library using SCSS and CSS Custom Properties",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "styles"
   ],
   "exports": {
     ".": {
@@ -21,7 +22,8 @@
       }
     },
     "./styles": "./styles/main.scss",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./styles/main.scss": "./styles/main.scss"
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
@@ -42,7 +44,8 @@
   },
   "peerDependencies": {
     "react": ">=19.0.0",
-    "react-dom": ">=19.0.0"
+    "react-dom": ">=19.0.0",
+    "sass": ">=1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",

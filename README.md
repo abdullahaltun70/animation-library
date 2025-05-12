@@ -31,7 +31,7 @@ yarn add animation-library-test-abdullah-altun
 
 ```scss
 // In styles/globals.scss or similar
-@import "animation-library-test-abdullah-altun/styles/main.scss";
+@import "animation-library-test-abdullah-altun/styles";
 ```
 
 2. Use the <Animate> Component (Client Components Only):

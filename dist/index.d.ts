@@ -1,49 +1,47 @@
-import React$1, { HTMLAttributes, ReactNode, JSX } from "react";
+import React$1, { HTMLAttributes, ReactNode, JSX } from 'react';
 
 type AnimationType = "fade" | "slide" | "scale" | "rotate" | "bounce";
 interface AnimationConfig {
-  type: AnimationType;
-  duration?: number;
-  delay?: number;
-  easing?: string;
-  distance?: number;
-  degrees?: number;
-  scale?: number;
-  opacity?: {
-    start?: number;
-    end?: number;
-  };
+    type: AnimationType;
+    duration?: number;
+    delay?: number;
+    easing?: string;
+    distance?: number;
+    degrees?: number;
+    scale?: number;
+    opacity?: {
+        start?: number;
+        end?: number;
+    };
 }
 
 interface UseAnimationReturn<T extends HTMLElement> {
-  ref: React.RefObject<T | null>;
-  key: number;
-  replay: () => void;
+    ref: React.RefObject<T | null>;
+    key: number;
+    replay: () => void;
 }
 /**
  * Custom hook to apply CSS animations based on configuration.
  * Returns a ref to attach to the target element and a replay function.
  */
-declare function useAnimation<T extends HTMLElement>(
-  config: AnimationConfig
-): UseAnimationReturn<T>;
+declare function useAnimation<T extends HTMLElement>(config: AnimationConfig): UseAnimationReturn<T>;
 
 interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  type: AnimationType;
-  duration?: number;
-  delay?: number;
-  easing?: string;
-  distance?: number;
-  degrees?: number;
-  scale?: number;
-  opacity?: {
-    start?: number;
-    end?: number;
-  };
-  as?: keyof JSX.IntrinsicElements | React$1.ComponentType<any>;
-  className?: string;
-  onAnimationComplete?: () => void;
+    children: ReactNode;
+    type: AnimationType;
+    duration?: number;
+    delay?: number;
+    easing?: string;
+    distance?: number;
+    degrees?: number;
+    scale?: number;
+    opacity?: {
+        start?: number;
+        end?: number;
+    };
+    as?: keyof JSX.IntrinsicElements | React$1.ComponentType<any>;
+    className?: string;
+    onAnimationComplete?: () => void;
 }
 /**
  * A wrapper component to easily apply animations using the useAnimation hook.
@@ -71,8 +69,6 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  *   <p>Content to animate</p>
  * </Animate>
  */
-declare const Animate: React$1.ForwardRefExoticComponent<
-  AnimateProps & React$1.RefAttributes<HTMLDivElement>
->;
+declare const Animate: React$1.ForwardRefExoticComponent<AnimateProps & React$1.RefAttributes<HTMLDivElement>>;
 
 export { Animate, type AnimationConfig, useAnimation };
