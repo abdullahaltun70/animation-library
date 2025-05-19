@@ -1,6 +1,7 @@
 import React$1, { HTMLAttributes, ReactNode, JSX } from 'react';
 
 type AnimationType = "fade" | "slide" | "scale" | "rotate" | "bounce";
+type SlideAxis = "x" | "y";
 interface AnimationConfig {
     type: AnimationType;
     duration?: number;
@@ -13,6 +14,7 @@ interface AnimationConfig {
         start?: number;
         end?: number;
     };
+    axis?: SlideAxis;
 }
 
 interface UseAnimationReturn<T extends HTMLElement> {
@@ -22,7 +24,7 @@ interface UseAnimationReturn<T extends HTMLElement> {
 }
 /**
  * Custom hook to apply CSS animations based on configuration.
- * Returns a ref to attach to the target element and a replay function.
+ * Returns a ref to attach to the target element, a key for re-renders, and a replay function.
  */
 declare function useAnimation<T extends HTMLElement>(config: AnimationConfig): UseAnimationReturn<T>;
 
@@ -39,6 +41,7 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
         start?: number;
         end?: number;
     };
+    axis?: SlideAxis;
     as?: keyof JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     onAnimationComplete?: () => void;
@@ -49,16 +52,17 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  *
  * @property {ReactNode} children - The content to animate.
  * @property {AnimationType} type - The type of animation to apply (e.g., "fade", "slide").
- * @property {number} duration - Duration of the animation in seconds.
- * @property {number} delay - Delay before the animation starts in seconds.
- * @property {string} easing - Easing function for the animation.
- * @property {number} distance - Distance for slide or bounce animations.
- * @property {number} degrees - Degrees for rotate animations.
- * @property {number} scale - Scale factor for scale animations.
- * @property {object} opacity - Opacity settings for fade animations.
- * @property {string} className - Additional CSS classes to apply.
- * @property {string} as - The HTML element or component to render as.
- * @property {function} onAnimationComplete - Callback function when the animation completes.
+ * @property {number} [duration] - Duration of the animation in seconds.
+ * @property {number} [delay] - Delay before the animation starts in seconds.
+ * @property {string} [easing] - Easing function for the animation.
+ * @property {number} [distance] - Distance for slide or bounce animations.
+ * @property {number} [degrees] - Degrees for rotate animations.
+ * @property {number} [scale] - Scale factor for scale animations.
+ * @property {object} [opacity] - Opacity settings for fade animations (e.g., `{ start: 0, end: 1 }`).
+ * @property {SlideAxis} [axis] - Axis for slide animations ('x' or 'y', defaults to 'x').
+ * @property {keyof JSX.IntrinsicElements | React.ComponentType<any>} [as] - The HTML element or component to render as.
+ * @property {string} [className] - Additional CSS classes to apply.
+ * @property {function} [onAnimationComplete] - Callback function when the animation completes.
  *
  * @example
  * <Animate

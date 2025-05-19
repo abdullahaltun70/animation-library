@@ -1,4 +1,5 @@
 export type AnimationType = "fade" | "slide" | "scale" | "rotate" | "bounce";
+export type SlideAxis = "x" | "y";
 
 export interface AnimationConfig {
   type: AnimationType;
@@ -13,4 +14,5 @@ export interface AnimationConfig {
     start?: number;
     end?: number;
   };
+  axis?: SlideAxis; // Add this for slide animation
 }
