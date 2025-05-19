@@ -149,6 +149,11 @@ export function useAnimation<T extends HTMLElement>(
       // as 'rotate' type now exclusively uses transitions.
 
       if (animationClass) {
+        // Force reflow to ensure the browser processes style changes and
+        // class removal (done at the start of useEffect) before re-adding the class.
+        // This is crucial for replaying keyframe animations on the same DOM node.
+        void node.offsetWidth;
+
         node.classList.add(animationClass);
         if (onAnimationComplete) {
           node.addEventListener("animationend", handleAnimationEndEvent);

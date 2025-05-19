@@ -1,6 +1,6 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.26",
+  "version": "1.0.28",
   "description": "React animation library using SCSS and CSS Custom Properties",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
