@@ -1,13 +1,12 @@
-// src/hooks/useAnimation.ts
 "use client";
 
-import { AnimationConfig } from "@/types/index";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { AnimationConfig, SlideAxis } from "@/types/index";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-interface UseAnimationReturn<T extends HTMLElement> {
+export interface UseAnimationReturn<T extends HTMLElement> {
   ref: React.RefObject<T | null>;
-  key: number;
-  replay: () => void;
+  key: number; // Key to force re-render and replay animation
+  replay: () => void; // Function to manually replay the animation
 }
 
 const DEFAULTS = {
@@ -19,11 +18,12 @@ const DEFAULTS = {
   distance: 50,
   degrees: 360,
   scale: 0.8,
+  ax: "x" as SlideAxis, // Default axis for slide animations
 };
 
 /**
  * Custom hook to apply CSS animations based on configuration.
- * Returns a ref to attach to the target element and a replay function.
+ * Returns a ref to attach to the target element, a key for re-renders, and a replay function.
  */
 export function useAnimation<T extends HTMLElement>(
   config: AnimationConfig
@@ -33,10 +33,14 @@ export function useAnimation<T extends HTMLElement>(
     duration = DEFAULTS.duration,
     delay = DEFAULTS.delay,
     easing = DEFAULTS.easing,
-    distance,
-    degrees,
-    scale,
-    opacity = {},
+    distance = DEFAULTS.distance,
+    degrees = DEFAULTS.degrees,
+    scale = DEFAULTS.scale,
+    opacity = {
+      start: DEFAULTS.opacityStart,
+      end: DEFAULTS.opacityEnd,
+    },
+    axis = DEFAULTS.ax, // Default axis for slide animations
   } = config;
 
   const {
@@ -53,10 +57,13 @@ export function useAnimation<T extends HTMLElement>(
       case "fade":
         return "animate-fade"; // Matches _animations.scss
       case "slide": {
-        // Determine direction based on distance sign. Default to positive if undefined/zero.
         const effectiveDistance = distance ?? DEFAULTS.distance;
-        // NOTE: Assuming X-axis slide for now based on original library structure.
-        // Could add an 'axis' prop if Y-axis slides are needed.
+        if (axis === "y") {
+          return effectiveDistance >= 0
+            ? "animate-slide-y-positive"
+            : "animate-slide-y-negative";
+        }
+        // Default to X-axis
         return effectiveDistance >= 0
           ? "animate-slide-x-positive"
           : "animate-slide-x-negative";
@@ -82,7 +89,7 @@ export function useAnimation<T extends HTMLElement>(
         console.warn(`Unknown animation type: ${type}`);
         return "";
     }
-  }, [type, distance, degrees]);
+  }, [type, distance, degrees, axis]);
 
   // Effect to apply styles and classes
   useEffect(() => {
@@ -166,6 +173,7 @@ export function useAnimation<T extends HTMLElement>(
     opacityStart,
     opacityEnd,
     getAnimationClass,
+    axis, // Add axis to dependency array
   ]);
 
   const replay = useCallback(() => {
@@ -176,10 +184,21 @@ export function useAnimation<T extends HTMLElement>(
 }
 
 // Helper validation functions
+/**
+ * Validates if a value is a non-negative number, otherwise returns a default.
+ * @param value The value to validate.
+ * @param defaultValue The default value to return if validation fails.
+ * @returns A valid non-negative number.
+ */
 function validateTime(value: number | undefined, defaultValue: number): number {
   return typeof value === "number" && value >= 0 ? value : defaultValue;
 }
 
+/**
+ * Validates if a value is a number between 0 and 1 (inclusive) for opacity.
+ * @param value The value to validate.
+ * @returns A valid opacity value (0-1), or a default if invalid.
+ */
 function validateOpacity(value: number): number {
   // Ensure opacity is between 0 and 1
   const numValue = typeof value === "number" ? value : NaN;
