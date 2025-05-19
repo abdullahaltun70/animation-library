@@ -7,7 +7,7 @@ export interface AnimationConfig {
   delay?: number;
   easing?: string;
   distance?: number; // Used for slide, bounce
-  degrees?: number; // Used for rotate
+  degrees?: number | { start?: number; end: number }; // Used for rotate
   scale?: number; // Used for scale
   opacity?: {
     // Used for fade

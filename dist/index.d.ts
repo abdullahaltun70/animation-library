@@ -8,7 +8,10 @@ interface AnimationConfig {
     delay?: number;
     easing?: string;
     distance?: number;
-    degrees?: number;
+    degrees?: number | {
+        start?: number;
+        end: number;
+    };
     scale?: number;
     opacity?: {
         start?: number;
