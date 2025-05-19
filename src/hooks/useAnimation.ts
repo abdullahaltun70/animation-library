@@ -16,7 +16,8 @@ const DEFAULTS = {
   opacityStart: 0,
   opacityEnd: 1,
   distance: 50,
-  degrees: 360,
+  degrees: 360, // Default end rotation
+  degreesStart: 0, // Default start rotation
   scale: 0.8,
   ax: "x" as SlideAxis, // Default axis for slide animations
 };
@@ -34,7 +35,7 @@ export function useAnimation<T extends HTMLElement>(
     delay = DEFAULTS.delay,
     easing = DEFAULTS.easing,
     distance = DEFAULTS.distance,
-    degrees = DEFAULTS.degrees,
+    degrees = DEFAULTS.degrees, // Default to simple number or object with end
     scale = DEFAULTS.scale,
     opacity = {
       start: DEFAULTS.opacityStart,
@@ -55,7 +56,7 @@ export function useAnimation<T extends HTMLElement>(
   const getAnimationClass = useCallback((): string => {
     switch (type) {
       case "fade":
-        return "animate-fade"; // Matches _animations.scss
+        return "animate-fade";
       case "slide": {
         const effectiveDistance = distance ?? DEFAULTS.distance;
         if (axis === "y") {
@@ -63,7 +64,6 @@ export function useAnimation<T extends HTMLElement>(
             ? "animate-slide-y-positive"
             : "animate-slide-y-negative";
         }
-        // Default to X-axis
         return effectiveDistance >= 0
           ? "animate-slide-x-positive"
           : "animate-slide-x-negative";
@@ -71,8 +71,14 @@ export function useAnimation<T extends HTMLElement>(
       case "scale":
         return "animate-scale";
       case "rotate": {
-        const effectiveDegrees = degrees ?? DEFAULTS.degrees;
-        return effectiveDegrees >= 0
+        // Rotation direction is determined by whether end > start
+        // If only a number is provided for degrees, it's treated as the end value, starting from 0 or DEFAULTS.degreesStart
+        const startRotation =
+          typeof degrees === "object"
+            ? degrees.start ?? DEFAULTS.degreesStart
+            : DEFAULTS.degreesStart;
+        const endRotation = typeof degrees === "object" ? degrees.end : degrees;
+        return endRotation >= startRotation
           ? "animate-rotate-positive"
           : "animate-rotate-negative";
       }
@@ -145,9 +151,14 @@ export function useAnimation<T extends HTMLElement>(
     }
 
     if (type === "rotate") {
-      const degreesValue = degrees !== undefined ? degrees : DEFAULTS.degrees;
-      // **FIX**: Use absolute value for the CSS variable magnitude
-      element.style.setProperty("--degrees", `${Math.abs(degreesValue)}deg`);
+      const startRotation =
+        typeof degrees === "object" && degrees.start !== undefined
+          ? degrees.start
+          : DEFAULTS.degreesStart;
+      const endRotation = typeof degrees === "object" ? degrees.end : degrees;
+
+      element.style.setProperty("--degrees-start", `${startRotation}deg`);
+      element.style.setProperty("--degrees-end", `${endRotation}deg`);
     }
 
     if (type === "scale") {
@@ -173,7 +184,7 @@ export function useAnimation<T extends HTMLElement>(
     opacityStart,
     opacityEnd,
     getAnimationClass,
-    axis, // Add axis to dependency array
+    axis,
   ]);
 
   const replay = useCallback(() => {

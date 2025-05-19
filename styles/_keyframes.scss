@@ -75,22 +75,22 @@
 // Rotate animations with directional logic
 @keyframes rotate-positive {
   from {
-    transform: rotate(var(--degrees, 360deg));
+    transform: rotate(var(--degrees-start, 0deg));
     opacity: var(--opacity-start, 0);
   }
   to {
-    transform: rotate(0deg);
+    transform: rotate(var(--degrees-end, 360deg));
     opacity: var(--opacity-end, 1);
   }
 }
 
 @keyframes rotate-negative {
   from {
-    transform: rotate(calc(-1 * var(--degrees, 360deg)));
+    transform: rotate(var(--degrees-start, 0deg));
     opacity: var(--opacity-start, 0);
   }
   to {
-    transform: rotate(0deg);
+    transform: rotate(var(--degrees-end, -360deg));
     opacity: var(--opacity-end, 1);
   }
 }
