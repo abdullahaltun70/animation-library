@@ -29,7 +29,7 @@ interface UseAnimationReturn<T extends HTMLElement> {
  * Custom hook to apply CSS animations based on configuration.
  * Returns a ref to attach to the target element, a key for re-renders, and a replay function.
  */
-declare function useAnimation<T extends HTMLElement>(config: AnimationConfig): UseAnimationReturn<T>;
+declare function useAnimation<T extends HTMLElement>(config: AnimationConfig, onAnimationComplete?: (event: Event) => void): UseAnimationReturn<T>;
 
 interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;

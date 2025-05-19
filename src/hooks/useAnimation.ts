@@ -16,10 +16,10 @@ const DEFAULTS = {
   opacityStart: 0,
   opacityEnd: 1,
   distance: 50,
-  degrees: 360, // Default end rotation
-  degreesStart: 0, // Default start rotation
+  degrees: 360, // Default end rotation for one-shot keyframe animation
+  degreesStart: 0, // Default start rotation for one-shot keyframe animation
   scale: 0.8,
-  ax: "x" as SlideAxis, // Default axis for slide animations
+  axis: "x" as SlideAxis, // Changed from ax to axis
 };
 
 /**
@@ -27,164 +27,161 @@ const DEFAULTS = {
  * Returns a ref to attach to the target element, a key for re-renders, and a replay function.
  */
 export function useAnimation<T extends HTMLElement>(
-  config: AnimationConfig
+  config: AnimationConfig,
+  onAnimationComplete?: (event: Event) => void
 ): UseAnimationReturn<T> {
   const {
     type,
-    duration = DEFAULTS.duration,
-    delay = DEFAULTS.delay,
-    easing = DEFAULTS.easing,
-    distance = DEFAULTS.distance,
-    degrees = DEFAULTS.degrees, // Default to simple number or object with end
-    scale = DEFAULTS.scale,
-    opacity = {
-      start: DEFAULTS.opacityStart,
-      end: DEFAULTS.opacityEnd,
-    },
-    axis = DEFAULTS.ax, // Default axis for slide animations
+    duration: configDuration,
+    delay: configDelay,
+    easing: configEasing,
+    distance: configDistance,
+    degrees: configDegrees,
+    scale: configScale,
+    opacity: configOpacity,
+    axis: configAxis,
   } = config;
 
-  const {
-    start: opacityStart = DEFAULTS.opacityStart,
-    end: opacityEnd = DEFAULTS.opacityEnd,
-  } = opacity;
+  const duration = validateTime(configDuration, DEFAULTS.duration);
+  const delay = validateTime(configDelay, DEFAULTS.delay);
+  const easing = configEasing || DEFAULTS.easing;
+  const distance = configDistance ?? DEFAULTS.distance;
+  const scale = configScale ?? DEFAULTS.scale;
+  const axis = configAxis || DEFAULTS.axis;
+  const opacity = {
+    start: validateOpacity(configOpacity?.start, DEFAULTS.opacityStart),
+    end: validateOpacity(configOpacity?.end, DEFAULTS.opacityEnd),
+  };
 
   const [key, setKey] = useState(0);
   const elementRef = useRef<T>(null);
 
-  // Memoize the function to get the correct animation class WITH direction
-  const getAnimationClass = useCallback((): string => {
-    switch (type) {
-      case "fade":
-        return "animate-fade";
-      case "slide": {
-        const effectiveDistance = distance ?? DEFAULTS.distance;
-        if (axis === "y") {
-          return effectiveDistance >= 0
-            ? "animate-slide-y-positive"
-            : "animate-slide-y-negative";
+  const handleAnimationEndEvent = useCallback(
+    (event: Event) => {
+      if (event.target === elementRef.current && onAnimationComplete) {
+        onAnimationComplete(event);
+        // Remove listener after execution
+        if (event.type === "animationend") {
+          elementRef.current?.removeEventListener(
+            "animationend",
+            handleAnimationEndEvent
+          );
+        } else if (event.type === "transitionend") {
+          elementRef.current?.removeEventListener(
+            "transitionend",
+            handleAnimationEndEvent
+          );
         }
-        return effectiveDistance >= 0
-          ? "animate-slide-x-positive"
-          : "animate-slide-x-negative";
       }
-      case "scale":
-        return "animate-scale";
-      case "rotate": {
-        // Rotation direction is determined by whether end > start
-        // If only a number is provided for degrees, it's treated as the end value, starting from 0 or DEFAULTS.degreesStart
-        const startRotation =
-          typeof degrees === "object"
-            ? degrees.start ?? DEFAULTS.degreesStart
-            : DEFAULTS.degreesStart;
-        const endRotation = typeof degrees === "object" ? degrees.end : degrees;
-        return endRotation >= startRotation
-          ? "animate-rotate-positive"
-          : "animate-rotate-negative";
-      }
-      case "bounce": {
-        // Using distance sign for bounce direction (positive=up, negative=down)
-        const effectiveDistance = distance ?? DEFAULTS.distance;
-        return effectiveDistance >= 0
-          ? "animate-bounce-positive"
-          : "animate-bounce-negative";
-      }
-      default:
-        // Help TypeScript ensure all cases are handled
-        const _exhaustiveCheck: never = type;
-        console.warn(`Unknown animation type: ${type}`);
-        return "";
-    }
-  }, [type, distance, degrees, axis]);
+    },
+    [onAnimationComplete]
+  );
 
-  // Effect to apply styles and classes
   useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
+    const node = elementRef.current;
+    if (!node) return;
 
-    const animationClass = getAnimationClass();
-    if (!animationClass) return;
-
-    // --- Clean up previous classes ---
-    const classesToRemove = Array.from(element.classList).filter((cls) =>
+    // Clear any previous animation/transition related styles and classes
+    node.style.transition = "";
+    node.style.transform = ""; // Reset transform if switching types
+    const classesToRemove = Array.from(node.classList).filter((cls) =>
       cls.startsWith("animate-")
     );
-    if (classesToRemove.length > 0) {
-      element.classList.remove(...classesToRemove);
-    }
+    classesToRemove.forEach((cls) => node.classList.remove(cls));
 
-    // --- Apply new class ---
-    // Force reflow before adding class might be needed in some edge cases for replay,
-    // but key-based re-render often suffices.
-    // void element.offsetWidth; // Example reflow trigger (use cautiously)
-    element.classList.add(animationClass);
-
-    // --- Set CSS Custom Properties ---
-    // Ensure values are valid numbers before setting
-    element.style.setProperty(
-      "--animation-duration",
-      `${validateTime(duration, DEFAULTS.duration)}s`
-    );
-    element.style.setProperty(
-      "--animation-delay",
-      `${validateTime(delay, DEFAULTS.delay)}s`
-    );
-    element.style.setProperty("--animation-easing", easing);
-
-    // Type-specific properties - use ABSOLUTE values for magnitude variables
-    if (type === "fade") {
-      element.style.setProperty(
-        "--opacity-start",
-        validateOpacity(opacityStart).toString()
-      );
-      element.style.setProperty(
-        "--opacity-end",
-        validateOpacity(opacityEnd).toString()
-      );
-    }
-
-    if (type === "slide" || type === "bounce") {
-      const distanceValue =
-        distance !== undefined ? distance : DEFAULTS.distance;
-      // **FIX**: Use absolute value for the CSS variable magnitude
-      element.style.setProperty("--distance", `${Math.abs(distanceValue)}px`);
-    }
+    // Remove previous listeners to avoid multiple calls
+    node.removeEventListener("animationend", handleAnimationEndEvent);
+    node.removeEventListener("transitionend", handleAnimationEndEvent);
 
     if (type === "rotate") {
-      const startRotation =
-        typeof degrees === "object" && degrees.start !== undefined
-          ? degrees.start
-          : DEFAULTS.degreesStart;
-      const endRotation = typeof degrees === "object" ? degrees.end : degrees;
+      let endDeg = DEFAULTS.degreesStart; // Default to start, effectively no rotation
+      if (typeof configDegrees === "number") {
+        endDeg = configDegrees;
+      } else if (configDegrees && typeof configDegrees.end === "number") {
+        endDeg = configDegrees.end;
+      }
+      // configDegrees.start is ignored for dynamic transitions, which animate from current value.
 
-      element.style.setProperty("--degrees-start", `${startRotation}deg`);
-      element.style.setProperty("--degrees-end", `${endRotation}deg`);
+      node.style.transition = `transform ${duration}s ${easing} ${delay}s`;
+      node.style.transform = `rotate(${endDeg}deg)`;
+
+      if (onAnimationComplete) {
+        node.addEventListener("transitionend", handleAnimationEndEvent);
+      }
+    } else {
+      // Logic for class-based animations (fade, slide, scale, bounce)
+      let animationClass = `animate-${type}`; // Base class like animate-fade, animate-scale
+
+      if (type === "slide") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${axis}-${directionSuffix}`;
+      } else if (type === "bounce") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${directionSuffix}`;
+      }
+
+      // Apply CSS custom properties for keyframe-based animations
+      node.style.setProperty("--animation-duration", `${duration}s`);
+      node.style.setProperty("--animation-delay", `${delay}s`);
+      node.style.setProperty("--animation-easing", easing);
+
+      if (type === "fade") {
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "slide") {
+        node.style.setProperty("--distance", `${Math.abs(distance)}px`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "scale") {
+        node.style.setProperty("--scale", `${scale}`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "bounce") {
+        // Bounce keyframes might use --distance or a specific bounce height var
+        node.style.setProperty("--bounce-height", `${distance}px`); // Assuming keyframes use --bounce-height
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      // Note: The old logic for keyframe-based 'rotate' (animate-rotate-positive/negative) is removed
+      // as 'rotate' type now exclusively uses transitions.
+
+      if (animationClass) {
+        // Force reflow to ensure the browser processes style changes and
+        // class removal (done at the start of useEffect) before re-adding the class.
+        // This is crucial for replaying keyframe animations on the same DOM node.
+        void node.offsetWidth;
+
+        node.classList.add(animationClass);
+        if (onAnimationComplete) {
+          node.addEventListener("animationend", handleAnimationEndEvent);
+        }
+      }
     }
 
-    if (type === "scale") {
-      const scaleValue = scale !== undefined ? scale : DEFAULTS.scale;
-      element.style.setProperty("--scale", scaleValue.toString());
-    }
-
-    // Cleanup function
     return () => {
-      if (elementRef.current) {
-        elementRef.current.classList.remove(animationClass);
+      // Cleanup listeners when effect re-runs or component unmounts
+      if (node) {
+        node.removeEventListener("animationend", handleAnimationEndEvent);
+        node.removeEventListener("transitionend", handleAnimationEndEvent);
       }
     };
   }, [
-    key,
     type,
     duration,
     delay,
     easing,
     distance,
-    degrees,
+    configDegrees, // Use configDegrees for rotate
     scale,
-    opacityStart,
-    opacityEnd,
-    getAnimationClass,
+    opacity.start, // Use destructured and validated opacity values
+    opacity.end,
     axis,
+    key,
+    onAnimationComplete,
+    handleAnimationEndEvent, // Added handleAnimationEndEvent
   ]);
 
   const replay = useCallback(() => {
@@ -202,21 +199,25 @@ export function useAnimation<T extends HTMLElement>(
  * @returns A valid non-negative number.
  */
 function validateTime(value: number | undefined, defaultValue: number): number {
-  return typeof value === "number" && value >= 0 ? value : defaultValue;
+  // Ensure value is a number before checking if it's non-negative
+  const numValue = typeof value === "number" ? value : NaN;
+  if (!isNaN(numValue) && numValue >= 0) {
+    return numValue;
+  }
+  return defaultValue;
 }
 
 /**
  * Validates if a value is a number between 0 and 1 (inclusive) for opacity.
  * @param value The value to validate.
- * @returns A valid opacity value (0-1), or a default if invalid.
+ * @param defaultValue The default value to use if value is not a number.
+ * @returns A valid opacity value (0-1).
  */
-function validateOpacity(value: number): number {
-  // Ensure opacity is between 0 and 1
-  const numValue = typeof value === "number" ? value : NaN;
-  if (isNaN(numValue)) {
-    // Decide a default if value is invalid - depends if it's start or end
-    // Returning 0 here, but could be context-dependent (like DEFAULTS.opacityStart/End)
-    return 0;
-  }
+function validateOpacity(
+  value: number | undefined,
+  defaultValue: number
+): number {
+  const numValue = typeof value === "number" ? value : defaultValue;
+  // Ensure opacity is between 0 and 1 after defaulting
   return Math.max(0, Math.min(1, numValue));
 }
