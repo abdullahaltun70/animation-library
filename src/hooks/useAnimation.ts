@@ -141,7 +141,7 @@ export function useAnimation<T extends HTMLElement>(
       }
       if (type === "bounce") {
         // Bounce keyframes might use --distance or a specific bounce height var
-        node.style.setProperty("--bounce-height", `${distance}px`); // Assuming keyframes use --bounce-height
+        node.style.setProperty("--distance", `${distance}px`); // Assuming keyframes use --bounce-height
         node.style.setProperty("--opacity-start", `${opacity.start}`);
         node.style.setProperty("--opacity-end", `${opacity.end}`);
       }

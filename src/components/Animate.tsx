@@ -49,7 +49,7 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  *   duration={0.5}
  *   className="my-custom-class"
  * >
- *   <p>Content to animate</p>
+ *   {children}
  * </Animate>
  */
 export const Animate = forwardRef<HTMLDivElement, AnimateProps>(
