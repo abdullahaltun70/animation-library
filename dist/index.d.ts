@@ -73,7 +73,7 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  *   duration={0.5}
  *   className="my-custom-class"
  * >
- *   <p>Content to animate</p>
+ *   {children}
  * </Animate>
  */
 declare const Animate: React$1.ForwardRefExoticComponent<AnimateProps & React$1.RefAttributes<HTMLDivElement>>;
