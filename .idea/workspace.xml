@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3b81bb4b-ffd1-4306-a592-1469cc035c27" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/hooks/useAnimation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_accessibility.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_animation-utilities.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_bounce-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_fade-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_rotate-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_scale-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/keyframes/_slide-keyframes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_bounce-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_fade-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_rotate-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_scale-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/mixins/_slide-mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "abdullahaltun70"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/abdullahaltun70/animation-library.git",
+    "accountId": "6b1972a5-213c-43a7-85aa-de08ccf63612"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2w2dugBElsQAEyTcNXqZ7ThrbzI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "settings.sync",
+    "ts.external.directory.path": "/Users/abdullah.altun/WebstormProjects/animation-library/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3b81bb4b-ffd1-4306-a592-1469cc035c27" name="Changes" comment="" />
+      <created>1745243827144</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745243827144</updated>
+      <workItem from="1745243828362" duration="5641000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,26 @@
+// _variables.scss
+/**
+ * Animation variables
+ */
+
+// Default animation settings
+$animation-duration: 0.5s !default;
+$animation-delay: 0s !default;
+$animation-easing: ease-out !default;
+
+// Fade animation
+$opacity-start: 0 !default;
+$opacity-end: 1 !default;
+
+// Scale animation
+$scale: 0.8 !default;
+
+// Slide animation
+$distance: 50px !default;
+
+// Rotate animation
+$degrees: 360deg !default;
+
+// Bounce animation
+$bounce-height: 30px !default;
+

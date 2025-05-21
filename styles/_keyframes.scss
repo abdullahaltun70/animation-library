@@ -1,0 +1,153 @@
+// _keyframes.scss
+/**
+ * Animation keyframes with directional logic based on CSS variables
+ */
+
+// Fade animation
+@keyframes fade {
+  from {
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+// Slide animations with directional logic
+// Horizontal slides (X-axis)
+@keyframes slide-x-positive {
+  from {
+    transform: translateX(var(--distance, 50px));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: translateX(0);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+@keyframes slide-x-negative {
+  from {
+    transform: translateX(calc(-1 * var(--distance, 50px)));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: translateX(0);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+// Vertical slides (Y-axis)
+@keyframes slide-y-positive {
+  from {
+    transform: translateY(var(--distance, 50px));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+@keyframes slide-y-negative {
+  from {
+    transform: translateY(calc(-1 * var(--distance, 50px)));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+// Scale animation
+@keyframes scale {
+  from {
+    transform: scale(var(--scale, 0.8));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: scale(1);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+// Rotate animations with directional logic
+@keyframes rotate-positive {
+  from {
+    transform: rotate(var(--degrees-start, 0deg));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: rotate(var(--degrees-end, 360deg));
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+@keyframes rotate-negative {
+  from {
+    transform: rotate(var(--degrees-start, 0deg));
+    opacity: var(--opacity-start, 0);
+  }
+  to {
+    transform: rotate(var(--degrees-end, -360deg));
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+// Bounce animations with directional logic
+@keyframes bounce-positive {
+  0% {
+    transform: translateY(0);
+    opacity: var(--opacity-start, 0);
+  }
+  20% {
+    transform: translateY(calc(-1 * var(--distance, 50px)));
+    opacity: var(--opacity-end, 1);
+  }
+  40% {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+  55% {
+    transform: translateY(calc(-0.4 * var(--distance, 20px)));
+  }
+  70% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(calc(-0.15 * var(--distance, 7px)));
+  }
+  100% {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+}
+
+@keyframes bounce-negative {
+  0% {
+    transform: translateY(0);
+    opacity: var(--opacity-start, 0);
+  }
+  20% {
+    transform: translateY(calc(1 * var(--distance, 50px)));
+    opacity: var(--opacity-end, 1);
+  }
+  40% {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+  55% {
+    transform: translateY(calc(0.4 * var(--distance, 20px)));
+  }
+  70% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(calc(0.15 * var(--distance, 7px)));
+  }
+  100% {
+    transform: translateY(0);
+    opacity: var(--opacity-end, 1);
+  }
+}

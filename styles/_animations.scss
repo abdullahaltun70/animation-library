@@ -1,0 +1,96 @@
+// _animations.scss
+/**
+ * Animation classes with directional logic
+ * These classes are used by the Animate component
+ */
+
+@import 'variables';
+@import 'accessibility';
+@import 'keyframes';
+
+// Base animation properties
+%animation-base {
+  animation-duration: var(--animation-duration, #{$animation-duration});
+  animation-delay: var(--animation-delay, #{$animation-delay});
+  animation-timing-function: var(--animation-easing, #{$animation-easing});
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+  
+  // Accessibility
+  @include respect-motion-preferences;
+}
+
+// Fade animation
+.animate-fade {
+  @extend %animation-base;
+  animation-name: fade;
+}
+
+// Slide animations
+.animate-slide-x {
+  @extend %animation-base;
+  animation-name: slide-x-positive;
+}
+
+.animate-slide-x-positive {
+  @extend %animation-base;
+  animation-name: slide-x-positive;
+}
+
+.animate-slide-x-negative {
+  @extend %animation-base;
+  animation-name: slide-x-negative;
+}
+
+.animate-slide-y {
+  @extend %animation-base;
+  animation-name: slide-y-positive;
+}
+
+.animate-slide-y-positive {
+  @extend %animation-base;
+  animation-name: slide-y-positive;
+}
+
+.animate-slide-y-negative {
+  @extend %animation-base;
+  animation-name: slide-y-negative;
+}
+
+// Scale animation
+.animate-scale {
+  @extend %animation-base;
+  animation-name: scale;
+}
+
+// Rotate animations
+.animate-rotate {
+  @extend %animation-base;
+  animation-name: rotate-positive;
+}
+
+.animate-rotate-positive {
+  @extend %animation-base;
+  animation-name: rotate-positive;
+}
+
+.animate-rotate-negative {
+  @extend %animation-base;
+  animation-name: rotate-negative;
+}
+
+// Bounce animations
+.animate-bounce {
+  @extend %animation-base;
+  animation-name: bounce-positive;
+}
+
+.animate-bounce-positive {
+  @extend %animation-base;
+  animation-name: bounce-positive;
+}
+
+.animate-bounce-negative {
+  @extend %animation-base;
+  animation-name: bounce-negative;
+}
