@@ -99,85 +99,87 @@ export function useAnimation<T extends HTMLElement>(
       clearTimeout(animationTimerRef.current);
     }
 
+    // All animations will now use the class-based approach
+    let animationClass = `animate-${type}`; // Base class like animate-fade, animate-scale
+
+    // Determine degrees for rotate animation
+    let degreesStart = DEFAULTS.degreesStart;
+    let degreesEnd = DEFAULTS.degrees; // Default end rotation
+
     if (type === "rotate") {
-      let endDeg = DEFAULTS.degreesStart; // Default to start, effectively no rotation
       if (typeof configDegrees === "number") {
-        endDeg = configDegrees;
-      } else if (configDegrees && typeof configDegrees.end === "number") {
-        endDeg = configDegrees.end;
+        degreesEnd = configDegrees;
+        // degreesStart remains DEFAULTS.degreesStart (0)
+      } else if (configDegrees) {
+        degreesEnd = configDegrees.end;
+        degreesStart = configDegrees.start ?? DEFAULTS.degreesStart;
       }
-      // configDegrees.start is ignored for dynamic transitions, which animate from current value.
-
-      node.style.transition = `transform ${duration}s ${easing} ${delay}s`;
-      node.style.transform = `rotate(${endDeg}deg)`;
-
-      if (onAnimationComplete) {
-        node.addEventListener("transitionend", handleAnimationEndEvent);
+      // Determine rotation direction
+      if (degreesEnd < degreesStart) {
+        animationClass = `animate-rotate-negative`;
+      } else {
+        animationClass = `animate-rotate-positive`;
       }
-    } else {
-      // Logic for class-based animations (fade, slide, scale, bounce)
-      let animationClass = `animate-${type}`; // Base class like animate-fade, animate-scale
-
-      if (type === "slide") {
-        const directionSuffix = distance >= 0 ? "positive" : "negative";
-        animationClass = `animate-${type}-${axis}-${directionSuffix}`;
-      } else if (type === "bounce") {
-        const directionSuffix = distance >= 0 ? "positive" : "negative";
-        animationClass = `animate-${type}-${directionSuffix}`;
-      }
-
-      // Apply CSS custom properties for keyframe-based animations
-      node.style.setProperty("--animation-duration", `${duration}s`);
-      node.style.setProperty("--animation-delay", `${delay}s`);
-      node.style.setProperty("--animation-easing", easing);
-
-      if (type === "fade") {
-        node.style.setProperty("--opacity-start", `${opacity.start}`);
-        node.style.setProperty("--opacity-end", `${opacity.end}`);
-      }
-      if (type === "slide") {
-        node.style.setProperty("--distance", `${Math.abs(distance)}px`);
-        node.style.setProperty("--opacity-start", `${opacity.start}`);
-        node.style.setProperty("--opacity-end", `${opacity.end}`);
-      }
-      if (type === "scale") {
-        node.style.setProperty("--scale", `${scale}`);
-        node.style.setProperty("--opacity-start", `${opacity.start}`);
-        node.style.setProperty("--opacity-end", `${opacity.end}`);
-      }
-      if (type === "bounce") {
-        node.style.setProperty("--distance", `${distance}px`);
-        node.style.setProperty("--opacity-start", `${opacity.start}`);
-        node.style.setProperty("--opacity-end", `${opacity.end}`);
-      }
-
-      if (animationClass) {
-        // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
-        void node.offsetWidth;
-
-        animationTimerRef.current = window.setTimeout(() => {
-          const currentNode = elementRef.current;
-          if (currentNode) {
-            // More forceful animation reset
-            currentNode.style.animation = "none"; // 1. Temporarily disable animations
-
-            void currentNode.offsetWidth; // 2. Force reflow
-
-            currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
-
-            // Add the class to trigger the animation
-            currentNode.classList.add(animationClass); // 4. Add class
-
-            if (onAnimationComplete) {
-              currentNode.addEventListener(
-                "animationend",
-                handleAnimationEndEvent
-              );
-            }
-          }
-        }, 20); // Increased delay slightly to 20ms
-      }
+    } else if (type === "slide") {
+      const directionSuffix = distance >= 0 ? "positive" : "negative";
+      animationClass = `animate-${type}-${axis}-${directionSuffix}`;
+    } else if (type === "bounce") {
+      const directionSuffix = distance >= 0 ? "positive" : "negative";
+      animationClass = `animate-${type}-${directionSuffix}`;
     }
+
+    // Apply CSS custom properties for keyframe-based animations
+    node.style.setProperty("--animation-duration", `${duration}s`);
+    node.style.setProperty("--animation-delay", `${delay}s`);
+    node.style.setProperty("--animation-easing", easing);
+
+    if (type === "fade") {
+      node.style.setProperty("--opacity-start", `${opacity.start}`);
+      node.style.setProperty("--opacity-end", `${opacity.end}`);
+    } else if (type === "slide") {
+      node.style.setProperty("--distance", `${Math.abs(distance)}px`);
+      node.style.setProperty("--opacity-start", `${opacity.start}`);
+      node.style.setProperty("--opacity-end", `${opacity.end}`);
+    } else if (type === "scale") {
+      node.style.setProperty("--scale", `${scale}`);
+      node.style.setProperty("--opacity-start", `${opacity.start}`);
+      node.style.setProperty("--opacity-end", `${opacity.end}`);
+    } else if (type === "bounce") {
+      node.style.setProperty("--distance", `${distance}px`);
+      node.style.setProperty("--opacity-start", `${opacity.start}`);
+      node.style.setProperty("--opacity-end", `${opacity.end}`);
+    } else if (type === "rotate") {
+      node.style.setProperty("--degrees-start", `${degreesStart}deg`);
+      node.style.setProperty("--degrees-end", `${degreesEnd}deg`);
+      node.style.setProperty("--opacity-start", `${opacity.start}`);
+      node.style.setProperty("--opacity-end", `${opacity.end}`);
+    }
+
+    if (animationClass) {
+      // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
+      void node.offsetWidth;
+
+      animationTimerRef.current = window.setTimeout(() => {
+        const currentNode = elementRef.current;
+        if (currentNode) {
+          // More forceful animation reset
+          currentNode.style.animation = "none"; // 1. Temporarily disable animations
+          void currentNode.offsetWidth; // 2. Force reflow
+          currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
+
+          // Add the class to trigger the animation
+          currentNode.classList.add(animationClass); // 4. Add class
+
+          if (onAnimationComplete) {
+            currentNode.addEventListener(
+              "animationend",
+              handleAnimationEndEvent
+            );
+          }
+        }
+      }, 20); // Increased delay slightly to 20ms
+    }
+    // } // This curly brace is removed as rotate is now part of the same logic block
 
     return () => {
       // Cleanup listeners when effect re-runs or component unmounts
