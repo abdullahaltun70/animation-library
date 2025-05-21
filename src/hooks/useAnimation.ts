@@ -55,6 +55,7 @@ export function useAnimation<T extends HTMLElement>(
 
   const [key, setKey] = useState(0);
   const elementRef = useRef<T>(null);
+  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Ref for the animation timer
 
   const handleAnimationEndEvent = useCallback(
     (event: Event) => {
@@ -92,6 +93,11 @@ export function useAnimation<T extends HTMLElement>(
     // Remove previous listeners to avoid multiple calls
     node.removeEventListener("animationend", handleAnimationEndEvent);
     node.removeEventListener("transitionend", handleAnimationEndEvent);
+
+    // Clear any pending animation timer from previous effect run
+    if (animationTimerRef.current) {
+      clearTimeout(animationTimerRef.current);
+    }
 
     if (type === "rotate") {
       let endDeg = DEFAULTS.degreesStart; // Default to start, effectively no rotation
@@ -140,30 +146,46 @@ export function useAnimation<T extends HTMLElement>(
         node.style.setProperty("--opacity-end", `${opacity.end}`);
       }
       if (type === "bounce") {
-        // Bounce keyframes might use --distance or a specific bounce height var
-        node.style.setProperty("--distance", `${distance}px`); // Assuming keyframes use --bounce-height
+        node.style.setProperty("--distance", `${distance}px`);
         node.style.setProperty("--opacity-start", `${opacity.start}`);
         node.style.setProperty("--opacity-end", `${opacity.end}`);
       }
-      // Note: The old logic for keyframe-based 'rotate' (animate-rotate-positive/negative) is removed
-      // as 'rotate' type now exclusively uses transitions.
 
       if (animationClass) {
-        // Force reflow to ensure the browser processes style changes and
-        // class removal (done at the start of useEffect) before re-adding the class.
-        // This is crucial for replaying keyframe animations on the same DOM node.
+        // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
         void node.offsetWidth;
 
-        node.classList.add(animationClass);
-        if (onAnimationComplete) {
-          node.addEventListener("animationend", handleAnimationEndEvent);
-        }
+        animationTimerRef.current = window.setTimeout(() => {
+          const currentNode = elementRef.current;
+          if (currentNode) {
+            // More forceful animation reset
+            currentNode.style.animation = "none"; // 1. Temporarily disable animations
+
+            void currentNode.offsetWidth; // 2. Force reflow
+
+            currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
+
+            // Add the class to trigger the animation
+            currentNode.classList.add(animationClass); // 4. Add class
+
+            if (onAnimationComplete) {
+              currentNode.addEventListener(
+                "animationend",
+                handleAnimationEndEvent
+              );
+            }
+          }
+        }, 20); // Increased delay slightly to 20ms
       }
     }
 
     return () => {
       // Cleanup listeners when effect re-runs or component unmounts
+      if (animationTimerRef.current) {
+        clearTimeout(animationTimerRef.current); // Clear the timer on cleanup
+      }
       if (node) {
+        // node is from the useEffect closure
         node.removeEventListener("animationend", handleAnimationEndEvent);
         node.removeEventListener("transitionend", handleAnimationEndEvent);
       }
