@@ -4,32 +4,31 @@
  * These classes are used by the Animate component
  */
 
-@import 'variables';
-@import 'accessibility';
-@import 'keyframes';
+@use 'variables' as varDefaults; // Use an alias for clarity
+@use 'accessibility'; // Imports mixins from _accessibility.scss
 
 // Base animation properties
 %animation-base {
-  animation-duration: var(--animation-duration, #{$animation-duration});
-  animation-delay: var(--animation-delay, #{$animation-delay});
-  animation-timing-function: var(--animation-easing, #{$animation-easing});
+  animation-duration: var(--animation-duration, #{varDefaults.$animation-duration});
+  animation-delay: var(--animation-delay, #{varDefaults.$animation-delay});
+  animation-timing-function: var(--animation-easing, #{varDefaults.$animation-easing});
   animation-fill-mode: forwards;
   will-change: transform, opacity;
-  
-  // Accessibility
-  @include respect-motion-preferences;
+
+  // Accessibility - mixins from imported modules are namespaced by default
+  @include accessibility.respect-motion-preferences;
 }
 
 // Fade animation
 .animate-fade {
   @extend %animation-base;
-  animation-name: fade;
+  animation-name: fade; // Keyframes are global, no need to import them here
 }
 
 // Slide animations
 .animate-slide-x {
   @extend %animation-base;
-  animation-name: slide-x-positive;
+  animation-name: slide-x-positive; // Default if no specific direction given (though JS usually specifies)
 }
 
 .animate-slide-x-positive {
@@ -44,7 +43,7 @@
 
 .animate-slide-y {
   @extend %animation-base;
-  animation-name: slide-y-positive;
+  animation-name: slide-y-positive; // Default if no specific direction given
 }
 
 .animate-slide-y-positive {
@@ -66,23 +65,24 @@
 // Rotate animations
 .animate-rotate {
   @extend %animation-base;
-  animation-name: rotate-positive;
+  animation-name: rotate-positive; // Default if no specific direction given
 }
 
 .animate-rotate-positive {
   @extend %animation-base;
   animation-name: rotate-positive;
+  animation-fill-mode: backwards;
 }
-
 .animate-rotate-negative {
   @extend %animation-base;
   animation-name: rotate-negative;
+  animation-fill-mode: backwards;
 }
 
 // Bounce animations
 .animate-bounce {
   @extend %animation-base;
-  animation-name: bounce-positive;
+  animation-name: bounce-positive; // Default if no specific direction given
 }
 
 .animate-bounce-positive {

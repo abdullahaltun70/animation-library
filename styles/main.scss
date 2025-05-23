@@ -1,14 +1,25 @@
-// main.scss
+// styles/main.scss
 /**
- * Enhanced Animation Library
- * Accessible, performant animation library with simplified API
+ * Main SCSS entry point for the animation library.
  *
- * Use: Import this file in your main stylesheet
- * @version 2.0.0
+ * How to use with Sass modules:
+ * @use "animation-library-test-abdullah-altun/styles" as animations;
+ *
+ * To configure variables (before the @use rule):
+ * @use "animation-library-test-abdullah-altun/styles" with (
+ *   $animation-duration: 0.7s,
+ *   $default-slide-distance: 80px
+ * );
  */
 
-// Import all animation components
-@import 'variables';
-@import 'accessibility';
-@import 'keyframes';
-@import 'animations';
+// Forward variables so they can be configured by users of this module.
+@forward 'variables';
+
+// Forward accessibility mixins if they are intended for public use.
+// If they are only internal to this library's animations, this can be removed.
+@forward 'accessibility';
+
+// Use modules that generate CSS output.
+// This ensures their CSS (keyframes, animation classes) is included.
+@use 'keyframes';
+@use 'animations';

@@ -84,7 +84,6 @@ export function useAnimation<T extends HTMLElement>(
 
     // Clear any previous animation/transition related styles and classes
     node.style.transition = "";
-    node.style.transform = ""; // Reset transform if switching types
     const classesToRemove = Array.from(node.classList).filter((cls) =>
       cls.startsWith("animate-")
     );
@@ -106,20 +105,33 @@ export function useAnimation<T extends HTMLElement>(
     let degreesStart = DEFAULTS.degreesStart;
     let degreesEnd = DEFAULTS.degrees; // Default end rotation
 
+    // For type === "rotate", retain the current visual state:
     if (type === "rotate") {
-      if (typeof configDegrees === "number") {
-        degreesEnd = configDegrees;
-        // degreesStart remains DEFAULTS.degreesStart (0)
-      } else if (configDegrees) {
-        degreesEnd = configDegrees.end;
-        degreesStart = configDegrees.start ?? DEFAULTS.degreesStart;
-      }
-      // Determine rotation direction
-      if (degreesEnd < degreesStart) {
-        animationClass = `animate-rotate-negative`;
+      const degreesStart =
+        typeof configDegrees === "object" &&
+        configDegrees !== null &&
+        "start" in configDegrees
+          ? configDegrees.start ?? DEFAULTS.degreesStart
+          : DEFAULTS.degreesStart;
+      const degreesEnd =
+        typeof configDegrees === "object" &&
+        configDegrees !== null &&
+        "end" in configDegrees
+          ? configDegrees.end
+          : typeof configDegrees === "number"
+          ? configDegrees
+          : DEFAULTS.degrees;
+      // Ensure --degrees-start matches the current rotation (fix jumping):
+      const currentTransform = window.getComputedStyle(node).transform;
+      if (currentTransform && currentTransform !== "none") {
+        const currentRotation = parseFloat(
+          /rotate$([-\d.]+)deg$/.exec(currentTransform)?.[1] || "0"
+        );
+        node.style.setProperty("--degrees-start", `${currentRotation}deg`);
       } else {
-        animationClass = `animate-rotate-positive`;
+        node.style.setProperty("--degrees-start", `${degreesStart}deg`);
       }
+      node.style.setProperty("--degrees-end", `${degreesEnd}deg`);
     } else if (type === "slide") {
       const directionSuffix = distance >= 0 ? "positive" : "negative";
       animationClass = `animate-${type}-${axis}-${directionSuffix}`;
@@ -209,6 +221,18 @@ export function useAnimation<T extends HTMLElement>(
   ]);
 
   const replay = useCallback(() => {
+    const node = elementRef.current;
+    if (node) {
+      // Temporarily disable animations
+      node.style.animation = "none";
+
+      // Force reflow to reset animation
+      node.offsetHeight;
+
+      // Re-apply animation
+      node.style.animation = "";
+    }
+    // Increment key to fully re-trigger effects where needed
     setKey((prevKey) => prevKey + 1);
   }, []);
 
