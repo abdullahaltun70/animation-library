@@ -55,8 +55,7 @@ export function useAnimation<T extends HTMLElement>(
 
   const [key, setKey] = useState(0);
   const elementRef = useRef<T>(null);
-  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isInitialRenderRef = useRef(true);
+  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Ref for the animation timer
 
   const handleAnimationEndEvent = useCallback(
     (event: Event) => {
@@ -85,10 +84,7 @@ export function useAnimation<T extends HTMLElement>(
 
     // Clear any previous animation/transition related styles and classes
     node.style.transition = "";
-    
-    // **FIX 1: Don't reset transform - preserve current rotation state**
-    // node.style.transform = ""; // REMOVED - this was causing jumps
-    
+    node.style.transform = ""; // Reset transform if switching types
     const classesToRemove = Array.from(node.classList).filter((cls) =>
       cls.startsWith("animate-")
     );
@@ -104,73 +100,23 @@ export function useAnimation<T extends HTMLElement>(
     }
 
     if (type === "rotate") {
-      let degreesStart = DEFAULTS.degreesStart;
-      let degreesEnd = DEFAULTS.degrees;
-
+      let endDeg = DEFAULTS.degreesStart; // Default to start, effectively no rotation
       if (typeof configDegrees === "number") {
-        degreesEnd = configDegrees;
-      } else if (configDegrees) {
-        degreesStart = configDegrees.start ?? DEFAULTS.degreesStart;
-        degreesEnd = configDegrees.end ?? configDegrees.start ?? DEFAULTS.degrees;
+        endDeg = configDegrees;
+      } else if (configDegrees && typeof configDegrees.end === "number") {
+        endDeg = configDegrees.end;
       }
+      // configDegrees.start is ignored for dynamic transitions, which animate from current value.
 
-      // **FIX 2: Use current computed rotation as start point for smooth transitions**
-      const currentTransform = window.getComputedStyle(node).transform;
-      let currentRotation = degreesStart;
+      node.style.transition = `transform ${duration}s ${easing} ${delay}s`;
+      node.style.transform = `rotate(${endDeg}deg)`;
 
-      if (currentTransform !== "none" && currentTransform.includes("rotate")) {
-        const match = currentTransform.match(/rotate$(-?\d+\.?\d*)deg$/);
-        if (match) {
-          currentRotation = parseFloat(match[1]);
-        }
+      if (onAnimationComplete) {
+        node.addEventListener("transitionend", handleAnimationEndEvent);
       }
-
-      // **FIX 3: For initial render, don't animate unless explicitly requested**
-      if (isInitialRenderRef.current && !config.animateOnMount) {
-        // Set the target rotation immediately without animation
-        node.style.transform = `rotate(${degreesEnd}deg)`;
-        isInitialRenderRef.current = false;
-        return;
-      }
-
-      // Set CSS custom properties for keyframe animations
-      node.style.setProperty("--degrees-start", `${currentRotation}deg`);
-      node.style.setProperty("--degrees-end", `${degreesEnd}deg`);
-
-      // Determine animation direction
-      let animationClass = "animate-rotate-positive";
-      if (degreesEnd < currentRotation) {
-        animationClass = "animate-rotate-negative";
-      }
-
-      // Apply CSS custom properties for animation timing
-      node.style.setProperty("--animation-duration", `${duration}s`);
-      node.style.setProperty("--animation-delay", `${delay}s`);
-      node.style.setProperty("--animation-easing", easing);
-
-      // Force reflow before applying animation class
-      void node.offsetWidth;
-
-      animationTimerRef.current = window.setTimeout(() => {
-        const currentNode = elementRef.current;
-        if (currentNode) {
-          // Reset animation to ensure clean start
-          currentNode.style.animation = "none";
-          void currentNode.offsetWidth;
-          currentNode.style.animation = "";
-
-          // Add the animation class
-          currentNode.classList.add(animationClass);
-
-          if (onAnimationComplete) {
-            currentNode.addEventListener("animationend", handleAnimationEndEvent);
-          }
-        }
-      }, 10);
-
     } else {
       // Logic for class-based animations (fade, slide, scale, bounce)
-      let animationClass = `animate-${type}`;
+      let animationClass = `animate-${type}`; // Base class like animate-fade, animate-scale
 
       if (type === "slide") {
         const directionSuffix = distance >= 0 ? "positive" : "negative";
@@ -206,43 +152,40 @@ export function useAnimation<T extends HTMLElement>(
       }
 
       if (animationClass) {
-        // **FIX 4: Skip initial animation for non-rotate types unless explicitly requested**
-        if (isInitialRenderRef.current && !config.animateOnMount) {
-          isInitialRenderRef.current = false;
-          return;
-        }
-
-        // Initial reflow after properties are set and old classes are removed
+        // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
         void node.offsetWidth;
 
         animationTimerRef.current = window.setTimeout(() => {
           const currentNode = elementRef.current;
           if (currentNode) {
-            // Reset animation for clean start
-            currentNode.style.animation = "none";
-            void currentNode.offsetWidth;
-            currentNode.style.animation = "";
+            // More forceful animation reset
+            currentNode.style.animation = "none"; // 1. Temporarily disable animations
+
+            void currentNode.offsetWidth; // 2. Force reflow
+
+            currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
 
             // Add the class to trigger the animation
-            currentNode.classList.add(animationClass);
+            currentNode.classList.add(animationClass); // 4. Add class
 
             if (onAnimationComplete) {
-              currentNode.addEventListener("animationend", handleAnimationEndEvent);
+              currentNode.addEventListener(
+                "animationend",
+                handleAnimationEndEvent
+              );
             }
           }
-        }, 10);
+        }, 20); // Increased delay slightly to 20ms
       }
     }
-
-    // Mark that initial render is complete
-    isInitialRenderRef.current = false;
 
     return () => {
       // Cleanup listeners when effect re-runs or component unmounts
       if (animationTimerRef.current) {
-        clearTimeout(animationTimerRef.current);
+        clearTimeout(animationTimerRef.current); // Clear the timer on cleanup
       }
       if (node) {
+        // node is from the useEffect closure
         node.removeEventListener("animationend", handleAnimationEndEvent);
         node.removeEventListener("transitionend", handleAnimationEndEvent);
       }
@@ -261,7 +204,6 @@ export function useAnimation<T extends HTMLElement>(
     key,
     onAnimationComplete,
     handleAnimationEndEvent,
-    config.animateOnMount, // Add this to dependencies
   ]);
 
   const replay = useCallback(() => {
@@ -270,7 +212,7 @@ export function useAnimation<T extends HTMLElement>(
       // **FIX 5: Improved replay logic**
       // Temporarily disable animations
       node.style.animation = "none";
-      
+
       // Remove all animation classes
       const classesToRemove = Array.from(node.classList).filter((cls) =>
         cls.startsWith("animate-")
@@ -283,7 +225,7 @@ export function useAnimation<T extends HTMLElement>(
       // Re-enable animations
       node.style.animation = "";
     }
-    
+
     // Increment key to fully re-trigger effects
     setKey((prevKey) => prevKey + 1);
   }, []);
@@ -292,7 +234,14 @@ export function useAnimation<T extends HTMLElement>(
 }
 
 // Helper validation functions
+/**
+ * Validates if a value is a non-negative number, otherwise returns a default.
+ * @param value The value to validate.
+ * @param defaultValue The default value to return if validation fails.
+ * @returns A valid non-negative number.
+ */
 function validateTime(value: number | undefined, defaultValue: number): number {
+  // Ensure value is a number before checking if it's non-negative
   const numValue = typeof value === "number" ? value : NaN;
   if (!isNaN(numValue) && numValue >= 0) {
     return numValue;
@@ -300,10 +249,17 @@ function validateTime(value: number | undefined, defaultValue: number): number {
   return defaultValue;
 }
 
-function validateOpacity(value: number | undefined, defaultValue: number): number {
-  const numValue = typeof value === "number" ? value : NaN;
-  if (!isNaN(numValue) && numValue >= 0 && numValue <= 1) {
-    return numValue;
-  }
-  return defaultValue;
+/**
+ * Validates if a value is a number between 0 and 1 (inclusive) for opacity.
+ * @param value The value to validate.
+ * @param defaultValue The default value to use if value is not a number.
+ * @returns A valid opacity value (0-1).
+ */
+function validateOpacity(
+  value: number | undefined,
+  defaultValue: number
+): number {
+  const numValue = typeof value === "number" ? value : defaultValue;
+  // Ensure opacity is between 0 and 1 after defaulting
+  return Math.max(0, Math.min(1, numValue));
 }
