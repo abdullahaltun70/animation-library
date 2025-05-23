@@ -19,7 +19,7 @@ const DEFAULTS = {
   degrees: 360, // Default end rotation for one-shot keyframe animation
   degreesStart: 0, // Default start rotation for one-shot keyframe animation
   scale: 0.8,
-  axis: "x" as SlideAxis, // Changed from ax to axis
+  axis: "x" as SlideAxis,
 };
 
 /**
@@ -55,7 +55,8 @@ export function useAnimation<T extends HTMLElement>(
 
   const [key, setKey] = useState(0);
   const elementRef = useRef<T>(null);
-  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Ref for the animation timer
+  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isInitialRenderRef = useRef(true);
 
   const handleAnimationEndEvent = useCallback(
     (event: Event) => {
@@ -84,6 +85,10 @@ export function useAnimation<T extends HTMLElement>(
 
     // Clear any previous animation/transition related styles and classes
     node.style.transition = "";
+    
+    // **FIX 1: Don't reset transform - preserve current rotation state**
+    // node.style.transform = ""; // REMOVED - this was causing jumps
+    
     const classesToRemove = Array.from(node.classList).filter((cls) =>
       cls.startsWith("animate-")
     );
@@ -98,108 +103,146 @@ export function useAnimation<T extends HTMLElement>(
       clearTimeout(animationTimerRef.current);
     }
 
-    // All animations will now use the class-based approach
-    let animationClass = `animate-${type}`; // Base class like animate-fade, animate-scale
-
-    // Determine degrees for rotate animation
-    let degreesStart = DEFAULTS.degreesStart;
-    let degreesEnd = DEFAULTS.degrees; // Default end rotation
-
-    // For type === "rotate", retain the current visual state:
     if (type === "rotate") {
-      const degreesStart =
-        typeof configDegrees === "object" &&
-        configDegrees !== null &&
-        "start" in configDegrees
-          ? configDegrees.start ?? DEFAULTS.degreesStart
-          : DEFAULTS.degreesStart;
-      const degreesEnd =
-        typeof configDegrees === "object" &&
-        configDegrees !== null &&
-        "end" in configDegrees
-          ? configDegrees.end
-          : typeof configDegrees === "number"
-          ? configDegrees
-          : DEFAULTS.degrees;
-      // Ensure --degrees-start matches the current rotation (fix jumping):
-      const currentTransform = window.getComputedStyle(node).transform;
-      if (currentTransform && currentTransform !== "none") {
-        const currentRotation = parseFloat(
-          /rotate$([-\d.]+)deg$/.exec(currentTransform)?.[1] || "0"
-        );
-        node.style.setProperty("--degrees-start", `${currentRotation}deg`);
-      } else {
-        node.style.setProperty("--degrees-start", `${degreesStart}deg`);
+      let degreesStart = DEFAULTS.degreesStart;
+      let degreesEnd = DEFAULTS.degrees;
+
+      if (typeof configDegrees === "number") {
+        degreesEnd = configDegrees;
+      } else if (configDegrees) {
+        degreesStart = configDegrees.start ?? DEFAULTS.degreesStart;
+        degreesEnd = configDegrees.end ?? configDegrees.start ?? DEFAULTS.degrees;
       }
+
+      // **FIX 2: Use current computed rotation as start point for smooth transitions**
+      const currentTransform = window.getComputedStyle(node).transform;
+      let currentRotation = degreesStart;
+
+      if (currentTransform !== "none" && currentTransform.includes("rotate")) {
+        const match = currentTransform.match(/rotate$(-?\d+\.?\d*)deg$/);
+        if (match) {
+          currentRotation = parseFloat(match[1]);
+        }
+      }
+
+      // **FIX 3: For initial render, don't animate unless explicitly requested**
+      if (isInitialRenderRef.current && !config.animateOnMount) {
+        // Set the target rotation immediately without animation
+        node.style.transform = `rotate(${degreesEnd}deg)`;
+        isInitialRenderRef.current = false;
+        return;
+      }
+
+      // Set CSS custom properties for keyframe animations
+      node.style.setProperty("--degrees-start", `${currentRotation}deg`);
       node.style.setProperty("--degrees-end", `${degreesEnd}deg`);
-    } else if (type === "slide") {
-      const directionSuffix = distance >= 0 ? "positive" : "negative";
-      animationClass = `animate-${type}-${axis}-${directionSuffix}`;
-    } else if (type === "bounce") {
-      const directionSuffix = distance >= 0 ? "positive" : "negative";
-      animationClass = `animate-${type}-${directionSuffix}`;
-    }
 
-    // Apply CSS custom properties for keyframe-based animations
-    node.style.setProperty("--animation-duration", `${duration}s`);
-    node.style.setProperty("--animation-delay", `${delay}s`);
-    node.style.setProperty("--animation-easing", easing);
+      // Determine animation direction
+      let animationClass = "animate-rotate-positive";
+      if (degreesEnd < currentRotation) {
+        animationClass = "animate-rotate-negative";
+      }
 
-    if (type === "fade") {
-      node.style.setProperty("--opacity-start", `${opacity.start}`);
-      node.style.setProperty("--opacity-end", `${opacity.end}`);
-    } else if (type === "slide") {
-      node.style.setProperty("--distance", `${Math.abs(distance)}px`);
-      node.style.setProperty("--opacity-start", `${opacity.start}`);
-      node.style.setProperty("--opacity-end", `${opacity.end}`);
-    } else if (type === "scale") {
-      node.style.setProperty("--scale", `${scale}`);
-      node.style.setProperty("--opacity-start", `${opacity.start}`);
-      node.style.setProperty("--opacity-end", `${opacity.end}`);
-    } else if (type === "bounce") {
-      node.style.setProperty("--distance", `${distance}px`);
-      node.style.setProperty("--opacity-start", `${opacity.start}`);
-      node.style.setProperty("--opacity-end", `${opacity.end}`);
-    } else if (type === "rotate") {
-      node.style.setProperty("--degrees-start", `${degreesStart}deg`);
-      node.style.setProperty("--degrees-end", `${degreesEnd}deg`);
-      node.style.setProperty("--opacity-start", `${opacity.start}`);
-      node.style.setProperty("--opacity-end", `${opacity.end}`);
-    }
+      // Apply CSS custom properties for animation timing
+      node.style.setProperty("--animation-duration", `${duration}s`);
+      node.style.setProperty("--animation-delay", `${delay}s`);
+      node.style.setProperty("--animation-easing", easing);
 
-    if (animationClass) {
-      // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
+      // Force reflow before applying animation class
       void node.offsetWidth;
 
       animationTimerRef.current = window.setTimeout(() => {
         const currentNode = elementRef.current;
         if (currentNode) {
-          // More forceful animation reset
-          currentNode.style.animation = "none"; // 1. Temporarily disable animations
-          void currentNode.offsetWidth; // 2. Force reflow
-          currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
+          // Reset animation to ensure clean start
+          currentNode.style.animation = "none";
+          void currentNode.offsetWidth;
+          currentNode.style.animation = "";
 
-          // Add the class to trigger the animation
-          currentNode.classList.add(animationClass); // 4. Add class
+          // Add the animation class
+          currentNode.classList.add(animationClass);
 
           if (onAnimationComplete) {
-            currentNode.addEventListener(
-              "animationend",
-              handleAnimationEndEvent
-            );
+            currentNode.addEventListener("animationend", handleAnimationEndEvent);
           }
         }
-      }, 20); // Increased delay slightly to 20ms
+      }, 10);
+
+    } else {
+      // Logic for class-based animations (fade, slide, scale, bounce)
+      let animationClass = `animate-${type}`;
+
+      if (type === "slide") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${axis}-${directionSuffix}`;
+      } else if (type === "bounce") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${directionSuffix}`;
+      }
+
+      // Apply CSS custom properties for keyframe-based animations
+      node.style.setProperty("--animation-duration", `${duration}s`);
+      node.style.setProperty("--animation-delay", `${delay}s`);
+      node.style.setProperty("--animation-easing", easing);
+
+      if (type === "fade") {
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "slide") {
+        node.style.setProperty("--distance", `${Math.abs(distance)}px`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "scale") {
+        node.style.setProperty("--scale", `${scale}`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "bounce") {
+        node.style.setProperty("--distance", `${distance}px`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+
+      if (animationClass) {
+        // **FIX 4: Skip initial animation for non-rotate types unless explicitly requested**
+        if (isInitialRenderRef.current && !config.animateOnMount) {
+          isInitialRenderRef.current = false;
+          return;
+        }
+
+        // Initial reflow after properties are set and old classes are removed
+        void node.offsetWidth;
+
+        animationTimerRef.current = window.setTimeout(() => {
+          const currentNode = elementRef.current;
+          if (currentNode) {
+            // Reset animation for clean start
+            currentNode.style.animation = "none";
+            void currentNode.offsetWidth;
+            currentNode.style.animation = "";
+
+            // Add the class to trigger the animation
+            currentNode.classList.add(animationClass);
+
+            if (onAnimationComplete) {
+              currentNode.addEventListener("animationend", handleAnimationEndEvent);
+            }
+          }
+        }, 10);
+      }
     }
-    // } // This curly brace is removed as rotate is now part of the same logic block
+
+    // Mark that initial render is complete
+    isInitialRenderRef.current = false;
 
     return () => {
       // Cleanup listeners when effect re-runs or component unmounts
       if (animationTimerRef.current) {
-        clearTimeout(animationTimerRef.current); // Clear the timer on cleanup
+        clearTimeout(animationTimerRef.current);
       }
       if (node) {
-        // node is from the useEffect closure
         node.removeEventListener("animationend", handleAnimationEndEvent);
         node.removeEventListener("transitionend", handleAnimationEndEvent);
       }
@@ -210,29 +253,38 @@ export function useAnimation<T extends HTMLElement>(
     delay,
     easing,
     distance,
-    configDegrees, // Use configDegrees for rotate
+    configDegrees,
     scale,
-    opacity.start, // Use destructured and validated opacity values
+    opacity.start,
     opacity.end,
     axis,
     key,
     onAnimationComplete,
-    handleAnimationEndEvent, // Added handleAnimationEndEvent
+    handleAnimationEndEvent,
+    config.animateOnMount, // Add this to dependencies
   ]);
 
   const replay = useCallback(() => {
     const node = elementRef.current;
     if (node) {
+      // **FIX 5: Improved replay logic**
       // Temporarily disable animations
       node.style.animation = "none";
+      
+      // Remove all animation classes
+      const classesToRemove = Array.from(node.classList).filter((cls) =>
+        cls.startsWith("animate-")
+      );
+      classesToRemove.forEach((cls) => node.classList.remove(cls));
 
-      // Force reflow to reset animation
-      node.offsetHeight;
+      // Force reflow to reset animation state
+      void node.offsetHeight;
 
-      // Re-apply animation
+      // Re-enable animations
       node.style.animation = "";
     }
-    // Increment key to fully re-trigger effects where needed
+    
+    // Increment key to fully re-trigger effects
     setKey((prevKey) => prevKey + 1);
   }, []);
 
@@ -240,14 +292,7 @@ export function useAnimation<T extends HTMLElement>(
 }
 
 // Helper validation functions
-/**
- * Validates if a value is a non-negative number, otherwise returns a default.
- * @param value The value to validate.
- * @param defaultValue The default value to return if validation fails.
- * @returns A valid non-negative number.
- */
 function validateTime(value: number | undefined, defaultValue: number): number {
-  // Ensure value is a number before checking if it's non-negative
   const numValue = typeof value === "number" ? value : NaN;
   if (!isNaN(numValue) && numValue >= 0) {
     return numValue;
@@ -255,17 +300,10 @@ function validateTime(value: number | undefined, defaultValue: number): number {
   return defaultValue;
 }
 
-/**
- * Validates if a value is a number between 0 and 1 (inclusive) for opacity.
- * @param value The value to validate.
- * @param defaultValue The default value to use if value is not a number.
- * @returns A valid opacity value (0-1).
- */
-function validateOpacity(
-  value: number | undefined,
-  defaultValue: number
-): number {
-  const numValue = typeof value === "number" ? value : defaultValue;
-  // Ensure opacity is between 0 and 1 after defaulting
-  return Math.max(0, Math.min(1, numValue));
+function validateOpacity(value: number | undefined, defaultValue: number): number {
+  const numValue = typeof value === "number" ? value : NaN;
+  if (!isNaN(numValue) && numValue >= 0 && numValue <= 1) {
+    return numValue;
+  }
+  return defaultValue;
 }
