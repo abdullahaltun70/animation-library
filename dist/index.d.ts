@@ -18,6 +18,7 @@ interface AnimationConfig {
         end?: number;
     };
     axis?: SlideAxis;
+    animateOnMount?: boolean;
 }
 
 interface UseAnimationReturn<T extends HTMLElement> {

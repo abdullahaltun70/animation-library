@@ -71,11 +71,12 @@
 .animate-rotate-positive {
   @extend %animation-base;
   animation-name: rotate-positive;
+  animation-fill-mode: backwards;
 }
-
 .animate-rotate-negative {
   @extend %animation-base;
   animation-name: rotate-negative;
+  animation-fill-mode: backwards;
 }
 
 // Bounce animations
