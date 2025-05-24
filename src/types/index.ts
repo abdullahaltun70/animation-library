@@ -8,11 +8,12 @@ export interface AnimationConfig {
   easing?: string;
   distance?: number; // Used for slide, bounce
   degrees?: number | { start?: number; end: number }; // Used for rotate
-  scale?: number; // Used for scale
+  scale?: number;
   opacity?: {
     // Used for fade
     start?: number;
     end?: number;
   };
-  axis?: SlideAxis; // Add this for slide animation
+  axis?: SlideAxis;
+  animateOnMount?: boolean;
 }

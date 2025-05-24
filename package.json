@@ -1,6 +1,6 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.32",
+  "version": "1.0.39",
   "description": "React animation library using SCSS and CSS Custom Properties",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -29,7 +29,7 @@
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prebld": "npm run clean && npm run build"
   },
   "keywords": [
     "scss",
