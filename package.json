@@ -1,10 +1,15 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "React animation library using SCSS and CSS Custom Properties",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": ["./dist/index.d.ts"]
+    }
+  },
   "files": [
     "dist",
     "src",
@@ -22,22 +27,28 @@
       }
     },
     "./styles": "./styles/main.scss",
-    "./package.json": "./package.json",
-    "./styles/main.scss": "./styles/main.scss"
+    "./dist/styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
   },
+  "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "clean": "rm -rf dist",
-    "prebld": "npm run clean && npm run build"
+    "prebld": "yarn clean && yarn build",
+    "test:nextjs": "node test-nextjs-usage.js",
+    "prepublishOnly": "yarn clean && yarn build && yarn test:nextjs"
   },
   "keywords": [
-    "scss",
-    "animations",
-    "css",
     "react",
+    "typescript",
+    "animation",
+    "scss",
+    "css",
     "nextjs",
-    "typescript"
+    "components",
+    "ui",
+    "frontend"
   ],
   "publishConfig": {
     "access": "public"
@@ -48,6 +59,7 @@
     "sass": ">=1.0.0"
   },
   "devDependencies": {
+    "@types/node": "^22.15.23",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
     "tsup": "^8.2.3",

@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimationConfig, SlideAxis } from "@/types/index";
+import { AnimationConfig, SlideAxis } from "../types/index";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface UseAnimationReturn<T extends HTMLElement> {
@@ -55,7 +55,7 @@ export function useAnimation<T extends HTMLElement>(
 
   const [key, setKey] = useState(0);
   const elementRef = useRef<T>(null);
-  const animationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Ref for the animation timer
+  const animationTimerRef = useRef<number | null>(null); // Ref for the animation timer
 
   const handleAnimationEndEvent = useCallback(
     (event: Event) => {
@@ -155,7 +155,7 @@ export function useAnimation<T extends HTMLElement>(
         // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
         void node.offsetWidth;
 
-        animationTimerRef.current = window.setTimeout(() => {
+        animationTimerRef.current = Number(window.setTimeout(() => {
           const currentNode = elementRef.current;
           if (currentNode) {
             // More forceful animation reset
@@ -175,7 +175,7 @@ export function useAnimation<T extends HTMLElement>(
               );
             }
           }
-        }, 20); // Increased delay slightly to 20ms
+        }, 20)); // Increased delay slightly to 20ms
       }
     }
 

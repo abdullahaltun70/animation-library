@@ -83,4 +83,4 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  */
 declare const Animate: React$1.ForwardRefExoticComponent<AnimateProps & React$1.RefAttributes<HTMLDivElement>>;
 
-export { Animate, type AnimationConfig, useAnimation };
+export { Animate, Animate as AnimateWrapper, type AnimationConfig, Animate as default, useAnimation };

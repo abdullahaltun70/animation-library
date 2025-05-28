@@ -2,8 +2,8 @@
 
 // src/components/Animate.tsx
 import React, { forwardRef, HTMLAttributes, JSX, ReactNode } from "react";
-import { useAnimation } from "@/hooks/useAnimation";
-import { AnimationConfig, AnimationType, SlideAxis } from "@/types/index";
+import { useAnimation } from "../hooks/useAnimation";
+import { AnimationConfig, AnimationType, SlideAxis } from "../types/index";
 
 // Props for the Animate component
 interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
