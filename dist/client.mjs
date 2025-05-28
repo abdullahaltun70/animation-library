@@ -1,3 +1,4 @@
+"use client";
 import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
 
 // src/hooks/useAnimation.ts
@@ -258,5 +259,5 @@ var Animate = forwardRef(
 Animate.displayName = "Animate";
 
 export { Animate, Animate as AnimateWrapper, Animate as default, useAnimation };
-//# sourceMappingURL=index.mjs.map
-//# sourceMappingURL=index.mjs.map
+//# sourceMappingURL=client.mjs.map
+//# sourceMappingURL=client.mjs.map

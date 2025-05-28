@@ -1,4 +1,3 @@
-"use client";
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -9,6 +8,7 @@ function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
 var React__default = /*#__PURE__*/_interopDefault(React);
 
+// src/hooks/useAnimation.ts
 var DEFAULTS = {
   duration: 0.5,
   delay: 0,
@@ -126,21 +126,23 @@ function useAnimation(config, onAnimationComplete) {
       }
       if (animationClass) {
         void node.offsetWidth;
-        animationTimerRef.current = Number(window.setTimeout(() => {
-          const currentNode = elementRef.current;
-          if (currentNode) {
-            currentNode.style.animation = "none";
-            void currentNode.offsetWidth;
-            currentNode.style.animation = "";
-            currentNode.classList.add(animationClass);
-            if (onAnimationComplete) {
-              currentNode.addEventListener(
-                "animationend",
-                handleAnimationEndEvent
-              );
+        animationTimerRef.current = Number(
+          window.setTimeout(() => {
+            const currentNode = elementRef.current;
+            if (currentNode) {
+              currentNode.style.animation = "none";
+              void currentNode.offsetWidth;
+              currentNode.style.animation = "";
+              currentNode.classList.add(animationClass);
+              if (onAnimationComplete) {
+                currentNode.addEventListener(
+                  "animationend",
+                  handleAnimationEndEvent
+                );
+              }
             }
-          }
-        }, 20));
+          }, 20)
+        );
       }
     }
     return () => {

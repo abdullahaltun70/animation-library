@@ -1,4 +1,13 @@
-import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
+"use client";
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var React = require('react');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var React__default = /*#__PURE__*/_interopDefault(React);
 
 // src/hooks/useAnimation.ts
 var DEFAULTS = {
@@ -36,10 +45,10 @@ function useAnimation(config, onAnimationComplete) {
     start: validateOpacity(configOpacity == null ? void 0 : configOpacity.start, DEFAULTS.opacityStart),
     end: validateOpacity(configOpacity == null ? void 0 : configOpacity.end, DEFAULTS.opacityEnd)
   };
-  const [key, setKey] = useState(0);
-  const elementRef = useRef(null);
-  const animationTimerRef = useRef(null);
-  const handleAnimationEndEvent = useCallback(
+  const [key, setKey] = React.useState(0);
+  const elementRef = React.useRef(null);
+  const animationTimerRef = React.useRef(null);
+  const handleAnimationEndEvent = React.useCallback(
     (event) => {
       var _a, _b;
       if (event.target === elementRef.current && onAnimationComplete) {
@@ -59,7 +68,7 @@ function useAnimation(config, onAnimationComplete) {
     },
     [onAnimationComplete]
   );
-  useEffect(() => {
+  React.useEffect(() => {
     const node = elementRef.current;
     if (!node) return;
     node.style.transition = "";
@@ -161,7 +170,7 @@ function useAnimation(config, onAnimationComplete) {
     onAnimationComplete,
     handleAnimationEndEvent
   ]);
-  const replay = useCallback(() => {
+  const replay = React.useCallback(() => {
     const node = elementRef.current;
     if (node) {
       node.style.animation = "none";
@@ -187,7 +196,7 @@ function validateOpacity(value, defaultValue) {
   const numValue = typeof value === "number" ? value : defaultValue;
   return Math.max(0, Math.min(1, numValue));
 }
-var Animate = forwardRef(
+var Animate = React.forwardRef(
   ({
     children,
     as: Component = "div",
@@ -237,7 +246,7 @@ var Animate = forwardRef(
       (_a = props.onAnimationEnd) == null ? void 0 : _a.call(props, e);
     };
     const combinedClassName = `animated ${className}`.trim();
-    return React.createElement(
+    return React__default.default.createElement(
       Component,
       {
         ...props,
@@ -257,6 +266,9 @@ var Animate = forwardRef(
 );
 Animate.displayName = "Animate";
 
-export { Animate, Animate as AnimateWrapper, Animate as default, useAnimation };
-//# sourceMappingURL=index.mjs.map
-//# sourceMappingURL=index.mjs.map
+exports.Animate = Animate;
+exports.AnimateWrapper = Animate;
+exports.default = Animate;
+exports.useAnimation = useAnimation;
+//# sourceMappingURL=client.js.map
+//# sourceMappingURL=client.js.map

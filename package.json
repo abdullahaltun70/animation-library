@@ -1,13 +1,15 @@
 {
   "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.40",
+  "version": "1.0.42",
   "description": "React animation library using SCSS and CSS Custom Properties",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "*": ["./dist/index.d.ts"]
+      "*": [
+        "./dist/index.d.ts"
+      ]
     }
   },
   "files": [
@@ -26,14 +28,24 @@
         "default": "./dist/index.js"
       }
     },
+    "./client": {
+      "import": {
+        "types": "./dist/client.d.mts",
+        "default": "./dist/client.mjs"
+      },
+      "require": {
+        "types": "./dist/client.d.ts",
+        "default": "./dist/client.js"
+      }
+    },
     "./styles": "./styles/main.scss",
     "./dist/styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "clean": "rm -rf dist",
     "prebld": "yarn clean && yarn build",
     "test:nextjs": "node test-nextjs-usage.js",

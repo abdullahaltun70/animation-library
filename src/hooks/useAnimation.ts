@@ -155,27 +155,29 @@ export function useAnimation<T extends HTMLElement>(
         // Initial reflow after properties are set and old classes are removed (done at the top of useEffect)
         void node.offsetWidth;
 
-        animationTimerRef.current = Number(window.setTimeout(() => {
-          const currentNode = elementRef.current;
-          if (currentNode) {
-            // More forceful animation reset
-            currentNode.style.animation = "none"; // 1. Temporarily disable animations
+        animationTimerRef.current = Number(
+          window.setTimeout(() => {
+            const currentNode = elementRef.current;
+            if (currentNode) {
+              // More forceful animation reset
+              currentNode.style.animation = "none"; // 1. Temporarily disable animations
 
-            void currentNode.offsetWidth; // 2. Force reflow
+              void currentNode.offsetWidth; // 2. Force reflow
 
-            currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
+              currentNode.style.animation = ""; // 3. Clear the inline style so class animation can apply
 
-            // Add the class to trigger the animation
-            currentNode.classList.add(animationClass); // 4. Add class
+              // Add the class to trigger the animation
+              currentNode.classList.add(animationClass); // 4. Add class
 
-            if (onAnimationComplete) {
-              currentNode.addEventListener(
-                "animationend",
-                handleAnimationEndEvent
-              );
+              if (onAnimationComplete) {
+                currentNode.addEventListener(
+                  "animationend",
+                  handleAnimationEndEvent
+                );
+              }
             }
-          }
-        }, 20)); // Increased delay slightly to 20ms
+          }, 20)
+        ); // Increased delay slightly to 20ms
       }
     }
 
