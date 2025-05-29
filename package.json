@@ -1,7 +1,16 @@
 {
-  "name": "animation-library-test-abdullah-altun",
-  "version": "1.0.42",
-  "description": "React animation library using SCSS and CSS Custom Properties",
+  "name": "@abdullah-altun/react-animation-library",
+  "version": "0.0.2",
+  "description": "Modern React animation library with CSS-based state management, interactive micro-animations, and advanced orchestration",
+  "homepage": "https://github.com/abdullahaltun70/react-animation-library#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdullahaltun70/react-animation-library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abdullahaltun70/react-animation-library/issues"
+  },
+  "author": "Abdullah Altun <your-email@example.com>",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -14,8 +23,9 @@
   },
   "files": [
     "dist",
-    "src",
-    "styles"
+    "styles",
+    "LICENSE",
+    "README.md"
   ],
   "exports": {
     ".": {
@@ -39,17 +49,22 @@
       }
     },
     "./styles": "./styles/main.scss",
+    "./styles.scss": "./styles/main.scss",
+    "./styles.css": "./dist/styles.css",
+    "./styles.min.css": "./dist/styles.min.css",
     "./dist/styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
+    "build:analyze": "tsup --metafile && npx bundle-analyzer dist/metafile-*.json",
     "dev": "tsup --watch",
     "clean": "rm -rf dist",
     "prebld": "yarn clean && yarn build",
     "test:nextjs": "node test-nextjs-usage.js",
-    "prepublishOnly": "yarn clean && yarn build && yarn test:nextjs"
+    "prepublishOnly": "yarn clean && yarn build && yarn test:nextjs",
+    "size": "ls -lah dist/ && echo 'Total package size:' && du -sh dist/"
   },
   "keywords": [
     "react",
@@ -66,14 +81,15 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": ">=19.0.0",
-    "react-dom": ">=19.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "sass": ">=1.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.23",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
+    "sass": "^1.89.0",
     "tsup": "^8.2.3",
     "typescript": "^5"
   },

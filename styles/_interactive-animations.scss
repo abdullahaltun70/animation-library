@@ -1,0 +1,225 @@
+// _interactive-animations.scss
+/**
+ * CSS-only interactive animations for micro-interactions
+ * Optimized for performance with hardware acceleration
+ */
+
+@use 'variables' as vars;
+
+// Base interactive element
+%interactive-base {
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transform-origin: center;
+  will-change: transform;
+  
+  // Hardware acceleration
+  transform: translateZ(0);
+  
+  // Smooth transitions
+  transition: 
+    transform var(--transition-duration, 0.2s) var(--transition-easing, ease-out),
+    opacity var(--transition-duration, 0.2s) var(--transition-easing, ease-out),
+    filter var(--transition-duration, 0.2s) var(--transition-easing, ease-out),
+    box-shadow var(--transition-duration, 0.2s) var(--transition-easing, ease-out);
+}
+
+// Interactive animate container
+.interactive-animate {
+  @extend %interactive-base;
+  
+  &[data-interactive="false"] {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+// Hover animations
+.interactive-hover-scale {
+  &:hover:not([data-interactive="false"]) {
+    transform: scale(var(--hover-scale, 1.05)) translateZ(0);
+  }
+}
+
+.interactive-hover-fade {
+  &:hover:not([data-interactive="false"]) {
+    opacity: var(--hover-opacity, 0.8);
+  }
+}
+
+.interactive-hover-slide {
+  &:hover:not([data-interactive="false"]) {
+    transform: translateY(calc(-1 * var(--hover-distance, 2px))) translateZ(0);
+  }
+}
+
+.interactive-hover-rotate {
+  &:hover:not([data-interactive="false"]) {
+    transform: rotate(var(--hover-degrees, 5deg)) translateZ(0);
+  }
+}
+
+.interactive-hover-bounce {
+  &:hover:not([data-interactive="false"]) {
+    animation: hover-bounce var(--hover-duration, 0.6s) ease-out;
+  }
+}
+
+// Focus animations
+.interactive-focus-scale {
+  &:focus:not([data-interactive="false"]),
+  &:focus-visible:not([data-interactive="false"]) {
+    transform: scale(var(--focus-scale, 1.03)) translateZ(0);
+    outline: 2px solid var(--focus-color, rgba(59, 130, 246, 0.5));
+    outline-offset: 2px;
+  }
+}
+
+.interactive-focus-fade {
+  &:focus:not([data-interactive="false"]),
+  &:focus-visible:not([data-interactive="false"]) {
+    opacity: var(--focus-opacity, 0.9);
+    outline: 2px solid var(--focus-color, rgba(59, 130, 246, 0.5));
+    outline-offset: 2px;
+  }
+}
+
+// Click/Active animations
+.interactive-click-scale {
+  &:active:not([data-interactive="false"]) {
+    transform: scale(var(--click-scale, 0.95)) translateZ(0);
+    transition-duration: var(--click-duration, 0.1s);
+  }
+}
+
+.interactive-click-fade {
+  &:active:not([data-interactive="false"]) {
+    opacity: var(--click-opacity, 0.7);
+    transition-duration: var(--click-duration, 0.1s);
+  }
+}
+
+.interactive-click-bounce {
+  &:active:not([data-interactive="false"]) {
+    animation: click-bounce var(--click-duration, 0.3s) ease-out;
+  }
+}
+
+// Compound interactions (multiple animations)
+.interactive-compound {
+  &:hover:not([data-interactive="false"]) {
+    transform: 
+      scale(var(--hover-scale, 1.02)) 
+      translateY(calc(-1 * var(--hover-distance, 2px))) 
+      translateZ(0);
+    box-shadow: var(--hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
+  }
+  
+  &:active:not([data-interactive="false"]) {
+    transform: 
+      scale(var(--click-scale, 0.98)) 
+      translateY(0) 
+      translateZ(0);
+    box-shadow: var(--click-shadow, 0 2px 4px rgba(0, 0, 0, 0.1));
+    transition-duration: var(--click-duration, 0.1s);
+  }
+}
+
+// Button-like interactions
+.interactive-button {
+  @extend .interactive-compound;
+  
+  padding: var(--button-padding, 0.5rem 1rem);
+  border-radius: var(--button-radius, 0.375rem);
+  background: var(--button-bg, #3b82f6);
+  color: var(--button-color, white);
+  border: none;
+  font-weight: 500;
+  
+  &:hover:not([data-interactive="false"]) {
+    background: var(--button-bg-hover, #2563eb);
+  }
+  
+  &:focus:not([data-interactive="false"]),
+  &:focus-visible:not([data-interactive="false"]) {
+    outline: 2px solid var(--button-focus-color, rgba(59, 130, 246, 0.5));
+    outline-offset: 2px;
+  }
+}
+
+// Card-like interactions
+.interactive-card {
+  &:hover:not([data-interactive="false"]) {
+    transform: translateY(-4px) scale(1.02) translateZ(0);
+    box-shadow: 
+      0 10px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  &:active:not([data-interactive="false"]) {
+    transform: translateY(-1px) scale(1.01) translateZ(0);
+    transition-duration: 0.1s;
+  }
+}
+
+// Accessibility enhancements
+.interactive-animate {
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    outline: 1px solid transparent;
+    
+    &:focus,
+    &:focus-visible {
+      outline: 2px solid currentColor;
+    }
+  }
+  
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      transform: none !important;
+    }
+  }
+}
+
+// Keyframes for interactive animations
+@keyframes hover-bounce {
+  0%, 100% { transform: translateY(0) scale(1) translateZ(0); }
+  50% { transform: translateY(-4px) scale(1.02) translateZ(0); }
+}
+
+@keyframes click-bounce {
+  0% { transform: scale(1) translateZ(0); }
+  50% { transform: scale(0.95) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
+}
+
+// Ripple effect for click interactions
+.interactive-ripple {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+  
+  &:active::before {
+    transform: scale(2);
+    opacity: 1;
+    transition: transform 0s, opacity 0s;
+  }
+}

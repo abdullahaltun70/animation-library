@@ -1,0 +1,174 @@
+// _modern-states.scss
+/**
+ * Modern CSS-based state management for animations
+ * Uses data attributes for fine-grained control
+ */
+
+@use 'variables' as vars;
+
+// Base modern animation styles
+%modern-animation-base {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  
+  // Smooth transitions for interactive states
+  transition: 
+    transform var(--transition-duration, 0.2s) var(--transition-easing, ease-out),
+    opacity var(--transition-duration, 0.2s) var(--transition-easing, ease-out),
+    filter var(--transition-duration, 0.2s) var(--transition-easing, ease-out);
+}
+
+// State-based animation classes
+.modern-animate {
+  @extend %modern-animation-base;
+  
+  // Animation states
+  &[data-animation-state="idle"] {
+    // Ready to animate
+  }
+  
+  &[data-animation-state="animating"] {
+    // Currently animating
+    pointer-events: none; // Prevent interaction during animation
+  }
+  
+  &[data-animation-state="paused"] {
+    animation-play-state: paused;
+  }
+  
+  &[data-animation-state="completed"] {
+    // Animation finished
+  }
+  
+  &[data-animation-state="error"] {
+    // Animation failed
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Trigger-based styles
+.animate-trigger-visible {
+  // Initially hidden for visibility trigger
+  opacity: 0;
+  transform: translateY(20px);
+  
+  &[data-animation-state="animating"],
+  &[data-animation-state="completed"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-trigger-hover {
+  // Hover-triggered animations remain stable until triggered
+  transition: all var(--hover-duration, 0.2s) var(--hover-easing, ease-out);
+}
+
+.animate-trigger-scroll {
+  // Scroll-based animations
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  
+  &[data-animation-state="animating"],
+  &[data-animation-state="completed"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Interactive states
+[data-hover="true"] {
+  transform: var(--hover-transform, scale(1.02));
+  filter: var(--hover-filter, brightness(1.1));
+}
+
+[data-focus="true"] {
+  transform: var(--focus-transform, scale(1.02));
+  box-shadow: var(--focus-shadow, 0 0 0 3px rgba(59, 130, 246, 0.1));
+  outline: var(--focus-outline, 2px solid rgba(59, 130, 246, 0.5));
+  outline-offset: 2px;
+}
+
+[data-active="true"] {
+  transform: var(--active-transform, scale(0.98));
+}
+
+[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+[data-error="true"] {
+  animation: shake 0.5s ease-in-out;
+  border-color: var(--color-error, #ef4444);
+}
+
+[data-success="true"] {
+  animation: success-pulse 0.6s ease-out;
+  border-color: var(--color-success, #10b981);
+}
+
+// Direction indicators for slide animations
+[data-animation-direction="in"] {
+  // Entering the viewport
+  &.animate-slide-x {
+    transform: translateX(var(--animation-distance, 50px));
+  }
+  
+  &.animate-slide-y {
+    transform: translateY(var(--animation-distance, 50px));
+  }
+}
+
+[data-animation-direction="out"] {
+  // Leaving the viewport
+  &.animate-slide-x {
+    transform: translateX(calc(-1 * var(--animation-distance, 50px)));
+  }
+  
+  &.animate-slide-y {
+    transform: translateY(calc(-1 * var(--animation-distance, 50px)));
+  }
+}
+
+// Keyframes for state animations
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes success-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .modern-animate {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  [data-loading="true"]::after {
+    animation: none;
+  }
+}

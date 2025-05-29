@@ -1,5 +1,3 @@
-"use client";
-
 import { AnimationConfig, SlideAxis } from "../types/index";
 import { useCallback, useEffect, useRef, useState } from "react";
 

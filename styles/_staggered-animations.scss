@@ -1,0 +1,283 @@
+// _staggered-animations.scss
+/**
+ * CSS classes for staggered animations
+ * Uses CSS custom properties for dynamic timing
+ */
+
+@use 'variables' as vars;
+
+// Base staggered container
+.staggered-animate {
+  // CSS Grid/Flexbox contexts can benefit from this
+  display: var(--staggered-display, block);
+  
+  // Direction-based variables
+  &[data-stagger-direction="forward"] {
+    --stagger-multiplier: 1;
+  }
+  
+  &[data-stagger-direction="reverse"] {
+    --stagger-multiplier: -1;
+  }
+  
+  &[data-stagger-direction="center-out"] {
+    --stagger-multiplier: 0.5;
+  }
+}
+
+// Individual staggered items
+.staggered-item {
+  // Calculate delay based on index and direction
+  animation-delay: calc(
+    var(--base-delay, 0s) + 
+    (var(--stagger-delay, 0.1s) * var(--stagger-index, 0) * var(--stagger-multiplier, 1))
+  );
+  
+  // Ensure items start in correct state
+  opacity: 0;
+  transform: var(--stagger-initial-transform, translateY(20px));
+  
+  // Will animate when class is applied
+  &.animate-fade,
+  &.animate-slide-x,
+  &.animate-slide-y,
+  &.animate-scale,
+  &.animate-bounce {
+    animation-fill-mode: both;
+    animation-duration: var(--stagger-item-duration, 0.5s);
+    animation-timing-function: var(--stagger-easing, ease-out);
+  }
+}
+
+// Staggered fade animations
+.staggered-fade {
+  .staggered-item {
+    opacity: 0;
+    
+    &.animate-fade {
+      animation-name: staggered-fade-in;
+    }
+  }
+}
+
+// Staggered slide animations
+.staggered-slide-up {
+  .staggered-item {
+    opacity: 0;
+    transform: translateY(30px);
+    
+    &.animate-slide-y {
+      animation-name: staggered-slide-up;
+    }
+  }
+}
+
+.staggered-slide-down {
+  .staggered-item {
+    opacity: 0;
+    transform: translateY(-30px);
+    
+    &.animate-slide-y {
+      animation-name: staggered-slide-down;
+    }
+  }
+}
+
+.staggered-slide-left {
+  .staggered-item {
+    opacity: 0;
+    transform: translateX(30px);
+    
+    &.animate-slide-x {
+      animation-name: staggered-slide-left;
+    }
+  }
+}
+
+.staggered-slide-right {
+  .staggered-item {
+    opacity: 0;
+    transform: translateX(-30px);
+    
+    &.animate-slide-x {
+      animation-name: staggered-slide-right;
+    }
+  }
+}
+
+// Staggered scale animations
+.staggered-scale {
+  .staggered-item {
+    opacity: 0;
+    transform: scale(0.8);
+    
+    &.animate-scale {
+      animation-name: staggered-scale-in;
+    }
+  }
+}
+
+// Staggered bounce animations
+.staggered-bounce {
+  .staggered-item {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    
+    &.animate-bounce {
+      animation-name: staggered-bounce-in;
+    }
+  }
+}
+
+// Complex staggered combinations
+.staggered-fade-slide-up {
+  .staggered-item {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    
+    &.animate-fade,
+    &.animate-slide-y {
+      animation-name: staggered-fade-slide-up;
+    }
+  }
+}
+
+.staggered-fade-scale {
+  .staggered-item {
+    opacity: 0;
+    transform: scale(0.8);
+    
+    &.animate-fade,
+    &.animate-scale {
+      animation-name: staggered-fade-scale;
+    }
+  }
+}
+
+// Keyframes for staggered animations
+@keyframes staggered-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes staggered-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes staggered-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes staggered-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes staggered-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes staggered-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes staggered-bounce-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes staggered-fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes staggered-fade-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Responsive staggered animations
+@media (max-width: 768px) {
+  .staggered-animate {
+    --stagger-delay: calc(var(--stagger-delay, 0.1s) * 0.7); // Faster on mobile
+    --stagger-item-duration: calc(var(--stagger-item-duration, 0.5s) * 0.8);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .staggered-animate {
+    --stagger-delay: 0s;
+    --stagger-item-duration: 0.01s;
+  }
+  
+  .staggered-item {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

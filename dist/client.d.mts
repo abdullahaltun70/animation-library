@@ -1,2 +1,2 @@
-export { Animate, Animate as AnimateWrapper, AnimationConfig, Animate as default, useAnimation } from './index.mjs';
+export { Animate, Animate as AnimateWrapper, AnimationConfig, AnimationSequence, AnimationState, AnimationStateData, AnimationTrigger, InteractiveAnimate, ModernAnimate, ModernAnimationConfig, SequenceAnimate, StaggeredAnimate, Animate as default, useAnimation, useAnimationSequence, useModernAnimation, useStaggeredAnimation } from './index.mjs';
 import 'react';

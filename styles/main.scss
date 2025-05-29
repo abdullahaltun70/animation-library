@@ -3,10 +3,10 @@
  * Main SCSS entry point for the animation library.
  *
  * How to use with Sass modules:
- * @use "animation-library-test-abdullah-altun/styles" as animations;
+ * @use "@abdullah-altun/react-animation-library/styles" as animations;
  *
  * To configure variables (before the @use rule):
- * @use "animation-library-test-abdullah-altun/styles" with (
+ * @use "@abdullah-altun/react-animation-library/styles" with (
  *   $animation-duration: 0.7s,
  *   $default-slide-distance: 80px
  * );
@@ -23,3 +23,8 @@
 // This ensures their CSS (keyframes, animation classes) is included.
 @use 'keyframes';
 @use 'animations';
+
+// Modern animation system
+@use 'modern-states';
+@use 'interactive-animations';
+@use 'staggered-animations';

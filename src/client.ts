@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Client-side entry point with "use client" directive for Next.js
  * Use this import when you need the components to run on the client-side
