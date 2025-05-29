@@ -1,0 +1,160 @@
+/**
+ * State-Based Animation System
+ * 
+ * This system automatically detects parent component states (like Radix UI's data-state)
+ * and applies animations without requiring JavaScript state management.
+ */
+
+/* Base state animate wrapper */
+.state-animate {
+  display: contents; /* Don't affect layout */
+  transition-property: transform, opacity, height, max-height, width, max-width;
+  transition-timing-function: var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  transition-duration: var(--animation-duration, 300ms);
+}
+
+/* Rotation Animations */
+.state-animate-rotate {
+  transition-property: transform;
+}
+
+/* Default state - no rotation */
+.state-animate-rotate > * {
+  transform: rotate(0deg);
+  transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+/* When parent has data-state="open" - apply rotation */
+[data-state="open"] .state-animate-rotate > *,
+[data-state="expanded"] .state-animate-rotate > *,
+[data-state="checked"] .state-animate-rotate > * {
+  transform: rotate(var(--rotation-degrees, 180deg));
+}
+
+/* Slide Down Animations */
+.state-animate-slide-down {
+  overflow: hidden;
+}
+
+.state-animate-slide-down > * {
+  transform: translateY(calc(-1 * var(--slide-distance, 200px)));
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state="open"] .state-animate-slide-down > *,
+[data-state="expanded"] .state-animate-slide-down > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Slide Up Animations */
+.state-animate-slide-up {
+  overflow: hidden;
+}
+
+.state-animate-slide-up > * {
+  transform: translateY(var(--slide-distance, 200px));
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state="open"] .state-animate-slide-up > *,
+[data-state="expanded"] .state-animate-slide-up > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Fade Animations */
+.state-animate-fade > * {
+  opacity: 0;
+  transition: opacity var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state="open"] .state-animate-fade > *,
+[data-state="expanded"] .state-animate-fade > *,
+[data-state="checked"] .state-animate-fade > * {
+  opacity: 1;
+}
+
+/* Scale Animations */
+.state-animate-scale > * {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state="open"] .state-animate-scale > *,
+[data-state="expanded"] .state-animate-scale > *,
+[data-state="checked"] .state-animate-scale > * {
+  transform: scale(var(--scale-factor, 1));
+  opacity: 1;
+}
+
+/* Special handling for Radix Accordion Content */
+[data-state="open"] .state-animate-accordion-content {
+  animation: slideDown var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state="closed"] .state-animate-accordion-content {
+  animation: slideUp var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+/* Special handling for nested content that should use Radix's height variables */
+.state-animate-accordion-content {
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Support for other common state attributes */
+[data-expanded="true"] .state-animate-rotate > *,
+[data-open="true"] .state-animate-rotate > *,
+[aria-expanded="true"] .state-animate-rotate > * {
+  transform: rotate(var(--rotation-degrees, 180deg));
+}
+
+[data-expanded="true"] .state-animate-slide-down > *,
+[data-open="true"] .state-animate-slide-down > *,
+[aria-expanded="true"] .state-animate-slide-down > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-expanded="true"] .state-animate-fade > *,
+[data-open="true"] .state-animate-fade > *,
+[aria-expanded="true"] .state-animate-fade > * {
+  opacity: 1;
+}
+
+[data-expanded="true"] .state-animate-scale > *,
+[data-open="true"] .state-animate-scale > *,
+[aria-expanded="true"] .state-animate-scale > * {
+  transform: scale(var(--scale-factor, 1));
+  opacity: 1;
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .state-animate,
+  .state-animate > * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

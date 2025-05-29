@@ -28,3 +28,10 @@
 @use 'modern-states';
 @use 'interactive-animations';
 @use 'staggered-animations';
+
+// Self-contained animation system (server component compatible)
+@use 'self-contained-animations';
+@use 'server-animations';
+
+// State-based animation system (Radix UI and similar libraries)
+@use 'state-based-animations';

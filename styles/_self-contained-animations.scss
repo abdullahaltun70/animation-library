@@ -1,0 +1,144 @@
+/**
+ * Self-Contained Animation System
+ * General-purpose CSS-only animations for server components
+ */
+
+/* CSS Custom Properties */
+:root {
+  --toggle-duration: 300ms;
+  --toggle-easing: cubic-bezier(0.87, 0, 0.13, 1);
+  --details-duration: 300ms;
+  --details-easing: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* Self-Contained Toggle (Checkbox-based) */
+.self-contained-toggle {
+  position: relative;
+  
+  .toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-trigger {
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    transition: all var(--toggle-duration) var(--toggle-easing);
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  .toggle-content {
+    overflow: hidden;
+    transition: all var(--toggle-duration) var(--toggle-easing);
+  }
+  
+  .toggle-content-inner {
+    padding: 0;
+  }
+}
+
+/* Toggle Animation Types */
+.self-contained-toggle--slide-down {
+  .toggle-content {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .toggle-checkbox:checked ~ .toggle-content {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.self-contained-toggle--fade {
+  .toggle-content {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .toggle-checkbox:checked ~ .toggle-content {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Self-Contained Details (Details/Summary-based) */
+.self-contained-details {
+  position: relative;
+  
+  summary {
+    list-style: none;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+  
+  .details-trigger {
+    display: block;
+    transition: all var(--details-duration) var(--details-easing);
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  .details-content {
+    overflow: hidden;
+    transition: all var(--details-duration) var(--details-easing);
+  }
+  
+  .details-content-inner {
+    padding: 0;
+  }
+}
+
+/* Details Animation Types */
+.self-contained-details--slide-down {
+  .details-content {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  &[open] .details-content {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.self-contained-details--fade {
+  .details-content {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  &[open] .details-content {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .self-contained-toggle,
+  .self-contained-details {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

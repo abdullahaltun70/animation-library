@@ -4,6 +4,9 @@ export { useModernAnimation } from "./hooks/useModernAnimation";
 export { useAnimationSequence } from "./hooks/useAnimationSequence";
 export { useStaggeredAnimation } from "./hooks/useStaggeredAnimation";
 
+// Export server-compatible components
+export { ServerAnimate } from "./components/ServerAnimate";
+
 // Export types
 export type { AnimationConfig } from "./types/index";
 export type {
@@ -21,6 +24,14 @@ export { ModernAnimate } from "./components/ModernAnimate";
 export { SequenceAnimate } from "./components/SequenceAnimate";
 export { StaggeredAnimate } from "./components/StaggeredAnimate";
 export { InteractiveAnimate } from "./components/InteractiveAnimate";
+
+// Export server-compatible self-contained components
+export { SelfContainedToggle } from "./components/SelfContainedToggle";
+export { default as SelfContainedDetails } from "./components/SelfContainedDetails";
+
+// Export state-based animation components (perfect for Radix UI)
+export { default as StateBasedAnimate } from "./components/StateBasedAnimate";
+export { default as RadixAnimate } from "./components/RadixAnimate";
 
 // Default export for convenience
 export { Animate as default } from "./components/Animate";

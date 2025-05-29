@@ -1,0 +1,181 @@
+/**
+ * Example styles for Radix UI integration
+ * These styles complement the state-based animations
+ */
+
+/* Accordion Styles */
+.accordion-root {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.accordion-trigger:hover {
+  background: #f3f4f6;
+}
+
+.accordion-trigger[data-state="open"] {
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.accordion-content {
+  overflow: hidden;
+}
+
+.accordion-body {
+  padding: 1rem;
+  background: white;
+}
+
+/* Collapsible Styles */
+.collapsible {
+  max-width: 400px;
+  margin: 1rem auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.collapsible-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collapsible-trigger:hover {
+  background: #f1f5f9;
+}
+
+.collapsible-content {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-trigger:hover {
+  background: #2563eb;
+}
+
+.dropdown-content {
+  min-width: 200px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  z-index: 50;
+}
+
+.dropdown-content [data-radix-dropdown-menu-item] {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-content [data-radix-dropdown-menu-item]:hover {
+  background: #f3f4f6;
+}
+
+/* Custom Toggle Styles */
+.custom-toggle {
+  max-width: 400px;
+  margin: 1rem auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.toggle-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #fafafa;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-button:hover {
+  background: #f0f0f0;
+}
+
+.toggle-content {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Demo page layout */
+.radix-demo-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.radix-demo-page h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #111827;
+}
+
+.demo-section {
+  margin-bottom: 3rem;
+}
+
+.demo-section h2 {
+  margin-bottom: 1rem;
+  color: #374151;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 0.5rem;
+}
+
+.demo-section p {
+  margin-bottom: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+}

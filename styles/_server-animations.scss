@@ -1,0 +1,167 @@
+// _server-animations.scss
+/**
+ * Server-compatible animations that work without JavaScript
+ * These animations are triggered purely by data attributes
+ * Perfect for accordions, dropdowns, and state-based UI components
+ */
+
+@use 'variables' as vars;
+@use 'accessibility';
+
+// Base server animation styles
+.server-animate {
+  // Include accessibility preferences
+  @include accessibility.respect-motion-preferences;
+}
+
+// Rotating animations (perfect for chevrons, arrows, etc.)
+.server-animate-rotate {
+  transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  
+  &[data-state="open"] {
+    transform: rotate(180deg);
+  }
+  
+  &[data-state="closed"] {
+    transform: rotate(0deg);
+  }
+}
+
+// Sliding content animations
+.server-animate-slide-down {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  
+  &[data-state="closed"] {
+    height: 0;
+  }
+  
+  &[data-state="open"] {
+    height: var(--content-height, auto);
+  }
+}
+
+.server-animate-slide-up {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  
+  &[data-state="open"] {
+    height: 0;
+  }
+  
+  &[data-state="closed"] {
+    height: var(--content-height, auto);
+  }
+}
+
+// Advanced sliding with opacity and transform
+.server-animate-slide-fade {
+  overflow: hidden;
+  transition: 
+    height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1)),
+    opacity var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1)),
+    transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  
+  &[data-state="closed"] {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  &[data-state="open"] {
+    height: var(--content-height, auto);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Scale animations for buttons, cards, etc.
+.server-animate-scale {
+  transition: transform var(--animation-duration, 200ms) var(--animation-easing, ease-out);
+  
+  &[data-state="active"] {
+    transform: scale(0.95);
+  }
+  
+  &[data-state="inactive"] {
+    transform: scale(1);
+  }
+}
+
+// Fade animations
+.server-animate-fade {
+  transition: opacity var(--animation-duration, 300ms) var(--animation-easing, ease-out);
+  
+  &[data-state="hidden"] {
+    opacity: 0;
+  }
+  
+  &[data-state="visible"] {
+    opacity: 1;
+  }
+}
+
+// Accordion-specific styles (combining rotate + slide)
+.server-accordion {
+  .server-accordion-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    
+    .server-accordion-chevron {
+      @extend .server-animate-rotate;
+    }
+  }
+  
+  .server-accordion-content {
+    @extend .server-animate-slide-down;
+  }
+}
+
+// Pre-built component combinations
+.server-animate-accordion-item {
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+  
+  .trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--accordion-padding, 1rem 0);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    text-align: left;
+    
+    .chevron {
+      min-width: var(--icon-size, 1.5rem);
+      min-height: var(--icon-size, 1.5rem);
+      transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+    }
+    
+    &[data-state="open"] .chevron {
+      transform: rotate(180deg);
+    }
+  }
+  
+  .content {
+    overflow: hidden;
+    transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+    
+    &[data-state="open"] {
+      height: var(--content-height, auto);
+    }
+    
+    &[data-state="closed"] {
+      height: 0;
+    }
+    
+    .body {
+      padding: var(--content-padding, 0 0 1rem 0);
+    }
+  }
+}

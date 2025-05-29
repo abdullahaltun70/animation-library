@@ -16,6 +16,7 @@
     "composite": false, // Typically false for libraries unless part of monorepo setup
     "removeComments": false, // Keep comments in declaration files
     "esModuleInterop": true, // Standard interop setting
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
     "forceConsistentCasingInFileNames": true, // Good practice
     "strict": true, // Enable all strict type-checking options
     "skipLibCheck": true, // Skip type checking of declaration files

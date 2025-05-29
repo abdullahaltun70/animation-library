@@ -784,3 +784,417 @@
     animation: none !important;
   }
 }
+/**
+ * Self-Contained Animation System
+ * General-purpose CSS-only animations for server components
+ */
+/* CSS Custom Properties */
+:root {
+  --toggle-duration: 300ms;
+  --toggle-easing: cubic-bezier(0.87, 0, 0.13, 1);
+  --details-duration: 300ms;
+  --details-easing: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* Self-Contained Toggle (Checkbox-based) */
+.self-contained-toggle {
+  position: relative;
+}
+.self-contained-toggle .toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+.self-contained-toggle .toggle-trigger {
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--toggle-duration) var(--toggle-easing);
+}
+.self-contained-toggle .toggle-trigger:hover {
+  opacity: 0.8;
+}
+.self-contained-toggle .toggle-content {
+  overflow: hidden;
+  transition: all var(--toggle-duration) var(--toggle-easing);
+}
+.self-contained-toggle .toggle-content-inner {
+  padding: 0;
+}
+
+/* Toggle Animation Types */
+.self-contained-toggle--slide-down .toggle-content {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.self-contained-toggle--slide-down .toggle-checkbox:checked ~ .toggle-content {
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.self-contained-toggle--fade .toggle-content {
+  opacity: 0;
+  visibility: hidden;
+}
+.self-contained-toggle--fade .toggle-checkbox:checked ~ .toggle-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Self-Contained Details (Details/Summary-based) */
+.self-contained-details {
+  position: relative;
+}
+.self-contained-details summary {
+  list-style: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+.self-contained-details summary::-webkit-details-marker {
+  display: none;
+}
+.self-contained-details .details-trigger {
+  display: block;
+  transition: all var(--details-duration) var(--details-easing);
+}
+.self-contained-details .details-trigger:hover {
+  opacity: 0.8;
+}
+.self-contained-details .details-content {
+  overflow: hidden;
+  transition: all var(--details-duration) var(--details-easing);
+}
+.self-contained-details .details-content-inner {
+  padding: 0;
+}
+
+/* Details Animation Types */
+.self-contained-details--slide-down .details-content {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.self-contained-details--slide-down[open] .details-content {
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.self-contained-details--fade .details-content {
+  opacity: 0;
+  visibility: hidden;
+}
+.self-contained-details--fade[open] .details-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .self-contained-toggle *,
+  .self-contained-details * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/**
+ * Main SCSS entry point for the animation library.
+ *
+ * How to use with Sass modules:
+ * @use "@abdullah-altun/react-animation-library/styles" as animations;
+ *
+ * To configure variables (before the @use rule):
+ * @use "@abdullah-altun/react-animation-library/styles" with (
+ *   $animation-duration: 0.7s,
+ *   $default-slide-distance: 80px
+ * );
+ */
+/**
+ * Server-compatible animations that work without JavaScript
+ * These animations are triggered purely by data attributes
+ * Perfect for accordions, dropdowns, and state-based UI components
+ */
+@media (prefers-reduced-motion: reduce) {
+  .server-animate {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.server-animate-rotate, .server-accordion .server-accordion-trigger .server-accordion-chevron {
+  transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-rotate[data-state=open], .server-accordion .server-accordion-trigger [data-state=open].server-accordion-chevron {
+  transform: rotate(180deg);
+}
+.server-animate-rotate[data-state=closed], .server-accordion .server-accordion-trigger [data-state=closed].server-accordion-chevron {
+  transform: rotate(0deg);
+}
+
+.server-animate-slide-down, .server-accordion .server-accordion-content {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-slide-down[data-state=closed], .server-accordion [data-state=closed].server-accordion-content {
+  height: 0;
+}
+.server-animate-slide-down[data-state=open], .server-accordion [data-state=open].server-accordion-content {
+  height: var(--content-height, auto);
+}
+
+.server-animate-slide-up {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-slide-up[data-state=open] {
+  height: 0;
+}
+.server-animate-slide-up[data-state=closed] {
+  height: var(--content-height, auto);
+}
+
+.server-animate-slide-fade {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1)), opacity var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1)), transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-slide-fade[data-state=closed] {
+  height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.server-animate-slide-fade[data-state=open] {
+  height: var(--content-height, auto);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.server-animate-scale {
+  transition: transform var(--animation-duration, 200ms) var(--animation-easing, ease-out);
+}
+.server-animate-scale[data-state=active] {
+  transform: scale(0.95);
+}
+.server-animate-scale[data-state=inactive] {
+  transform: scale(1);
+}
+
+.server-animate-fade {
+  transition: opacity var(--animation-duration, 300ms) var(--animation-easing, ease-out);
+}
+.server-animate-fade[data-state=hidden] {
+  opacity: 0;
+}
+.server-animate-fade[data-state=visible] {
+  opacity: 1;
+}
+
+.server-accordion .server-accordion-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+.server-animate-accordion-item {
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+.server-animate-accordion-item .trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--accordion-padding, 1rem 0);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+.server-animate-accordion-item .trigger .chevron {
+  min-width: var(--icon-size, 1.5rem);
+  min-height: var(--icon-size, 1.5rem);
+  transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-accordion-item .trigger[data-state=open] .chevron {
+  transform: rotate(180deg);
+}
+.server-animate-accordion-item .content {
+  overflow: hidden;
+  transition: height var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+.server-animate-accordion-item .content[data-state=open] {
+  height: var(--content-height, auto);
+}
+.server-animate-accordion-item .content[data-state=closed] {
+  height: 0;
+}
+.server-animate-accordion-item .content .body {
+  padding: var(--content-padding, 0 0 1rem 0);
+}
+
+/**
+ * State-Based Animation System
+ * 
+ * This system automatically detects parent component states (like Radix UI's data-state)
+ * and applies animations without requiring JavaScript state management.
+ */
+/* Base state animate wrapper */
+.state-animate {
+  display: contents; /* Don't affect layout */
+  transition-property: transform, opacity, height, max-height, width, max-width;
+  transition-timing-function: var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+  transition-duration: var(--animation-duration, 300ms);
+}
+
+/* Rotation Animations */
+.state-animate-rotate {
+  transition-property: transform;
+}
+
+/* Default state - no rotation */
+.state-animate-rotate > * {
+  transform: rotate(0deg);
+  transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+/* When parent has data-state="open" - apply rotation */
+[data-state=open] .state-animate-rotate > *,
+[data-state=expanded] .state-animate-rotate > *,
+[data-state=checked] .state-animate-rotate > * {
+  transform: rotate(var(--rotation-degrees, 180deg));
+}
+
+/* Slide Down Animations */
+.state-animate-slide-down {
+  overflow: hidden;
+}
+
+.state-animate-slide-down > * {
+  transform: translateY(calc(-1 * var(--slide-distance, 200px)));
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state=open] .state-animate-slide-down > *,
+[data-state=expanded] .state-animate-slide-down > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Slide Up Animations */
+.state-animate-slide-up {
+  overflow: hidden;
+}
+
+.state-animate-slide-up > * {
+  transform: translateY(var(--slide-distance, 200px));
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state=open] .state-animate-slide-up > *,
+[data-state=expanded] .state-animate-slide-up > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Fade Animations */
+.state-animate-fade > * {
+  opacity: 0;
+  transition: opacity var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state=open] .state-animate-fade > *,
+[data-state=expanded] .state-animate-fade > *,
+[data-state=checked] .state-animate-fade > * {
+  opacity: 1;
+}
+
+/* Scale Animations */
+.state-animate-scale > * {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: all var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state=open] .state-animate-scale > *,
+[data-state=expanded] .state-animate-scale > *,
+[data-state=checked] .state-animate-scale > * {
+  transform: scale(var(--scale-factor, 1));
+  opacity: 1;
+}
+
+/* Special handling for Radix Accordion Content */
+[data-state=open] .state-animate-accordion-content {
+  animation: slideDown var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+[data-state=closed] .state-animate-accordion-content {
+  animation: slideUp var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+/* Special handling for nested content that should use Radix's height variables */
+.state-animate-accordion-content {
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+/* Support for other common state attributes */
+[data-expanded=true] .state-animate-rotate > *,
+[data-open=true] .state-animate-rotate > *,
+[aria-expanded=true] .state-animate-rotate > * {
+  transform: rotate(var(--rotation-degrees, 180deg));
+}
+
+[data-expanded=true] .state-animate-slide-down > *,
+[data-open=true] .state-animate-slide-down > *,
+[aria-expanded=true] .state-animate-slide-down > * {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-expanded=true] .state-animate-fade > *,
+[data-open=true] .state-animate-fade > *,
+[aria-expanded=true] .state-animate-fade > * {
+  opacity: 1;
+}
+
+[data-expanded=true] .state-animate-scale > *,
+[data-open=true] .state-animate-scale > *,
+[aria-expanded=true] .state-animate-scale > * {
+  transform: scale(var(--scale-factor, 1));
+  opacity: 1;
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .state-animate,
+  .state-animate > * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
