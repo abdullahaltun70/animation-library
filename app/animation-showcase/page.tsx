@@ -1,11 +1,9 @@
 // Modern Animation Showcase Page (Server Component)
-import { ModernAnimate } from "../src/components/ModernAnimate";
-import {
-  arrayConfig,
-  singleConfig,
-  edgeCaseConfig,
-  complexConfig,
-} from "../runtime-verification";
+
+import { arrayConfig, complexConfig, edgeCaseConfig, singleConfig } from "../../runtime-verification";
+import { ModernAnimate } from "../../src/components/ModernAnimate";
+
+
 
 export default function AnimationShowcase() {
   return (

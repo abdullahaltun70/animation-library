@@ -1,8 +1,11 @@
+"use client";
+
 import React, { forwardRef, HTMLAttributes, ReactNode, Children } from "react";
 import {
   useStaggeredAnimation,
   StaggerConfig,
 } from "../hooks/useStaggeredAnimation";
+import { ModernAnimationConfig } from "../types/modern";
 
 export interface StaggeredAnimateRef {
   trigger: () => void;
@@ -15,7 +18,10 @@ export interface StaggeredAnimateRef {
 
 interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  config: StaggerConfig;
+  itemAnimation: ModernAnimationConfig;
+  staggerDelay: number;
+  staggerDirection?: "forward" | "reverse" | "center-out";
+  maxConcurrent?: number;
   as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
   className?: string;
   autoStart?: boolean;
@@ -28,11 +34,9 @@ interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * @example
  * ```tsx
  * <StaggeredAnimate
- *   config={{
- *     animations: [{ type: 'fade', duration: 0.3 }],
- *     delay: 0.1,
- *     direction: 'forward'
- *   }}
+ *   itemAnimation={{ type: 'fade', duration: 0.3 }}
+ *   staggerDelay={0.1}
+ *   staggerDirection='forward'
  *   autoStart
  * >
  *   <div>Item 1</div>
@@ -48,7 +52,10 @@ export const StaggeredAnimate = forwardRef<
   (
     {
       children,
-      config,
+      itemAnimation,
+      staggerDelay,
+      staggerDirection,
+      maxConcurrent,
       as: Component = "div",
       className = "",
       itemClassName = "",
@@ -58,8 +65,16 @@ export const StaggeredAnimate = forwardRef<
     forwardedRef
   ) => {
     const childrenArray = Children.toArray(children);
+
+    const staggerHookConfig: StaggerConfig = {
+      animations: [itemAnimation], // Wrap the single itemAnimation into an array as expected by the hook
+      delay: staggerDelay,
+      direction: staggerDirection,
+      maxConcurrent: maxConcurrent,
+    };
+
     const { refs, trigger, pause, resume, restart, cancel } =
-      useStaggeredAnimation(config, childrenArray.length);
+      useStaggeredAnimation(staggerHookConfig, childrenArray.length);
 
     // Auto-start if configured
     React.useEffect(() => {
@@ -103,7 +118,7 @@ export const StaggeredAnimate = forwardRef<
       Component as any,
       {
         className: `staggered-animate ${className}`.trim(),
-        "data-stagger-direction": config.direction || "forward",
+        "data-stagger-direction": staggerDirection || "forward",
         "data-stagger-count": childrenArray.length,
         ...props,
       },

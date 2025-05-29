@@ -261,6 +261,7 @@
   will-change: transform, opacity;
   backface-visibility: hidden;
   transform-style: preserve-3d;
+  transition: transform var(--transition-duration, 0.2s) var(--transition-easing, ease-out), opacity var(--transition-duration, 0.2s) var(--transition-easing, ease-out), filter var(--transition-duration, 0.2s) var(--transition-easing, ease-out);
 }
 
 .modern-animate[data-animation-state=animating] {

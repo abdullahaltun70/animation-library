@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/Animate.tsx
 import React, { forwardRef, HTMLAttributes, JSX, ReactNode } from "react";
 import { useAnimation } from "../hooks/useAnimation";

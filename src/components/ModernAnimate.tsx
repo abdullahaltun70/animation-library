@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef, HTMLAttributes, ReactNode } from "react";
 import { useModernAnimation } from "../hooks/useModernAnimation";
 import {

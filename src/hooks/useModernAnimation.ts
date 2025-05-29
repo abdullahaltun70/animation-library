@@ -75,7 +75,6 @@ export function useModernAnimation<T extends HTMLElement>(
             : 0
           : config.delay;
         element.style.setProperty("--animation-delay", `${delay}s`);
-        
       }
       if (config.easing) {
         const easing = Array.isArray(config.easing)

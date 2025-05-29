@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, createRef } from "react";
 import { ModernAnimationConfig } from "../types/modern";
 
 export interface UseStaggeredAnimationReturn<T extends HTMLElement> {
@@ -8,8 +8,8 @@ export interface UseStaggeredAnimationReturn<T extends HTMLElement> {
   resume: () => void;
   restart: () => void;
   cancel: () => void;
-  addElement: () => React.RefObject<T | null>;
-  removeElement: (index: number) => void;
+  // addElement: () => React.RefObject<T | null>; // Commented out
+  // removeElement: (index: number) => void; // Commented out
 }
 
 export interface StaggerConfig {
@@ -33,12 +33,18 @@ export function useStaggeredAnimation<T extends HTMLElement>(
 
   // Initialize refs
   useEffect(() => {
-    if (elementCount > 0) {
-      const newRefs = Array.from({ length: elementCount }, () =>
-        useRef<T>(null)
+    setRefs((oldRefs) => {
+      if (oldRefs.length === elementCount) {
+        return oldRefs; // No change if count is the same
+      }
+      // Create new refs for new elements, preserve existing ones if count increases,
+      // or slice if count decreases.
+      const newRefsArray = Array.from(
+        { length: elementCount },
+        (_, i) => oldRefs[i] || createRef<T>()
       );
-      setRefs(newRefs);
-    }
+      return newRefsArray;
+    });
   }, [elementCount]);
 
   // Clear all timeouts
@@ -262,18 +268,20 @@ export function useStaggeredAnimation<T extends HTMLElement>(
   }, [clearAllTimeouts, refs, config.animations]);
 
   const addElement = useCallback((): React.RefObject<T | null> => {
-    const newRef = useRef<T>(null);
+    const newRef = createRef<T>();
     setRefs((prev) => [...prev, newRef]);
     return newRef;
   }, []);
 
   const removeElement = useCallback(
     (index: number) => {
-      if (index < 0 || index >= refs.length) return;
-
-      setRefs((prev) => prev.filter((_, i) => i !== index));
+      if (index < 0) return; // Basic bounds check
+      setRefs((prev) => {
+        if (index >= prev.length) return prev; // Basic bounds check
+        return prev.filter((_, i) => i !== index);
+      });
     },
-    [refs.length]
+    [] // Empty dependency array
   );
 
   // Cleanup on unmount
@@ -290,7 +298,7 @@ export function useStaggeredAnimation<T extends HTMLElement>(
     resume,
     restart,
     cancel,
-    addElement,
-    removeElement,
+    // addElement, // Commented out
+    // removeElement, // Commented out
   };
 }

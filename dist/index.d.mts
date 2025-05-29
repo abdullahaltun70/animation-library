@@ -137,8 +137,6 @@ interface UseStaggeredAnimationReturn<T extends HTMLElement> {
     resume: () => void;
     restart: () => void;
     cancel: () => void;
-    addElement: () => React.RefObject<T | null>;
-    removeElement: (index: number) => void;
 }
 interface StaggerConfig {
     animations: ModernAnimationConfig[];
@@ -327,7 +325,10 @@ interface StaggeredAnimateRef {
 }
 interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
-    config: StaggerConfig;
+    itemAnimation: ModernAnimationConfig;
+    staggerDelay: number;
+    staggerDirection?: "forward" | "reverse" | "center-out";
+    maxConcurrent?: number;
     as?: keyof React$1.JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     autoStart?: boolean;
@@ -339,11 +340,9 @@ interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * @example
  * ```tsx
  * <StaggeredAnimate
- *   config={{
- *     animations: [{ type: 'fade', duration: 0.3 }],
- *     delay: 0.1,
- *     direction: 'forward'
- *   }}
+ *   itemAnimation={{ type: 'fade', duration: 0.3 }}
+ *   staggerDelay={0.1}
+ *   staggerDirection='forward'
  *   autoStart
  * >
  *   <div>Item 1</div>
