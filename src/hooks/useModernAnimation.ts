@@ -126,8 +126,6 @@ export function useModernAnimation<T extends HTMLElement>(
         return;
       }
 
-      console.log('[Animation Hook] Setting state to "animating"'); // New Log
-
       setState("animating");
       setCurrentTrigger(triggerType);
 
@@ -139,10 +137,6 @@ export function useModernAnimation<T extends HTMLElement>(
             : 0.5
           : config.duration;
         element.style.setProperty("--animation-duration", `${duration}s`);
-        console.log(
-          "[Animation Hook] Set --animation-duration:",
-          `${duration}s`
-        ); // New Log
       }
       if (config.delay !== undefined) {
         const delay = Array.isArray(config.delay)

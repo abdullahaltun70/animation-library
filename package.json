@@ -1,6 +1,6 @@
 {
   "name": "@abdullah-altun/react-animation-library",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Modern React animation library with CSS-based state management, interactive micro-animations, and advanced orchestration",
   "homepage": "https://github.com/abdullahaltun70/react-animation-library#readme",
   "repository": {
@@ -12,18 +12,10 @@
   },
   "author": "Abdullah Altun",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/index.d.ts"
-      ]
-    }
-  },
   "files": [
     "dist",
-    "styles",
     "LICENSE",
     "README.md",
     "CHANGELOG.md"
@@ -31,34 +23,22 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       }
     },
     "./client": {
       "import": {
-        "types": "./dist/client.d.mts",
-        "default": "./dist/client.mjs"
-      },
-      "require": {
-        "types": "./dist/client.d.ts",
-        "default": "./dist/client.js"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       }
     },
-    "./styles": "./styles/main.scss",
-    "./styles.scss": "./styles/main.scss",
     "./styles.css": "./dist/styles.css",
-    "./styles.min.css": "./dist/styles.min.css",
-    "./dist/styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && [ -f dist/index.d.mts ] && mv dist/index.d.mts dist/index.d.ts || true",
     "dev": "tsup --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "yarn clean && yarn build",

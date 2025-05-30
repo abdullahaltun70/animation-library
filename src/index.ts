@@ -4,9 +4,6 @@ export { useModernAnimation } from "./hooks/useModernAnimation";
 export { useAnimationSequence } from "./hooks/useAnimationSequence";
 export { useStaggeredAnimation } from "./hooks/useStaggeredAnimation";
 
-// Export server-compatible components
-export { ServerAnimate } from "./components/ServerAnimate";
-
 // Export types
 export type { AnimationConfig } from "./types/index";
 export type {
@@ -17,7 +14,7 @@ export type {
   AnimationStateData,
 } from "./types/modern";
 
-// Export all components
+// Export all client components
 export { Animate } from "./components/Animate";
 export { ModernAnimate } from "./components/ModernAnimate";
 export { SequenceAnimate } from "./components/SequenceAnimate";

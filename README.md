@@ -59,18 +59,21 @@ pnpm add @abdullah-altun/react-animation-library
 Add the CSS to your application. The method depends on your framework:
 
 #### Next.js (App Router)
+
 ```css
 /* app/globals.css */
 @import "@abdullah-altun/react-animation-library/dist/styles.css";
 ```
 
 #### Next.js (Pages Router)
+
 ```css
 /* pages/_app.js or styles/globals.css */
 @import "@abdullah-altun/react-animation-library/dist/styles.css";
 ```
 
 #### Vite/CRA
+
 ```css
 /* src/index.css or src/App.css */
 @import "@abdullah-altun/react-animation-library/dist/styles.css";
@@ -79,8 +82,6 @@ Add the CSS to your application. The method depends on your framework:
 ### Basic Usage
 
 ```tsx
-"use client"; // For Next.js App Router
-
 import { Animate } from "@abdullah-altun/react-animation-library";
 
 function MyComponent() {
@@ -117,10 +118,10 @@ import { Animate } from "@abdullah-altun/react-animation-library";
 </Animate>
 
 // Slide with custom distance and axis
-<Animate 
-  type="slide" 
-  axis="y" 
-  distance={50} 
+<Animate
+  type="slide"
+  axis="y"
+  distance={50}
   easing="cubic-bezier(0.4, 0, 0.2, 1)"
 >
   <div>Slides up from bottom</div>
@@ -138,6 +139,7 @@ import { Animate } from "@abdullah-altun/react-animation-library";
 ```
 
 **Props:**
+
 - `type`: `"fade" | "slide" | "scale" | "rotate" | "bounce"`
 - `duration`: Animation duration in seconds (default: 0.5)
 - `delay`: Delay before animation starts (default: 0)
@@ -197,6 +199,7 @@ import { ModernAnimate } from "@abdullah-altun/react-animation-library";
 ```
 
 **Key Features:**
+
 - **Multiple Animation Types**: Combine animations like `['fade', 'scale', 'slide']`
 - **Triggers**: `'mount' | 'visible' | 'hover' | 'focus' | 'click' | 'scroll' | 'manual'`
 - **Advanced Timing**: Array support for duration, delay, easing per animation
@@ -227,8 +230,8 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 </StateBasedAnimate>
 
 // Custom trigger state
-<StateBasedAnimate 
-  animationType="fade" 
+<StateBasedAnimate
+  animationType="fade"
   triggerState="active"
   stateSelector="[data-state]"
 >
@@ -237,9 +240,10 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 ```
 
 **Animation Types:**
+
 - `"rotate"`: Rotates element (perfect for chevrons, arrows)
 - `"slide-down"`: Slides content down (accordion content)
-- `"slide-up"`: Slides content up  
+- `"slide-up"`: Slides content up
 - `"fade"`: Fades in/out based on state
 - `"scale"`: Scales element based on state
 
@@ -269,6 +273,7 @@ import RadixAnimate from "@abdullah-altun/react-animation-library";
 ```
 
 **Pre-configured Animations:**
+
 - `"rotate"`: Optimized chevron rotation
 - `"accordion-content"`: Height-aware content transitions
 - `"fade"`: State-based fade transitions
@@ -310,6 +315,7 @@ import { ServerAnimate } from "@abdullah-altun/react-animation-library";
 ```
 
 **Features:**
+
 - **No JavaScript Required**: Pure CSS animations
 - **Self-Contained**: Built-in state management with `<details>` or checkbox
 - **External State**: Works with any state management
@@ -323,33 +329,33 @@ Orchestrate complex multi-step animation sequences.
 import { SequenceAnimate } from "@abdullah-altun/react-animation-library";
 
 const complexSequence = {
-  name: 'entrance-sequence',
+  name: "entrance-sequence",
   steps: [
     {
-      animations: [{ type: 'fade', duration: 0.3 }],
-      parallel: false
+      animations: [{ type: "fade", duration: 0.3 }],
+      parallel: false,
     },
     {
       animations: [
-        { type: 'slide', axis: 'y', distance: 30, duration: 0.4 },
-        { type: 'scale', scale: 0.9, duration: 0.4 }
+        { type: "slide", axis: "y", distance: 30, duration: 0.4 },
+        { type: "scale", scale: 0.9, duration: 0.4 },
       ],
       parallel: true,
-      delay: 0.2
+      delay: 0.2,
     },
     {
-      animations: [{ type: 'bounce', duration: 0.6 }],
-      delay: 0.1
-    }
+      animations: [{ type: "bounce", duration: 0.6 }],
+      delay: 0.1,
+    },
   ],
   repeat: 1,
-  onComplete: () => console.log('Sequence complete'),
-  onStepComplete: (step) => console.log(`Step ${step} complete`)
+  onComplete: () => console.log("Sequence complete"),
+  onStepComplete: (step) => console.log(`Step ${step} complete`),
 };
 
 <SequenceAnimate sequence={complexSequence} autoStart>
   <div>Element with complex entrance sequence</div>
-</SequenceAnimate>
+</SequenceAnimate>;
 ```
 
 ### StaggeredAnimate
@@ -373,8 +379,8 @@ import { StaggeredAnimate } from "@abdullah-altun/react-animation-library";
 
 // Advanced staggered animation
 <StaggeredAnimate
-  itemAnimation={{ 
-    type: ['fade', 'slide'], 
+  itemAnimation={{
+    type: ['fade', 'slide'],
     axis: 'y',
     duration: 0.4,
     distance: 20
@@ -390,8 +396,9 @@ import { StaggeredAnimate } from "@abdullah-altun/react-animation-library";
 ```
 
 **Stagger Directions:**
+
 - `"forward"`: Animates from first to last element
-- `"reverse"`: Animates from last to first element  
+- `"reverse"`: Animates from last to first element
 - `"center-out"`: Animates from center elements outward
 
 ### InteractiveAnimate
@@ -402,15 +409,15 @@ Micro-interactions for hover, focus, and click states using pure CSS.
 import { InteractiveAnimate } from "@abdullah-altun/react-animation-library";
 
 <InteractiveAnimate
-  hoverConfig={{ 
-    type: 'scale', 
-    scale: { start: 1, end: 1.05 }, 
-    duration: 0.2 
+  hoverConfig={{
+    type: 'scale',
+    scale: { start: 1, end: 1.05 },
+    duration: 0.2
   }}
-  clickConfig={{ 
-    type: 'scale', 
-    scale: { start: 1, end: 0.95 }, 
-    duration: 0.1 
+  clickConfig={{
+    type: 'scale',
+    scale: { start: 1, end: 0.95 },
+    duration: 0.1
   }}
   className="interactive-button"
 >
@@ -444,13 +451,16 @@ Low-level hook for custom animation implementation.
 import { useAnimation } from "@abdullah-altun/react-animation-library";
 
 function CustomComponent() {
-  const { ref, replay, key } = useAnimation({
-    type: 'fade',
-    duration: 0.6,
-    easing: 'ease-out'
-  }, (event) => {
-    console.log('Animation completed');
-  });
+  const { ref, replay, key } = useAnimation(
+    {
+      type: "fade",
+      duration: 0.6,
+      easing: "ease-out",
+    },
+    (event) => {
+      console.log("Animation completed");
+    }
+  );
 
   return (
     <div>
@@ -471,20 +481,13 @@ Advanced hook with state management and multiple triggers.
 import { useModernAnimation } from "@abdullah-altun/react-animation-library";
 
 function AdvancedComponent() {
-  const {
-    ref,
-    trigger,
-    pause,
-    resume,
-    restart,
-    cancel,
-    state
-  } = useModernAnimation({
-    type: ['fade', 'scale'],
-    duration: [0.4, 0.6],
-    trigger: 'manual',
-    onComplete: () => console.log('Done!')
-  });
+  const { ref, trigger, pause, resume, restart, cancel, state } =
+    useModernAnimation({
+      type: ["fade", "scale"],
+      duration: [0.4, 0.6],
+      trigger: "manual",
+      onComplete: () => console.log("Done!"),
+    });
 
   return (
     <div>
@@ -507,11 +510,11 @@ import { useAnimationSequence } from "@abdullah-altun/react-animation-library";
 
 function SequenceComponent() {
   const sequence = {
-    name: 'complex-entrance',
+    name: "complex-entrance",
     steps: [
-      { animations: [{ type: 'fade', duration: 0.3 }] },
-      { animations: [{ type: 'slide', duration: 0.4 }], delay: 0.2 }
-    ]
+      { animations: [{ type: "fade", duration: 0.3 }] },
+      { animations: [{ type: "slide", duration: 0.4 }], delay: 0.2 },
+    ],
   };
 
   const {
@@ -522,7 +525,7 @@ function SequenceComponent() {
     start,
     pause,
     restart,
-    goToStep
+    goToStep,
   } = useAnimationSequence(sequence);
 
   return (
@@ -546,11 +549,14 @@ Hook for staggered animations across multiple elements.
 import { useStaggeredAnimation } from "@abdullah-altun/react-animation-library";
 
 function StaggeredComponent() {
-  const { refs, trigger, pause, restart } = useStaggeredAnimation({
-    animations: [{ type: 'fade', duration: 0.3 }],
-    delay: 0.1,
-    direction: 'forward'
-  }, 5); // 5 elements
+  const { refs, trigger, pause, restart } = useStaggeredAnimation(
+    {
+      animations: [{ type: "fade", duration: 0.3 }],
+      delay: 0.1,
+      direction: "forward",
+    },
+    5
+  ); // 5 elements
 
   return (
     <div>
@@ -568,6 +574,7 @@ function StaggeredComponent() {
 ## Animation Types
 
 ### Basic Types
+
 - **`fade`**: Opacity transitions from 0 to 1
 - **`slide`**: Translate movement along x or y axis
 - **`scale`**: Size transformations from smaller to normal
@@ -575,17 +582,18 @@ function StaggeredComponent() {
 - **`bounce`**: Spring-like bounce effects
 
 ### Multi-Animation Support
+
 Combine multiple animation types for complex effects:
 
 ```tsx
 // Fade + Scale + Slide simultaneously
 <ModernAnimate
   config={{
-    type: ['fade', 'scale', 'slide'],
-    axis: 'y',
+    type: ["fade", "scale", "slide"],
+    axis: "y",
     distance: 20,
     scale: { start: 0.9, end: 1 },
-    duration: [0.4, 0.6, 0.5]
+    duration: [0.4, 0.6, 0.5],
   }}
 >
   <div>Multi-animation element</div>
@@ -599,18 +607,18 @@ Combine multiple animation types for complex effects:
 ```tsx
 <ModernAnimate
   config={{
-    type: 'slide',
+    type: "slide",
     distance: 50,
     mediaQueries: {
-      '(max-width: 768px)': {
+      "(max-width: 768px)": {
         distance: 20,
-        duration: 0.3
+        duration: 0.3,
       },
-      '(prefers-reduced-motion: reduce)': {
-        type: 'fade',
-        duration: 0.1
-      }
-    }
+      "(prefers-reduced-motion: reduce)": {
+        type: "fade",
+        duration: 0.1,
+      },
+    },
   }}
 >
   <div>Responsive animation</div>
@@ -622,9 +630,9 @@ Combine multiple animation types for complex effects:
 ```tsx
 <ModernAnimate
   config={{
-    type: 'bounce',
+    type: "bounce",
     condition: () => window.innerWidth > 1024,
-    reduceMotionFallback: { type: 'fade', duration: 0.2 }
+    reduceMotionFallback: { type: "fade", duration: 0.2 },
   }}
 >
   <div>Conditional bounce animation</div>
@@ -636,10 +644,10 @@ Combine multiple animation types for complex effects:
 ```tsx
 <ModernAnimate
   config={{
-    type: 'scale',
-    willChange: 'transform',
+    type: "scale",
+    willChange: "transform",
     transform3d: true, // Forces hardware acceleration
-    respectReducedMotion: true
+    respectReducedMotion: true,
   }}
 >
   <div>Performance optimized animation</div>
@@ -658,7 +666,6 @@ import "@abdullah-altun/react-animation-library/dist/styles.css";
 import "@abdullah-altun/react-animation-library/dist/styles.css";
 
 // Component usage
-"use client"; // For App Router client components
 
 import { Animate } from "@abdullah-altun/react-animation-library";
 
@@ -685,14 +692,14 @@ import StateBasedAnimate from "@abdullah-altun/react-animation-library";
         <ChevronDownIcon />
       </StateBasedAnimate>
     </AccordionPrimitive.Trigger>
-    
+
     <StateBasedAnimate animationType="slide-down">
       <AccordionPrimitive.Content>
         <div>Animated content</div>
       </AccordionPrimitive.Content>
     </StateBasedAnimate>
   </AccordionPrimitive.Item>
-</AccordionPrimitive.Root>
+</AccordionPrimitive.Root>;
 ```
 
 ## Performance & Accessibility
@@ -717,12 +724,12 @@ The library automatically respects the `prefers-reduced-motion` media query:
 ```tsx
 <ModernAnimate
   config={{
-    type: 'bounce',
+    type: "bounce",
     respectReducedMotion: true,
     reduceMotionFallback: {
-      type: 'fade',
-      duration: 0.1
-    }
+      type: "fade",
+      duration: 0.1,
+    },
   }}
 >
   <div>Accessible animation</div>
@@ -747,37 +754,38 @@ import type {
   ModernAnimationConfig,
   AnimationSequence,
   AnimationState,
-  AnimationTrigger
+  AnimationTrigger,
 } from "@abdullah-altun/react-animation-library";
 
 // Basic animation configuration
 const config: AnimationConfig = {
-  type: 'fade',
+  type: "fade",
   duration: 0.6,
-  easing: 'ease-out'
+  easing: "ease-out",
 };
 
 // Modern animation configuration
 const modernConfig: ModernAnimationConfig = {
-  type: ['fade', 'scale'],
+  type: ["fade", "scale"],
   duration: [0.4, 0.6],
-  trigger: 'visible',
-  iterationCount: 2
+  trigger: "visible",
+  iterationCount: 2,
 };
 
 // Animation sequence
 const sequence: AnimationSequence = {
-  name: 'complex-entrance',
-  steps: [
-    { animations: [{ type: 'fade', duration: 0.3 }] }
-  ]
+  name: "complex-entrance",
+  steps: [{ animations: [{ type: "fade", duration: 0.3 }] }],
 };
 ```
 
 ### Component Ref Types
 
 ```typescript
-import type { ModernAnimateRef, SequenceAnimateRef } from "@abdullah-altun/react-animation-library";
+import type {
+  ModernAnimateRef,
+  SequenceAnimateRef,
+} from "@abdullah-altun/react-animation-library";
 
 const modernRef = useRef<ModernAnimateRef>(null);
 const sequenceRef = useRef<SequenceAnimateRef>(null);
@@ -810,11 +818,18 @@ interface ModernAnimationConfig {
   duration?: number | number[];
   delay?: number | number[];
   easing?: string | string[];
-  trigger?: 'mount' | 'visible' | 'hover' | 'focus' | 'click' | 'scroll' | 'manual';
-  state?: 'idle' | 'animating' | 'paused' | 'completed' | 'error';
-  direction?: 'normal' | 'reverse' | 'alternate' | 'alternate-reverse';
-  fillMode?: 'none' | 'forwards' | 'backwards' | 'both';
-  iterationCount?: number | 'infinite';
+  trigger?:
+    | "mount"
+    | "visible"
+    | "hover"
+    | "focus"
+    | "click"
+    | "scroll"
+    | "manual";
+  state?: "idle" | "animating" | "paused" | "completed" | "error";
+  direction?: "normal" | "reverse" | "alternate" | "alternate-reverse";
+  fillMode?: "none" | "forwards" | "backwards" | "both";
+  iterationCount?: number | "infinite";
   respectReducedMotion?: boolean;
   reduceMotionFallback?: Partial<ModernAnimationConfig>;
   onStart?: () => void;
@@ -838,7 +853,7 @@ interface UseAnimationReturn<T extends HTMLElement> {
   replay: () => void;
 }
 
-// useModernAnimation  
+// useModernAnimation
 interface UseModernAnimationReturn<T extends HTMLElement> {
   ref: React.RefObject<T | null>;
   trigger: (triggerType?: AnimationTrigger) => void;

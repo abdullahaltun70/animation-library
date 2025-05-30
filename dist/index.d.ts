@@ -1,5 +1,4 @@
-import * as React$1 from 'react';
-import React__default, { HTMLAttributes, ReactNode, JSX } from 'react';
+import React$1, { HTMLAttributes, ReactNode, JSX } from 'react';
 
 type AnimationType = "fade" | "slide" | "scale" | "rotate" | "bounce";
 type SlideAxis = "x" | "y";
@@ -150,61 +149,6 @@ interface StaggerConfig {
  */
 declare function useStaggeredAnimation<T extends HTMLElement>(config: StaggerConfig, elementCount?: number): UseStaggeredAnimationReturn<T>;
 
-interface ServerAnimateProps {
-    children?: React$1.ReactNode;
-    type: "rotate" | "slide-down" | "slide-up";
-    state?: "open" | "closed";
-    selfContained?: {
-        method: "details" | "checkbox";
-        trigger?: React$1.ReactNode;
-        defaultOpen?: boolean;
-        id?: string;
-        content?: React$1.ReactNode;
-    };
-    duration?: number;
-    easing?: string;
-    className?: string;
-    as?: keyof React$1.JSX.IntrinsicElements;
-    [key: string]: any;
-}
-/**
- * Server-compatible animation component that works without JavaScript
- * Uses CSS-only animations triggered by data attributes
- * Perfect for accordions, dropdowns, and other state-based animations
- *
- * @example
- * // External state management (requires parent state)
- * <ServerAnimate type="rotate" state={isOpen ? 'open' : 'closed'}>
- *   <ChevronIcon />
- * </ServerAnimate>
- *
- * // Self-contained with details/summary (recommended)
- * <ServerAnimate
- *   type="slide-down"
- *   selfContained={{
- *     method: 'details',
- *     trigger: <span>Click to expand</span>,
- *     content: <div>Content that slides down</div>
- *   }}
- * >
- *   Fallback content if not using selfContained
- * </ServerAnimate>
- *
- * // Self-contained with checkbox
- * <ServerAnimate
- *   type="rotate"
- *   selfContained={{
- *     method: 'checkbox',
- *     trigger: <ChevronIcon />,
- *     content: <div>Content container</div>,
- *     id: 'my-accordion'
- *   }}
- * >
- *   Fallback content
- * </ServerAnimate>
- */
-declare const ServerAnimate: React$1.FC<ServerAnimateProps>;
-
 interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
     type: AnimationType;
@@ -222,7 +166,7 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
         end?: number;
     };
     axis?: SlideAxis;
-    as?: keyof JSX.IntrinsicElements | React__default.ComponentType<any>;
+    as?: keyof JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     onAnimationComplete?: () => void;
 }
@@ -254,7 +198,7 @@ interface AnimateProps extends HTMLAttributes<HTMLDivElement> {
  *   {children}
  * </Animate>
  */
-declare const Animate: React__default.ForwardRefExoticComponent<AnimateProps & React__default.RefAttributes<HTMLDivElement>>;
+declare const Animate: React$1.ForwardRefExoticComponent<AnimateProps & React$1.RefAttributes<HTMLDivElement>>;
 
 interface ModernAnimateRef {
     trigger: (triggerType?: AnimationTrigger) => void;
@@ -267,7 +211,7 @@ interface ModernAnimateRef {
 interface ModernAnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
     config: ModernAnimationConfig;
-    as?: keyof React__default.JSX.IntrinsicElements | React__default.ComponentType<any>;
+    as?: keyof React$1.JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     onStateChange?: (state: string) => void;
 }
@@ -320,7 +264,7 @@ interface ModernAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * }
  * ```
  */
-declare const ModernAnimate: React__default.ForwardRefExoticComponent<ModernAnimateProps & React__default.RefAttributes<ModernAnimateRef>>;
+declare const ModernAnimate: React$1.ForwardRefExoticComponent<ModernAnimateProps & React$1.RefAttributes<ModernAnimateRef>>;
 
 interface SequenceAnimateRef {
     start: () => void;
@@ -336,7 +280,7 @@ interface SequenceAnimateRef {
 interface SequenceAnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
     sequence: AnimationSequence;
-    as?: keyof React__default.JSX.IntrinsicElements | React__default.ComponentType<any>;
+    as?: keyof React$1.JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     autoStart?: boolean;
     onStepChange?: (step: number) => void;
@@ -369,7 +313,7 @@ interface SequenceAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * </SequenceAnimate>
  * ```
  */
-declare const SequenceAnimate: React__default.ForwardRefExoticComponent<SequenceAnimateProps & React__default.RefAttributes<SequenceAnimateRef>>;
+declare const SequenceAnimate: React$1.ForwardRefExoticComponent<SequenceAnimateProps & React$1.RefAttributes<SequenceAnimateRef>>;
 
 interface StaggeredAnimateRef {
     trigger: () => void;
@@ -385,7 +329,7 @@ interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
     staggerDelay: number;
     staggerDirection?: "forward" | "reverse" | "center-out";
     maxConcurrent?: number;
-    as?: keyof React__default.JSX.IntrinsicElements | React__default.ComponentType<any>;
+    as?: keyof React$1.JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     autoStart?: boolean;
     itemClassName?: string;
@@ -407,14 +351,14 @@ interface StaggeredAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * </StaggeredAnimate>
  * ```
  */
-declare const StaggeredAnimate: React__default.ForwardRefExoticComponent<StaggeredAnimateProps & React__default.RefAttributes<StaggeredAnimateRef>>;
+declare const StaggeredAnimate: React$1.ForwardRefExoticComponent<StaggeredAnimateProps & React$1.RefAttributes<StaggeredAnimateRef>>;
 
 interface InteractiveAnimateProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
     hoverConfig?: ModernAnimationConfig;
     focusConfig?: ModernAnimationConfig;
     clickConfig?: ModernAnimationConfig;
-    as?: keyof React__default.JSX.IntrinsicElements | React__default.ComponentType<any>;
+    as?: keyof React$1.JSX.IntrinsicElements | React$1.ComponentType<any>;
     className?: string;
     disabled?: boolean;
 }
@@ -433,11 +377,11 @@ interface InteractiveAnimateProps extends HTMLAttributes<HTMLDivElement> {
  * </InteractiveAnimate>
  * ```
  */
-declare const InteractiveAnimate: React__default.ForwardRefExoticComponent<InteractiveAnimateProps & React__default.RefAttributes<HTMLElement>>;
+declare const InteractiveAnimate: React$1.ForwardRefExoticComponent<InteractiveAnimateProps & React$1.RefAttributes<HTMLElement>>;
 
 interface StateBasedAnimateProps {
     /** The child element to animate */
-    children: React__default.ReactNode;
+    children: React$1.ReactNode;
     /** Type of animation to apply */
     animationType: "rotate" | "slide-down" | "slide-up" | "fade" | "scale";
     /** Animation duration in milliseconds */
@@ -480,11 +424,11 @@ interface StateBasedAnimateProps {
  *   </AccordionPrimitive.Content>
  * </StateBasedAnimate>
  */
-declare const StateBasedAnimate: React__default.FC<StateBasedAnimateProps>;
+declare const StateBasedAnimate: React$1.FC<StateBasedAnimateProps>;
 
 interface RadixAnimateProps {
     /** The child element to animate */
-    children: React__default.ReactNode;
+    children: React$1.ReactNode;
     /** Type of animation to apply */
     animationType: "rotate" | "accordion-content" | "fade" | "scale";
     /** Animation duration in milliseconds */
@@ -521,6 +465,6 @@ interface RadixAnimateProps {
  *   </AccordionPrimitive.Content>
  * </RadixAnimate>
  */
-declare const RadixAnimate: React__default.FC<RadixAnimateProps>;
+declare const RadixAnimate: React$1.FC<RadixAnimateProps>;
 
-export { Animate, type AnimationConfig, type AnimationSequence, type AnimationState, type AnimationStateData, type AnimationTrigger, InteractiveAnimate, ModernAnimate, type ModernAnimationConfig, RadixAnimate, SequenceAnimate, ServerAnimate, StaggeredAnimate, StateBasedAnimate, Animate as default, useAnimation, useAnimationSequence, useModernAnimation, useStaggeredAnimation };
+export { Animate, type AnimationConfig, type AnimationSequence, type AnimationState, type AnimationStateData, type AnimationTrigger, InteractiveAnimate, ModernAnimate, type ModernAnimationConfig, RadixAnimate, SequenceAnimate, StaggeredAnimate, StateBasedAnimate, Animate as default, useAnimation, useAnimationSequence, useModernAnimation, useStaggeredAnimation };
