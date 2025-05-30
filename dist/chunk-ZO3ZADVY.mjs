@@ -1,54 +1,5 @@
-"use strict";
-"use client";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/client.ts
-var client_exports = {};
-__export(client_exports, {
-  Animate: () => Animate,
-  InteractiveAnimate: () => InteractiveAnimate,
-  ModernAnimate: () => ModernAnimate,
-  RadixAnimate: () => RadixAnimate_default,
-  SequenceAnimate: () => SequenceAnimate,
-  ServerAnimate: () => ServerAnimate,
-  StaggeredAnimate: () => StaggeredAnimate,
-  StateBasedAnimate: () => StateBasedAnimate_default,
-  default: () => Animate,
-  useAnimation: () => useAnimation,
-  useAnimationSequence: () => useAnimationSequence,
-  useModernAnimation: () => useModernAnimation,
-  useStaggeredAnimation: () => useStaggeredAnimation
-});
-module.exports = __toCommonJS(client_exports);
-
 // src/hooks/useAnimation.ts
-var import_react = require("react");
+import { useCallback, useEffect, useRef, useState } from "react";
 var DEFAULTS = {
   duration: 0.5,
   delay: 0,
@@ -85,10 +36,10 @@ function useAnimation(config, onAnimationComplete) {
     start: validateOpacity(configOpacity?.start, DEFAULTS.opacityStart),
     end: validateOpacity(configOpacity?.end, DEFAULTS.opacityEnd)
   };
-  const [key, setKey] = (0, import_react.useState)(0);
-  const elementRef = (0, import_react.useRef)(null);
-  const animationTimerRef = (0, import_react.useRef)(null);
-  const handleAnimationEndEvent = (0, import_react.useCallback)(
+  const [key, setKey] = useState(0);
+  const elementRef = useRef(null);
+  const animationTimerRef = useRef(null);
+  const handleAnimationEndEvent = useCallback(
     (event) => {
       if (event.target === elementRef.current && onAnimationComplete) {
         onAnimationComplete(event);
@@ -107,7 +58,7 @@ function useAnimation(config, onAnimationComplete) {
     },
     [onAnimationComplete]
   );
-  (0, import_react.useEffect)(() => {
+  useEffect(() => {
     const node = elementRef.current;
     if (!node) return;
     node.style.transition = "";
@@ -209,7 +160,7 @@ function useAnimation(config, onAnimationComplete) {
     onAnimationComplete,
     handleAnimationEndEvent
   ]);
-  const replay = (0, import_react.useCallback)(() => {
+  const replay = useCallback(() => {
     const node = elementRef.current;
     if (node) {
       node.style.animation = "none";
@@ -237,7 +188,7 @@ function validateOpacity(value, defaultValue) {
 }
 
 // src/hooks/useModernAnimation.ts
-var import_react2 = require("react");
+import { useCallback as useCallback2, useEffect as useEffect2, useRef as useRef2, useState as useState2 } from "react";
 function createCombinedAnimation(types, combinedName) {
   let fromTransforms = [];
   let toTransforms = [];
@@ -304,15 +255,15 @@ function createCombinedAnimation(types, combinedName) {
   document.head.appendChild(styleElement);
 }
 function useModernAnimation(config) {
-  const elementRef = (0, import_react2.useRef)(null);
-  const [state, setState] = (0, import_react2.useState)("idle");
-  const [currentTrigger, setCurrentTrigger] = (0, import_react2.useState)(
+  const elementRef = useRef2(null);
+  const [state, setState] = useState2("idle");
+  const [currentTrigger, setCurrentTrigger] = useState2(
     config.trigger || "mount"
   );
-  const prefersReducedMotion = (0, import_react2.useCallback)(() => {
+  const prefersReducedMotion = useCallback2(() => {
     return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }, []);
-  const trigger = (0, import_react2.useCallback)(
+  const trigger = useCallback2(
     (triggerType = currentTrigger) => {
       const element = elementRef.current;
       if (!element || state === "animating") return;
@@ -384,21 +335,21 @@ function useModernAnimation(config) {
     },
     [config, state, currentTrigger, prefersReducedMotion]
   );
-  const pause = (0, import_react2.useCallback)(() => {
+  const pause = useCallback2(() => {
     const element = elementRef.current;
     if (!element || state !== "animating") return;
     setState("paused");
     element.dataset.animationState = "paused";
     element.style.animationPlayState = "paused";
   }, [state]);
-  const resume = (0, import_react2.useCallback)(() => {
+  const resume = useCallback2(() => {
     const element = elementRef.current;
     if (!element || state !== "paused") return;
     setState("animating");
     element.dataset.animationState = "animating";
     element.style.animationPlayState = "running";
   }, [state]);
-  const restart = (0, import_react2.useCallback)(() => {
+  const restart = useCallback2(() => {
     const element = elementRef.current;
     if (!element) return;
     const types = Array.isArray(config.type) ? config.type : [config.type];
@@ -414,7 +365,7 @@ function useModernAnimation(config) {
     element.offsetHeight;
     setTimeout(() => trigger(), 10);
   }, [config, trigger]);
-  const cancel = (0, import_react2.useCallback)(() => {
+  const cancel = useCallback2(() => {
     const element = elementRef.current;
     if (!element) return;
     setState("idle");
@@ -429,7 +380,7 @@ function useModernAnimation(config) {
       element.classList.remove(`animate-combined-${combinedAnimationName}`);
     }
   }, [config]);
-  (0, import_react2.useEffect)(() => {
+  useEffect2(() => {
     if (config.trigger === "mount" || !config.trigger) {
       trigger("mount");
     }
@@ -451,18 +402,18 @@ function useModernAnimation(config) {
 }
 
 // src/hooks/useAnimationSequence.ts
-var import_react3 = require("react");
+import { useCallback as useCallback3, useEffect as useEffect3, useRef as useRef3, useState as useState3 } from "react";
 function useAnimationSequence(sequence) {
-  const elementRef = (0, import_react3.useRef)(null);
-  const [currentStep, setCurrentStep] = (0, import_react3.useState)(0);
-  const [state, setState] = (0, import_react3.useState)("idle");
-  const [isRunning, setIsRunning] = (0, import_react3.useState)(false);
-  const timeoutsRef = (0, import_react3.useRef)([]);
-  const clearAllTimeouts = (0, import_react3.useCallback)(() => {
+  const elementRef = useRef3(null);
+  const [currentStep, setCurrentStep] = useState3(0);
+  const [state, setState] = useState3("idle");
+  const [isRunning, setIsRunning] = useState3(false);
+  const timeoutsRef = useRef3([]);
+  const clearAllTimeouts = useCallback3(() => {
     timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
     timeoutsRef.current = [];
   }, []);
-  const executeStep = (0, import_react3.useCallback)(
+  const executeStep = useCallback3(
     async (stepIndex) => {
       if (stepIndex >= sequence.steps.length) {
         setState("completed");
@@ -681,26 +632,26 @@ function useAnimationSequence(sequence) {
     [sequence, clearAllTimeouts]
     // Added clearAllTimeouts
   );
-  const start = (0, import_react3.useCallback)(() => {
+  const start = useCallback3(() => {
     if (isRunning) return;
     setState("animating");
     setIsRunning(true);
     setCurrentStep(0);
     executeStep(0);
   }, [isRunning, executeStep]);
-  const pause = (0, import_react3.useCallback)(() => {
+  const pause = useCallback3(() => {
     if (!isRunning) return;
     setState("paused");
     setIsRunning(false);
     clearAllTimeouts();
   }, [isRunning, clearAllTimeouts]);
-  const resume = (0, import_react3.useCallback)(() => {
+  const resume = useCallback3(() => {
     if (isRunning || state !== "paused") return;
     setState("animating");
     setIsRunning(true);
     executeStep(currentStep);
   }, [isRunning, state, currentStep, executeStep]);
-  const restart = (0, import_react3.useCallback)(() => {
+  const restart = useCallback3(() => {
     const element = elementRef.current;
     if (element) {
       Array.from(element.classList).forEach((className) => {
@@ -717,7 +668,7 @@ function useAnimationSequence(sequence) {
       start();
     });
   }, [clearAllTimeouts, start]);
-  const cancel = (0, import_react3.useCallback)(() => {
+  const cancel = useCallback3(() => {
     const element = elementRef.current;
     if (element) {
       Array.from(element.classList).forEach((className) => {
@@ -734,7 +685,7 @@ function useAnimationSequence(sequence) {
     setIsRunning(false);
     setCurrentStep(0);
   }, [clearAllTimeouts]);
-  const goToStep = (0, import_react3.useCallback)(
+  const goToStep = useCallback3(
     (stepIndex) => {
       if (stepIndex < 0 || stepIndex >= sequence.steps.length) return;
       const element = elementRef.current;
@@ -756,7 +707,7 @@ function useAnimationSequence(sequence) {
     [sequence.steps.length, clearAllTimeouts, isRunning, executeStep]
     // Removed 'elementRef'
   );
-  (0, import_react3.useEffect)(() => {
+  useEffect3(() => {
     return () => {
       clearAllTimeouts();
     };
@@ -776,29 +727,29 @@ function useAnimationSequence(sequence) {
 }
 
 // src/hooks/useStaggeredAnimation.ts
-var import_react4 = require("react");
+import { useCallback as useCallback4, useEffect as useEffect4, useRef as useRef4, useState as useState4, createRef } from "react";
 function useStaggeredAnimation(config, elementCount = 0) {
-  const [refs, setRefs] = (0, import_react4.useState)([]);
-  const [isAnimating, setIsAnimating] = (0, import_react4.useState)(false);
-  const timeoutsRef = (0, import_react4.useRef)([]);
-  const activeAnimationsRef = (0, import_react4.useRef)(/* @__PURE__ */ new Set());
-  (0, import_react4.useEffect)(() => {
+  const [refs, setRefs] = useState4([]);
+  const [isAnimating, setIsAnimating] = useState4(false);
+  const timeoutsRef = useRef4([]);
+  const activeAnimationsRef = useRef4(/* @__PURE__ */ new Set());
+  useEffect4(() => {
     setRefs((oldRefs) => {
       if (oldRefs.length === elementCount) {
         return oldRefs;
       }
       const newRefsArray = Array.from(
         { length: elementCount },
-        (_, i) => oldRefs[i] || (0, import_react4.createRef)()
+        (_, i) => oldRefs[i] || createRef()
       );
       return newRefsArray;
     });
   }, [elementCount]);
-  const clearAllTimeouts = (0, import_react4.useCallback)(() => {
+  const clearAllTimeouts = useCallback4(() => {
     timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
     timeoutsRef.current = [];
   }, []);
-  const getStaggerOrder = (0, import_react4.useCallback)(
+  const getStaggerOrder = useCallback4(
     (totalElements) => {
       const indices = Array.from({ length: totalElements }, (_, i) => i);
       switch (config.direction) {
@@ -821,7 +772,7 @@ function useStaggeredAnimation(config, elementCount = 0) {
     },
     [config.direction]
   );
-  const animateElement = (0, import_react4.useCallback)(
+  const animateElement = useCallback4(
     (elementRef, animConfig, elementIndex) => {
       const element = elementRef.current;
       if (!element) return Promise.resolve();
@@ -863,7 +814,7 @@ function useStaggeredAnimation(config, elementCount = 0) {
     },
     []
   );
-  const trigger = (0, import_react4.useCallback)(() => {
+  const trigger = useCallback4(() => {
     if (isAnimating || refs.length === 0) return;
     setIsAnimating(true);
     clearAllTimeouts();
@@ -905,21 +856,21 @@ function useStaggeredAnimation(config, elementCount = 0) {
     animateElement,
     clearAllTimeouts
   ]);
-  const pause = (0, import_react4.useCallback)(() => {
+  const pause = useCallback4(() => {
     refs.forEach((ref) => {
       if (ref.current) {
         ref.current.style.animationPlayState = "paused";
       }
     });
   }, [refs]);
-  const resume = (0, import_react4.useCallback)(() => {
+  const resume = useCallback4(() => {
     refs.forEach((ref) => {
       if (ref.current) {
         ref.current.style.animationPlayState = "running";
       }
     });
   }, [refs]);
-  const restart = (0, import_react4.useCallback)(() => {
+  const restart = useCallback4(() => {
     clearAllTimeouts();
     activeAnimationsRef.current.clear();
     setIsAnimating(false);
@@ -935,7 +886,7 @@ function useStaggeredAnimation(config, elementCount = 0) {
       trigger();
     }, 10);
   }, [clearAllTimeouts, refs, config.animations, trigger]);
-  const cancel = (0, import_react4.useCallback)(() => {
+  const cancel = useCallback4(() => {
     clearAllTimeouts();
     activeAnimationsRef.current.clear();
     setIsAnimating(false);
@@ -949,12 +900,12 @@ function useStaggeredAnimation(config, elementCount = 0) {
       }
     });
   }, [clearAllTimeouts, refs, config.animations]);
-  const addElement = (0, import_react4.useCallback)(() => {
-    const newRef = (0, import_react4.createRef)();
+  const addElement = useCallback4(() => {
+    const newRef = createRef();
     setRefs((prev) => [...prev, newRef]);
     return newRef;
   }, []);
-  const removeElement = (0, import_react4.useCallback)(
+  const removeElement = useCallback4(
     (index) => {
       if (index < 0) return;
       setRefs((prev) => {
@@ -965,7 +916,7 @@ function useStaggeredAnimation(config, elementCount = 0) {
     []
     // Empty dependency array
   );
-  (0, import_react4.useEffect)(() => {
+  useEffect4(() => {
     return () => {
       clearAllTimeouts();
     };
@@ -983,7 +934,7 @@ function useStaggeredAnimation(config, elementCount = 0) {
 }
 
 // src/components/ServerAnimate.tsx
-var React = __toESM(require("react"));
+import * as React from "react";
 var ServerAnimate = ({
   children,
   type,
@@ -1118,8 +1069,8 @@ var ServerAnimate = ({
 };
 
 // src/components/Animate.tsx
-var import_react5 = __toESM(require("react"));
-var Animate = (0, import_react5.forwardRef)(
+import React2, { forwardRef } from "react";
+var Animate = forwardRef(
   ({
     children,
     as: Component = "div",
@@ -1168,7 +1119,7 @@ var Animate = (0, import_react5.forwardRef)(
       props.onAnimationEnd?.(e);
     };
     const combinedClassName = `animated ${className}`.trim();
-    return import_react5.default.createElement(
+    return React2.createElement(
       Component,
       {
         ...props,
@@ -1189,8 +1140,8 @@ var Animate = (0, import_react5.forwardRef)(
 Animate.displayName = "Animate";
 
 // src/components/ModernAnimate.tsx
-var import_react6 = __toESM(require("react"));
-var ModernAnimate = (0, import_react6.forwardRef)(
+import React3, { forwardRef as forwardRef2 } from "react";
+var ModernAnimate = forwardRef2(
   ({
     children,
     config,
@@ -1212,10 +1163,10 @@ var ModernAnimate = (0, import_react6.forwardRef)(
       dataAttributes
     } = useModernAnimation(config);
     const elementRef = animationRef;
-    import_react6.default.useEffect(() => {
+    React3.useEffect(() => {
       onStateChange?.(state);
     }, [state, onStateChange]);
-    import_react6.default.useImperativeHandle(
+    React3.useImperativeHandle(
       forwardedRef,
       () => ({
         trigger,
@@ -1227,7 +1178,7 @@ var ModernAnimate = (0, import_react6.forwardRef)(
       }),
       [trigger, pause, resume, restart, cancel, state]
     );
-    return import_react6.default.createElement(
+    return React3.createElement(
       Component,
       {
         ref: elementRef,
@@ -1244,8 +1195,8 @@ var ModernAnimate = (0, import_react6.forwardRef)(
 ModernAnimate.displayName = "ModernAnimate";
 
 // src/components/SequenceAnimate.tsx
-var import_react7 = __toESM(require("react"));
-var SequenceAnimate = (0, import_react7.forwardRef)(
+import React4, { forwardRef as forwardRef3 } from "react";
+var SequenceAnimate = forwardRef3(
   ({
     children,
     sequence,
@@ -1268,15 +1219,15 @@ var SequenceAnimate = (0, import_react7.forwardRef)(
       goToStep
     } = useAnimationSequence(sequence);
     const elementRef = sequenceRef;
-    import_react7.default.useEffect(() => {
+    React4.useEffect(() => {
       if (autoStart && state === "idle") {
         start();
       }
     }, [autoStart, state, start]);
-    import_react7.default.useEffect(() => {
+    React4.useEffect(() => {
       onStepChange?.(currentStep);
     }, [currentStep, onStepChange]);
-    import_react7.default.useImperativeHandle(
+    React4.useImperativeHandle(
       forwardedRef,
       () => ({
         start,
@@ -1301,7 +1252,7 @@ var SequenceAnimate = (0, import_react7.forwardRef)(
         state
       ]
     );
-    return import_react7.default.createElement(
+    return React4.createElement(
       Component,
       {
         ref: elementRef,
@@ -1318,8 +1269,8 @@ var SequenceAnimate = (0, import_react7.forwardRef)(
 SequenceAnimate.displayName = "SequenceAnimate";
 
 // src/components/StaggeredAnimate.tsx
-var import_react8 = __toESM(require("react"));
-var StaggeredAnimate = (0, import_react8.forwardRef)(
+import React5, { forwardRef as forwardRef4, Children } from "react";
+var StaggeredAnimate = forwardRef4(
   ({
     children,
     itemAnimation,
@@ -1332,7 +1283,7 @@ var StaggeredAnimate = (0, import_react8.forwardRef)(
     autoStart = false,
     ...props
   }, forwardedRef) => {
-    const childrenArray = import_react8.Children.toArray(children);
+    const childrenArray = Children.toArray(children);
     const staggerHookConfig = {
       animations: [itemAnimation],
       // Wrap the single itemAnimation into an array as expected by the hook
@@ -1341,12 +1292,12 @@ var StaggeredAnimate = (0, import_react8.forwardRef)(
       maxConcurrent
     };
     const { refs, trigger, pause, resume, restart, cancel } = useStaggeredAnimation(staggerHookConfig, childrenArray.length);
-    import_react8.default.useEffect(() => {
+    React5.useEffect(() => {
       if (autoStart && refs.length > 0) {
         trigger();
       }
     }, [autoStart, refs.length, trigger]);
-    import_react8.default.useImperativeHandle(
+    React5.useImperativeHandle(
       forwardedRef,
       () => ({
         trigger,
@@ -1359,17 +1310,17 @@ var StaggeredAnimate = (0, import_react8.forwardRef)(
       [trigger, pause, resume, restart, cancel, refs.length]
     );
     const enhancedChildren = childrenArray.map((child, index) => {
-      if (!import_react8.default.isValidElement(child)) return child;
+      if (!React5.isValidElement(child)) return child;
       const ref = refs[index];
       if (!ref) return child;
-      return import_react8.default.cloneElement(child, {
+      return React5.cloneElement(child, {
         ref,
         className: `${child.props.className || ""} staggered-item ${itemClassName}`.trim(),
         "data-stagger-index": index,
         "data-stagger-total": childrenArray.length
       });
     });
-    return import_react8.default.createElement(
+    return React5.createElement(
       Component,
       {
         className: `staggered-animate ${className}`.trim(),
@@ -1384,8 +1335,8 @@ var StaggeredAnimate = (0, import_react8.forwardRef)(
 StaggeredAnimate.displayName = "StaggeredAnimate";
 
 // src/components/InteractiveAnimate.tsx
-var import_react9 = __toESM(require("react"));
-var InteractiveAnimate = (0, import_react9.forwardRef)(
+import React6, { forwardRef as forwardRef5 } from "react";
+var InteractiveAnimate = forwardRef5(
   ({
     children,
     hoverConfig,
@@ -1397,7 +1348,7 @@ var InteractiveAnimate = (0, import_react9.forwardRef)(
     style,
     ...props
   }, ref) => {
-    const cssProps = import_react9.default.useMemo(() => {
+    const cssProps = React6.useMemo(() => {
       const props2 = {};
       if (hoverConfig) {
         props2["--hover-duration"] = `${hoverConfig.duration || 0.2}s`;
@@ -1434,7 +1385,7 @@ var InteractiveAnimate = (0, import_react9.forwardRef)(
       }
       return props2;
     }, [hoverConfig, focusConfig, clickConfig]);
-    const interactiveClasses = import_react9.default.useMemo(() => {
+    const interactiveClasses = React6.useMemo(() => {
       const classes = ["interactive-animate"];
       if (hoverConfig) {
         const hoverType = Array.isArray(hoverConfig.type) ? hoverConfig.type[0] : hoverConfig.type;
@@ -1454,7 +1405,7 @@ var InteractiveAnimate = (0, import_react9.forwardRef)(
       ...cssProps,
       ...style
     };
-    return import_react9.default.createElement(
+    return React6.createElement(
       Component,
       {
         ref,
@@ -1473,7 +1424,7 @@ var InteractiveAnimate = (0, import_react9.forwardRef)(
 InteractiveAnimate.displayName = "InteractiveAnimate";
 
 // src/components/StateBasedAnimate.tsx
-var import_react10 = __toESM(require("react"));
+import React7 from "react";
 var StateBasedAnimate = ({
   children,
   animationType,
@@ -1486,9 +1437,9 @@ var StateBasedAnimate = ({
   stateSelector,
   triggerState = "open"
 }) => {
-  const elementRef = import_react10.default.useRef(null);
-  const [isActive, setIsActive] = import_react10.default.useState(false);
-  import_react10.default.useEffect(() => {
+  const elementRef = React7.useRef(null);
+  const [isActive, setIsActive] = React7.useState(false);
+  React7.useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
     const checkParentState = () => {
@@ -1518,7 +1469,7 @@ var StateBasedAnimate = ({
     });
     return () => observer.disconnect();
   }, [triggerState]);
-  const instanceId = import_react10.default.useId();
+  const instanceId = React7.useId();
   const animationClass = `state-animate-${animationType}`;
   const customProperties = {
     "--animation-duration": `${duration}ms`,
@@ -1528,7 +1479,7 @@ var StateBasedAnimate = ({
     "--scale-factor": scale
   };
   const activeClass = isActive ? "state-animate-active" : "";
-  return import_react10.default.createElement(
+  return React7.createElement(
     "span",
     {
       ref: elementRef,
@@ -1545,7 +1496,7 @@ var StateBasedAnimate = ({
 var StateBasedAnimate_default = StateBasedAnimate;
 
 // src/components/RadixAnimate.tsx
-var import_react11 = __toESM(require("react"));
+import React8 from "react";
 var RadixAnimate = ({
   children,
   animationType,
@@ -1562,7 +1513,7 @@ var RadixAnimate = ({
     "--rotation-degrees": `${degrees}deg`,
     "--scale-factor": scale
   };
-  return import_react11.default.createElement(
+  return React8.createElement(
     "div",
     {
       className: `state-animate ${animationClass} ${className}`,
@@ -1572,18 +1523,18 @@ var RadixAnimate = ({
   );
 };
 var RadixAnimate_default = RadixAnimate;
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  Animate,
-  InteractiveAnimate,
-  ModernAnimate,
-  RadixAnimate,
-  SequenceAnimate,
-  ServerAnimate,
-  StaggeredAnimate,
-  StateBasedAnimate,
+
+export {
   useAnimation,
-  useAnimationSequence,
   useModernAnimation,
-  useStaggeredAnimation
-});
+  useAnimationSequence,
+  useStaggeredAnimation,
+  ServerAnimate,
+  Animate,
+  ModernAnimate,
+  SequenceAnimate,
+  StaggeredAnimate,
+  InteractiveAnimate,
+  StateBasedAnimate_default,
+  RadixAnimate_default
+};

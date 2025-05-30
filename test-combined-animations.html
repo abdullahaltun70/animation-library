@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Combined Animations</title>
+    <style>
+        .test-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        
+        /* Test the combined animation that should be generated */
+        @keyframes slide-scale {
+            from {
+                transform: translateX(50px) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        .animate-combined-slide-scale {
+            animation-name: slide-scale;
+            animation-duration: 1s;
+            animation-delay: 0s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+            will-change: transform, opacity;
+        }
+        
+        .test {
+            animation: slide-scale 1s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Combined Animations</h1>
+    
+    <div class="test-box test">
+        Combined
+    </div>
+    
+    <script>
+        // Test if the dynamic style injection works
+        setTimeout(() => {
+            console.log('Style elements:', document.querySelectorAll('style[data-animation]'));
+        }, 1000);
+    </script>
+</body>
+</html>

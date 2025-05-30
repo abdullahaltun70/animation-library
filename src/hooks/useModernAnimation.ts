@@ -6,6 +6,82 @@ import {
   ModernAnimationConfig,
 } from "../types/modern";
 
+// Helper function to create combined animations
+function createCombinedAnimation(types: string[], combinedName: string) {
+  // Create keyframes for the combination
+  let fromTransforms: string[] = [];
+  let toTransforms: string[] = [];
+  let fromOpacity = "1";
+  let toOpacity = "1";
+
+  types.forEach((type) => {
+    switch (type) {
+      case "scale":
+        fromTransforms.push("scale(var(--animation-scale, 0.8))");
+        toTransforms.push("scale(1)");
+        break;
+      case "bounce":
+        // Bounce effect - use a more subtle approach for combinations
+        fromTransforms.push("translateY(var(--animation-distance, 20px))");
+        toTransforms.push("translateY(0)");
+        break;
+      case "fade":
+        fromOpacity = "var(--opacity-start, 0)";
+        toOpacity = "var(--opacity-end, 1)";
+        break;
+      case "rotate":
+        fromTransforms.push("rotate(0deg)");
+        toTransforms.push("rotate(var(--animation-degrees, 180deg))");
+        break;
+      case "slide":
+        // Handle slide based on axis
+        fromTransforms.push("translateX(var(--animation-distance, 50px))");
+        toTransforms.push("translateX(0)");
+        break;
+      case "slide-x":
+        fromTransforms.push("translateX(var(--animation-distance, 50px))");
+        toTransforms.push("translateX(0)");
+        break;
+      case "slide-y":
+        fromTransforms.push("translateY(var(--animation-distance, 50px))");
+        toTransforms.push("translateY(0)");
+        break;
+    }
+  });
+
+  const fromTransform =
+    fromTransforms.length > 0 ? fromTransforms.join(" ") : "none";
+  const toTransform = toTransforms.length > 0 ? toTransforms.join(" ") : "none";
+
+  const keyframes = `
+    @keyframes ${combinedName} {
+      from {
+        transform: ${fromTransform};
+        opacity: ${fromOpacity};
+      }
+      to {
+        transform: ${toTransform};
+        opacity: ${toOpacity};
+      }
+    }
+    
+    .animate-combined-${combinedName} {
+      animation-name: ${combinedName};
+      animation-duration: var(--animation-duration, 0.5s);
+      animation-delay: var(--animation-delay, 0s);
+      animation-timing-function: var(--animation-easing, ease-out);
+      animation-fill-mode: forwards;
+      will-change: transform, opacity;
+    }
+  `;
+
+  // Create and inject the style element
+  const styleElement = document.createElement("style");
+  styleElement.setAttribute("data-animation", combinedName);
+  styleElement.textContent = keyframes;
+  document.head.appendChild(styleElement);
+}
+
 export interface UseModernAnimationReturn<T extends HTMLElement> {
   ref: React.RefObject<T | null>;
   state: AnimationState;
@@ -55,11 +131,11 @@ export function useModernAnimation<T extends HTMLElement>(
       setState("animating");
       setCurrentTrigger(triggerType);
 
-      // Set CSS properties with enhanced array safety
+      // Set CSS properties with enhanced array safety and proper multi-animation support
       if (config.duration !== undefined) {
         const duration = Array.isArray(config.duration)
           ? config.duration.length > 0
-            ? config.duration[0]
+            ? config.duration.reduce((a, b) => Math.max(a, b), 0) // Use longest duration for combined animations
             : 0.5
           : config.duration;
         element.style.setProperty("--animation-duration", `${duration}s`);
@@ -71,7 +147,7 @@ export function useModernAnimation<T extends HTMLElement>(
       if (config.delay !== undefined) {
         const delay = Array.isArray(config.delay)
           ? config.delay.length > 0
-            ? config.delay[0]
+            ? config.delay[0] // Use first delay for start
             : 0
           : config.delay;
         element.style.setProperty("--animation-delay", `${delay}s`);
@@ -79,7 +155,7 @@ export function useModernAnimation<T extends HTMLElement>(
       if (config.easing) {
         const easing = Array.isArray(config.easing)
           ? config.easing.length > 0
-            ? config.easing[0]
+            ? config.easing[0] // Use first easing function
             : "ease-out"
           : config.easing;
         element.style.setProperty("--animation-easing", easing);
@@ -108,11 +184,26 @@ export function useModernAnimation<T extends HTMLElement>(
         element.style.setProperty("--animation-scale", `${scale}`);
       }
 
-      // Add animation classes - handle both single type and array of types
+      // Handle animation types - support both single and multiple animations
       const types = Array.isArray(config.type) ? config.type : [config.type];
-      types.forEach((type) => {
-        element.classList.add(`animate-${type}`);
-      });
+
+      if (types.length === 1) {
+        // Single animation - use existing approach
+        element.classList.add(`animate-${types[0]}`);
+      } else {
+        // Multiple animations - create combined animation
+        const combinedAnimationName = types.join("-");
+        element.classList.add(`animate-combined-${combinedAnimationName}`);
+
+        // If the combined class doesn't exist, create it dynamically
+        if (
+          !document.querySelector(
+            `style[data-animation="${combinedAnimationName}"]`
+          )
+        ) {
+          createCombinedAnimation(types, combinedAnimationName);
+        }
+      }
 
       // Set data attributes
       element.dataset.animationState = "animating";
@@ -160,9 +251,13 @@ export function useModernAnimation<T extends HTMLElement>(
 
     // Remove animation classes with enhanced safety - handle both single type and array of types
     const types = Array.isArray(config.type) ? config.type : [config.type];
-    types.forEach((type) => {
-      element.classList.remove(`animate-${type}`);
-    });
+
+    if (types.length === 1) {
+      element.classList.remove(`animate-${types[0]}`);
+    } else {
+      const combinedAnimationName = types.join("-");
+      element.classList.remove(`animate-combined-${combinedAnimationName}`);
+    }
 
     // Clear any lingering animation properties
     element.style.animationPlayState = "";
@@ -189,9 +284,13 @@ export function useModernAnimation<T extends HTMLElement>(
 
     // Remove animation classes with enhanced safety - handle both single type and array of types
     const types = Array.isArray(config.type) ? config.type : [config.type];
-    types.forEach((type) => {
-      element.classList.remove(`animate-${type}`);
-    });
+
+    if (types.length === 1) {
+      element.classList.remove(`animate-${types[0]}`);
+    } else {
+      const combinedAnimationName = types.join("-");
+      element.classList.remove(`animate-combined-${combinedAnimationName}`);
+    }
   }, [config]);
 
   // Auto-trigger on mount if configured

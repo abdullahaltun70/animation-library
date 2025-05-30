@@ -19,15 +19,10 @@ export type {
 
 // Export all components
 export { Animate } from "./components/Animate";
-export { AnimateWrapper } from "./components/AnimateWrapper";
 export { ModernAnimate } from "./components/ModernAnimate";
 export { SequenceAnimate } from "./components/SequenceAnimate";
 export { StaggeredAnimate } from "./components/StaggeredAnimate";
 export { InteractiveAnimate } from "./components/InteractiveAnimate";
-
-// Export server-compatible self-contained components
-export { SelfContainedToggle } from "./components/SelfContainedToggle";
-export { default as SelfContainedDetails } from "./components/SelfContainedDetails";
 
 // Export state-based animation components (perfect for Radix UI)
 export { default as StateBasedAnimate } from "./components/StateBasedAnimate";

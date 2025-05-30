@@ -435,82 +435,11 @@ interface InteractiveAnimateProps extends HTMLAttributes<HTMLDivElement> {
  */
 declare const InteractiveAnimate: React__default.ForwardRefExoticComponent<InteractiveAnimateProps & React__default.RefAttributes<HTMLElement>>;
 
-interface SelfContainedToggleProps {
-    trigger: React$1.ReactNode;
-    children: React$1.ReactNode;
-    defaultOpen?: boolean;
-    duration?: number;
-    easing?: string;
-    className?: string;
-    triggerClassName?: string;
-    contentClassName?: string;
-    id?: string;
-    animationType?: "slide-down" | "slide-up" | "slide-left" | "slide-right" | "fade" | "scale" | "rotate";
-    variant?: "checkbox" | "details";
-}
-/**
- * A completely self-contained toggle component that works without JavaScript state management.
- * Perfect for any toggle scenario: accordions, dropdowns, menus, modals, sidebars, etc.
- * Uses native HTML elements (checkbox or details) for state management.
- *
- * @example
- * // Dropdown menu
- * <SelfContainedToggle
- *   variant="checkbox"
- *   animationType="slide-down"
- *   trigger={<button>Menu ▼</button>}
- * >
- *   <nav>Menu items here</nav>
- * </SelfContainedToggle>
- *
- * // Sidebar toggle
- * <SelfContainedToggle
- *   variant="checkbox"
- *   animationType="slide-right"
- *   trigger={<button>☰</button>}
- * >
- *   <aside>Sidebar content</aside>
- * </SelfContainedToggle>
- *
- * // Modal dialog
- * <SelfContainedToggle
- *   variant="checkbox"
- *   animationType="fade"
- *   trigger={<button>Open Modal</button>}
- * >
- *   <div className="modal">Modal content</div>
- * </SelfContainedToggle>
- *
- * // Button with rotating icon
- * <SelfContainedToggle
- *   variant="checkbox"
- *   animationType="rotate"
- *   trigger={<button>Toggle <span>▼</span></button>}
- * >
- *   <div>Content to show/hide</div>
- * </SelfContainedToggle>
- */
-declare const SelfContainedToggle: React$1.FC<SelfContainedToggleProps>;
-
-interface SelfContainedDetailsProps {
-    trigger: React$1.ReactNode;
-    children: React$1.ReactNode;
-    defaultOpen?: boolean;
-    duration?: number;
-    easing?: string;
-    className?: string;
-    triggerClassName?: string;
-    contentClassName?: string;
-    id?: string;
-    animationType?: "slide-down" | "slide-up" | "fade" | "scale";
-}
-declare const SelfContainedDetails: React$1.FC<SelfContainedDetailsProps>;
-
 interface StateBasedAnimateProps {
     /** The child element to animate */
     children: React__default.ReactNode;
     /** Type of animation to apply */
-    animationType: 'rotate' | 'slide-down' | 'slide-up' | 'fade' | 'scale';
+    animationType: "rotate" | "slide-down" | "slide-up" | "fade" | "scale";
     /** Animation duration in milliseconds */
     duration?: number;
     /** Animation easing function */
@@ -557,7 +486,7 @@ interface RadixAnimateProps {
     /** The child element to animate */
     children: React__default.ReactNode;
     /** Type of animation to apply */
-    animationType: 'rotate' | 'accordion-content' | 'fade' | 'scale';
+    animationType: "rotate" | "accordion-content" | "fade" | "scale";
     /** Animation duration in milliseconds */
     duration?: number;
     /** Animation easing function */
@@ -594,4 +523,4 @@ interface RadixAnimateProps {
  */
 declare const RadixAnimate: React__default.FC<RadixAnimateProps>;
 
-export { Animate, Animate as AnimateWrapper, type AnimationConfig, type AnimationSequence, type AnimationState, type AnimationStateData, type AnimationTrigger, InteractiveAnimate, ModernAnimate, type ModernAnimationConfig, RadixAnimate, SelfContainedDetails, SelfContainedToggle, SequenceAnimate, ServerAnimate, StaggeredAnimate, StateBasedAnimate, Animate as default, useAnimation, useAnimationSequence, useModernAnimation, useStaggeredAnimation };
+export { Animate, type AnimationConfig, type AnimationSequence, type AnimationState, type AnimationStateData, type AnimationTrigger, InteractiveAnimate, ModernAnimate, type ModernAnimationConfig, RadixAnimate, SequenceAnimate, ServerAnimate, StaggeredAnimate, StateBasedAnimate, Animate as default, useAnimation, useAnimationSequence, useModernAnimation, useStaggeredAnimation };

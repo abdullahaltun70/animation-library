@@ -1,6 +1,6 @@
 {
   "name": "@abdullah-altun/react-animation-library",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Modern React animation library with CSS-based state management, interactive micro-animations, and advanced orchestration",
   "homepage": "https://github.com/abdullahaltun70/react-animation-library#readme",
   "repository": {
@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/abdullahaltun70/react-animation-library/issues"
   },
-  "author": "Abdullah Altun <your-email@example.com>",
+  "author": "Abdullah Altun",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,8 @@
     "dist",
     "styles",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {
@@ -58,12 +59,9 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
-    "build:analyze": "tsup --metafile && npx bundle-analyzer dist/metafile-*.json",
     "dev": "tsup --watch",
     "clean": "rm -rf dist",
-    "prebld": "yarn clean && yarn build",
-    "test:nextjs": "node test-nextjs-usage.js",
-    "prepublishOnly": "yarn clean && yarn build && yarn test:nextjs",
+    "prepublishOnly": "yarn clean && yarn build",
     "size": "ls -lah dist/ && echo 'Total package size:' && du -sh dist/"
   },
   "keywords": [
@@ -93,5 +91,6 @@
     "tsup": "^8.2.3",
     "typescript": "^5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

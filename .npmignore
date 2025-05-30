@@ -1,0 +1,16 @@
+# Source TypeScript files (but keep styles for SCSS users)
+src/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+
+# Development files
+.git/
+.gitignore
+.DS_Store
+*.log
+
+# Dependencies
+node_modules/
+yarn.lock

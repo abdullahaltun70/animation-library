@@ -1,1 +1,1588 @@
-'use strict';Object.defineProperty(exports,'__esModule',{value:true});var N=require('react');function _interopNamespace(e){if(e&&e.__esModule)return e;var n=Object.create(null);if(e){Object.keys(e).forEach(function(k){if(k!=='default'){var d=Object.getOwnPropertyDescriptor(e,k);Object.defineProperty(n,k,d.get?d:{enumerable:true,get:function(){return e[k]}});}})}n.default=e;return Object.freeze(n)}var N__namespace=/*#__PURE__*/_interopNamespace(N);var k={duration:.5,delay:0,easing:"ease-out",opacityStart:0,opacityEnd:1,distance:50,degreesStart:0,scale:.8,axis:"x"};function J(e,s){let{type:a,duration:d,delay:R,easing:v,distance:A,degrees:u,scale:p,opacity:g,axis:b}=e,f=K(d,k.duration),S=K(R,k.delay),n=v||k.easing,c=A??k.distance,T=p??k.scale,x=b||k.axis,l={start:G(g?.start,k.opacityStart),end:G(g?.end,k.opacityEnd)},[o,t]=N.useState(0),r=N.useRef(null),i=N.useRef(null),y=N.useCallback(m=>{m.target===r.current&&s&&(s(m),m.type==="animationend"?r.current?.removeEventListener("animationend",y):m.type==="transitionend"&&r.current?.removeEventListener("transitionend",y));},[s]);N.useEffect(()=>{let m=r.current;if(!m)return;if(m.style.transition="",m.style.transform="",Array.from(m.classList).filter(E=>E.startsWith("animate-")).forEach(E=>m.classList.remove(E)),m.removeEventListener("animationend",y),m.removeEventListener("transitionend",y),i.current&&clearTimeout(i.current),a==="rotate"){let E=k.degreesStart;typeof u=="number"?E=u:u&&typeof u.end=="number"&&(E=u.end),m.style.transition=`transform ${f}s ${n} ${S}s`,m.style.transform=`rotate(${E}deg)`,s&&m.addEventListener("transitionend",y);}else {let E=`animate-${a}`;if(a==="slide"){let $=c>=0?"positive":"negative";E=`animate-${a}-${x}-${$}`;}else if(a==="bounce"){let $=c>=0?"positive":"negative";E=`animate-${a}-${$}`;}m.style.setProperty("--animation-duration",`${f}s`),m.style.setProperty("--animation-delay",`${S}s`),m.style.setProperty("--animation-easing",n),a==="fade"&&(m.style.setProperty("--opacity-start",`${l.start}`),m.style.setProperty("--opacity-end",`${l.end}`)),a==="slide"&&(m.style.setProperty("--distance",`${Math.abs(c)}px`),m.style.setProperty("--opacity-start",`${l.start}`),m.style.setProperty("--opacity-end",`${l.end}`)),a==="scale"&&(m.style.setProperty("--scale",`${T}`),m.style.setProperty("--opacity-start",`${l.start}`),m.style.setProperty("--opacity-end",`${l.end}`)),a==="bounce"&&(m.style.setProperty("--distance",`${c}px`),m.style.setProperty("--opacity-start",`${l.start}`),m.style.setProperty("--opacity-end",`${l.end}`)),E&&(m.offsetWidth,i.current=Number(window.setTimeout(()=>{let $=r.current;$&&($.style.animation="none",$.offsetWidth,$.style.animation="",$.classList.add(E),s&&$.addEventListener("animationend",y));},20)));}return ()=>{i.current&&clearTimeout(i.current),m&&(m.removeEventListener("animationend",y),m.removeEventListener("transitionend",y));}},[a,f,S,n,c,u,T,l.start,l.end,x,o,s,y]);let h=N.useCallback(()=>{let m=r.current;m&&(m.style.animation="none",Array.from(m.classList).filter(E=>E.startsWith("animate-")).forEach(E=>m.classList.remove(E)),m.offsetHeight,m.style.animation=""),t(P=>P+1);},[]);return {ref:r,key:o,replay:h}}function K(e,s){let a=typeof e=="number"?e:NaN;return !isNaN(a)&&a>=0?a:s}function G(e,s){return Math.max(0,Math.min(1,typeof e=="number"?e:s))}function W(e){let s=N.useRef(null),[a,d]=N.useState("idle"),[R,v]=N.useState(e.trigger||"mount"),A=N.useCallback(()=>typeof window<"u"&&window.matchMedia("(prefers-reduced-motion: reduce)").matches,[]),u=N.useCallback((n=R)=>{let c=s.current;if(!c||a==="animating")return;if(e.respectReducedMotion!==false&&A()){d("completed"),e.onComplete?.();return}if(console.log('[Animation Hook] Setting state to "animating"'),d("animating"),v(n),e.duration!==void 0){let l=Array.isArray(e.duration)?e.duration.length>0?e.duration[0]:.5:e.duration;c.style.setProperty("--animation-duration",`${l}s`),console.log("[Animation Hook] Set --animation-duration:",`${l}s`);}if(e.delay!==void 0){let l=Array.isArray(e.delay)?e.delay.length>0?e.delay[0]:0:e.delay;c.style.setProperty("--animation-delay",`${l}s`);}if(e.easing){let l=Array.isArray(e.easing)?e.easing.length>0?e.easing[0]:"ease-out":e.easing;c.style.setProperty("--animation-easing",l);}if(e.distance!==void 0&&c.style.setProperty("--animation-distance",`${e.distance}px`),e.axis&&c.style.setProperty("--animation-axis",e.axis),e.degrees!==void 0){let l=typeof e.degrees=="number"?e.degrees:e.degrees.end;c.style.setProperty("--animation-degrees",`${l}deg`);}if(e.scale!==void 0){let l=typeof e.scale=="number"?e.scale:e.scale.end;c.style.setProperty("--animation-scale",`${l}`);}(Array.isArray(e.type)?e.type:[e.type]).forEach(l=>{c.classList.add(`animate-${l}`);}),c.dataset.animationState="animating",c.dataset.animationTrigger=n,e.onStart?.();let x=()=>{d("completed"),c.dataset.animationState="completed",e.onComplete?.(),c.removeEventListener("animationend",x),c.removeEventListener("transitionend",x);};c.addEventListener("animationend",x),c.addEventListener("transitionend",x);},[e,a,R,A]),p=N.useCallback(()=>{let n=s.current;!n||a!=="animating"||(d("paused"),n.dataset.animationState="paused",n.style.animationPlayState="paused");},[a]),g=N.useCallback(()=>{let n=s.current;!n||a!=="paused"||(d("animating"),n.dataset.animationState="animating",n.style.animationPlayState="running");},[a]),b=N.useCallback(()=>{let n=s.current;if(!n)return;(Array.isArray(e.type)?e.type:[e.type]).forEach(T=>{n.classList.remove(`animate-${T}`);}),n.style.animationPlayState="",d("idle"),n.dataset.animationState="idle",n.offsetHeight,setTimeout(()=>u(),10);},[e,u]),f=N.useCallback(()=>{let n=s.current;if(!n)return;d("idle"),n.dataset.animationState="idle",n.style.animationPlayState="",n.style.animation="",(Array.isArray(e.type)?e.type:[e.type]).forEach(T=>{n.classList.remove(`animate-${T}`);});},[e]);return N.useEffect(()=>{(e.trigger==="mount"||!e.trigger)&&u("mount");},[e.trigger,u]),{ref:s,state:a,trigger:u,pause:p,resume:g,restart:b,cancel:f,dataAttributes:{"data-animation-state":a,"data-animation-trigger":R}}}function F(e){let s=N.useRef(null),[a,d]=N.useState(0),[R,v]=N.useState("idle"),[A,u]=N.useState(false),p=N.useRef([]),g=N.useCallback(()=>{p.current.forEach(l=>clearTimeout(l)),p.current=[];},[]),b=N.useCallback(async l=>{if(l>=e.steps.length){v("completed"),u(false),e.onComplete?.();return}let o=e.steps[l];if(d(l),o.parallel){let t=o.animations.map(r=>new Promise(i=>{let y=s.current;if(!y){i();return}Array.from(y.classList).forEach($=>{$.startsWith("animate-")&&y.classList.remove($);}),y.style.setProperty("--animation-duration",`${r.duration||.5}s`),y.style.setProperty("--animation-delay",`${r.delay||0}s`),y.style.setProperty("--animation-easing",r.easing||"ease-out");let h=`animate-${r.type}`;if(r.type==="fade")y.style.setProperty("--opacity-start",`${r.opacity?.start??0}`),y.style.setProperty("--opacity-end",`${r.opacity?.end??1}`);else if(r.type==="slide"){let $=r.distance||50,w=r.axis||"y";y.style.setProperty("--distance",`${$}px`),y.style.setProperty("--opacity-start",`${r.opacity?.start??0}`),y.style.setProperty("--opacity-end",`${r.opacity?.end??1}`),h=`animate-slide-${w}-${$>0?"positive":"negative"}`;}else if(r.type==="scale")y.style.setProperty("--scale-start",`${typeof r.scale=="object"&&r.scale!==null&&typeof r.scale.start=="number"?r.scale.start:1}`),y.style.setProperty("--scale-end",`${(typeof r.scale=="object"&&r.scale!==null&&"end"in r.scale?r.scale.end:r.scale)??.8}`),y.style.setProperty("--opacity-start",`${r.opacity?.start??0}`),y.style.setProperty("--opacity-end",`${r.opacity?.end??1}`);else if(r.type==="rotate"){let $=(typeof r.degrees=="object"?r.degrees.start:0)??0,w=(typeof r.degrees=="object"?r.degrees.end:r.degrees)??360;y.style.setProperty("--rotation-degrees-start",`${$}deg`),y.style.setProperty("--rotation-degrees-end",`${w}deg`);}else r.type==="bounce"&&y.style.setProperty("--distance",`${r.distance||50}px`);y.classList.add(h);let m,P=()=>{y.removeEventListener("animationend",P),y.removeEventListener("transitionend",P),clearTimeout(m),i();};y.addEventListener("animationend",P),y.addEventListener("transitionend",P);let E=(r.duration||.5)*1e3+(r.delay||0)*1e3+100;m=setTimeout(P,E),p.current.push(m);}));await Promise.all(t);}else for(let t of o.animations)await new Promise(r=>{let i=s.current;if(!i){r();return}Array.from(i.classList).forEach(E=>{E.startsWith("animate-")&&i.classList.remove(E);}),i.style.setProperty("--animation-duration",`${t.duration||.5}s`),i.style.setProperty("--animation-delay",`${t.delay||0}s`),i.style.setProperty("--animation-easing",t.easing||"ease-out");let y=`animate-${t.type}`;if(t.type==="fade")i.style.setProperty("--opacity-start",`${t.opacity?.start??0}`),i.style.setProperty("--opacity-end",`${t.opacity?.end??1}`);else if(t.type==="slide"){let E=t.distance||50,$=t.axis||"y";i.style.setProperty("--distance",`${E}px`),i.style.setProperty("--opacity-start",`${t.opacity?.start??0}`),i.style.setProperty("--opacity-end",`${t.opacity?.end??1}`),y=`animate-slide-${$}-${E>0?"positive":"negative"}`;}else if(t.type==="scale")i.style.setProperty("--scale-start",`${typeof t.scale=="object"&&t.scale!==null&&"start"in t.scale&&typeof t.scale.start=="number"?t.scale.start:1}`),i.style.setProperty("--scale-end",`${typeof t.scale=="object"&&t.scale!==null&&"end"in t.scale&&typeof t.scale.end=="number"?t.scale.end:typeof t.scale=="number"?t.scale:.8}`),i.style.setProperty("--opacity-start",`${t.opacity?.start??0}`),i.style.setProperty("--opacity-end",`${t.opacity?.end??1}`);else if(t.type==="rotate"){let E=(typeof t.degrees=="object"?t.degrees.start:0)??0,$=(typeof t.degrees=="object"?t.degrees.end:t.degrees)??360;i.style.setProperty("--rotation-degrees-start",`${E}deg`),i.style.setProperty("--rotation-degrees-end",`${$}deg`);}else t.type==="bounce"&&i.style.setProperty("--distance",`${t.distance||50}px`);i.classList.add(y);let h,m=()=>{i.removeEventListener("animationend",m),i.removeEventListener("transitionend",m),clearTimeout(h),r();};i.addEventListener("animationend",m),i.addEventListener("transitionend",m);let P=(t.duration||.5)*1e3+(t.delay||0)*1e3+100;h=setTimeout(m,P),p.current.push(h);});if(e.onStepComplete?.(l),o.delay){let t=setTimeout(()=>{b(l+1);},o.delay*1e3);p.current.push(t);}else b(l+1);},[e,g]),f=N.useCallback(()=>{A||(v("animating"),u(true),d(0),b(0));},[A,b]),S=N.useCallback(()=>{A&&(v("paused"),u(false),g());},[A,g]),n=N.useCallback(()=>{A||R!=="paused"||(v("animating"),u(true),b(a));},[A,R,a,b]),c=N.useCallback(()=>{let l=s.current;l&&Array.from(l.classList).forEach(o=>{o.startsWith("animate-")&&l.classList.remove(o);}),g(),v("idle"),u(false),d(0),Promise.resolve().then(()=>{f();});},[g,f]),T=N.useCallback(()=>{let l=s.current;l&&(Array.from(l.classList).forEach(o=>{o.startsWith("animate-")&&l.classList.remove(o);}),l.style.setProperty("--animation-duration",null),l.style.setProperty("--animation-delay",null),l.style.setProperty("--animation-easing",null)),g(),v("idle"),u(false),d(0);},[g]),x=N.useCallback(l=>{if(l<0||l>=e.steps.length)return;let o=s.current;o&&Array.from(o.classList).forEach(t=>{t.startsWith("animate-")&&o.classList.remove(t);}),g(),d(l),A&&(v("animating"),b(l));},[e.steps.length,g,A,b]);return N.useEffect(()=>()=>{g();},[g]),{ref:s,currentStep:a,totalSteps:e.steps.length,state:R,start:f,pause:S,resume:n,restart:c,cancel:T,goToStep:x}}function X(e,s=0){let[a,d]=N.useState([]),[R,v]=N.useState(false),A=N.useRef([]),u=N.useRef(new Set);N.useEffect(()=>{d(o=>o.length===s?o:Array.from({length:s},(r,i)=>o[i]||N.createRef()));},[s]);let p=N.useCallback(()=>{A.current.forEach(o=>clearTimeout(o)),A.current=[];},[]),g=N.useCallback(o=>{let t=Array.from({length:o},(r,i)=>i);switch(e.direction){case "reverse":return t.reverse();case "center-out":let r=Math.floor(o/2),i=[],y=r,h=r+1;for(i.push(r);y>0||h<o;)y>0&&i.push(--y),h<o&&i.push(h++);return i;default:return t}},[e.direction]),b=N.useCallback((o,t,r)=>{let i=o.current;return i?new Promise(y=>{u.current.add(r);let h=Array.isArray(t.type)?t.type[0]:t.type;if(i.classList.add(`animate-${h}`),t.duration!==void 0&&i.style.setProperty("--animation-duration",`${t.duration}s`),t.delay!==void 0&&i.style.setProperty("--animation-delay",`${t.delay}s`),t.easing){let w=Array.isArray(t.easing)?t.easing[0]:t.easing;i.style.setProperty("--animation-easing",w);}let m=()=>{u.current.delete(r),i.removeEventListener("animationend",m),i.removeEventListener("transitionend",m),y();};i.addEventListener("animationend",m),i.addEventListener("transitionend",m);let P=typeof t.duration=="number"?t.duration:.5,E=typeof t.delay=="number"?t.delay:0,$=setTimeout(()=>{m();},(P+E)*1e3+100);A.current.push($);}):Promise.resolve()},[]),f=N.useCallback(()=>{if(R||a.length===0)return;v(true),p(),u.current.clear();let o=g(a.length),t=0,r=()=>{if(t>=o.length){v(false);return}let i=o[t],y=a[i];if(e.maxConcurrent&&u.current.size>=e.maxConcurrent){setTimeout(r,50);return}if(e.animations.forEach((h,m)=>{let P=typeof h.delay=="number"?h.delay:0,E=m*e.delay,$={...h,delay:P+E};b(y,$,i);}),t++,t<o.length){let h=setTimeout(r,e.delay*1e3);A.current.push(h);}};r();},[R,a,e,g,b,p]),S=N.useCallback(()=>{a.forEach(o=>{o.current&&(o.current.style.animationPlayState="paused");});},[a]),n=N.useCallback(()=>{a.forEach(o=>{o.current&&(o.current.style.animationPlayState="running");});},[a]),c=N.useCallback(()=>{p(),u.current.clear(),v(false),a.forEach(o=>{o.current&&e.animations.forEach(t=>{let r=Array.isArray(t.type)?t.type[0]:t.type;o.current?.classList.remove(`animate-${r}`);});}),setTimeout(()=>{f();},10);},[p,a,e.animations,f]),T=N.useCallback(()=>{p(),u.current.clear(),v(false),a.forEach(o=>{o.current&&(o.current.style.animationPlayState="paused",e.animations.forEach(t=>{let r=Array.isArray(t.type)?t.type[0]:t.type;o.current?.classList.remove(`animate-${r}`);}));});},[p,a,e.animations]);N.useCallback(()=>{let o=N.createRef();return d(t=>[...t,o]),o},[]);N.useCallback(o=>{o<0||d(t=>o>=t.length?t:t.filter((r,i)=>i!==o));},[]);return N.useEffect(()=>()=>{p();},[p]),{refs:a,trigger:f,pause:S,resume:n,restart:c,cancel:T}}var ue=({children:e,type:s,state:a="closed",selfContained:d,duration:R=300,easing:v="cubic-bezier(0.87, 0, 0.13, 1)",className:A="",as:u="div",...p})=>{let g="server-animate",b=`server-animate-${s}`,f=`${g} ${b} ${A}`.trim(),S={"--animation-duration":`${R}ms`,"--animation-easing":v,...p.style};if(d){let{method:n,trigger:c,content:T,defaultOpen:x=false,id:l}=d;if(n==="details")return N__namespace.createElement("details",{className:"server-animate-details",style:S,open:x,id:l,...p},[N__namespace.createElement("summary",{key:"summary",className:"server-animate-trigger"},[N__namespace.createElement("div",{key:"trigger-content",className:`${f} details-trigger-animation`,"data-state":"closed",style:S},c||e),N__namespace.createElement("div",{key:"chevron",className:"server-animate-chevron"})]),N__namespace.createElement("div",{key:"content",className:`server-animate-content ${b}-content`,style:S},T||e)]);if(n==="checkbox"){let o=l||`server-accordion-${Math.random().toString(36).substr(2,9)}`;return N__namespace.createElement("div",{className:"server-animate-checkbox-wrapper",style:S,...p},[N__namespace.createElement("input",{key:"input",type:"checkbox",id:o,className:"server-animate-checkbox",defaultChecked:x}),N__namespace.createElement("label",{key:"label",htmlFor:o,className:"server-animate-trigger"},[N__namespace.createElement("div",{key:"trigger-content",className:`${f} checkbox-trigger-animation`,"data-state":"closed",style:S},c||e),N__namespace.createElement("div",{key:"chevron",className:"server-animate-chevron"})]),N__namespace.createElement("div",{key:"content",className:`server-animate-content ${b}-content`,style:S},T||e)])}}return N__namespace.createElement(u,{...p,className:f,"data-state":a,style:S},e)};var j=N.forwardRef(({children:e,as:s="div",className:a="",onAnimationComplete:d,type:R,duration:v,delay:A,easing:u,distance:p,degrees:g,scale:b,opacity:f,axis:S,...n},c)=>{let T={type:R,duration:v,delay:A,easing:u,distance:p,degrees:g,scale:b,opacity:f,axis:S},{ref:x,key:l}=J(T),o=i=>{typeof x=="object"&&x!==null&&(x.current=i),c&&(typeof c=="function"?c(i):c.current=i);},t=i=>{i.target===x.current&&d?.(),n.onAnimationEnd?.(i);},r=`animated ${a}`.trim();return N__namespace.default.createElement(s,{...n,ref:o,className:r,key:l,onAnimationEnd:t,"data-animation-type":R,"data-animation-duration":v??.5,"data-animation-delay":A??0},e)});j.displayName="Animate";var ae=N.forwardRef(({children:e,config:s,as:a="div",className:d="",onStateChange:R,...v},A)=>{let{ref:u,state:p,trigger:g,pause:b,resume:f,restart:S,cancel:n,dataAttributes:c}=W(s),T=u;return N__namespace.default.useEffect(()=>{R?.(p);},[p,R]),N__namespace.default.useImperativeHandle(A,()=>({trigger:g,pause:b,resume:f,restart:S,cancel:n,state:p}),[g,b,f,S,n,p]),N__namespace.default.createElement(a,{ref:T,className:`modern-animate ${d}`.trim(),...c,...v},e)});ae.displayName="ModernAnimate";var ne=N.forwardRef(({children:e,sequence:s,as:a="div",className:d="",autoStart:R=false,onStepChange:v,...A},u)=>{let{ref:p,currentStep:g,totalSteps:b,state:f,start:S,pause:n,resume:c,restart:T,cancel:x,goToStep:l}=F(s),o=p;return N__namespace.default.useEffect(()=>{R&&f==="idle"&&S();},[R,f,S]),N__namespace.default.useEffect(()=>{v?.(g);},[g,v]),N__namespace.default.useImperativeHandle(u,()=>({start:S,pause:n,resume:c,restart:T,cancel:x,goToStep:l,currentStep:g,totalSteps:b,state:f}),[S,n,c,T,x,l,g,b,f]),N__namespace.default.createElement(a,{ref:o,className:`sequence-animate ${d}`.trim(),"data-sequence-state":f,"data-current-step":g,"data-total-steps":b,...A},e)});ne.displayName="SequenceAnimate";var re=N.forwardRef(({children:e,itemAnimation:s,staggerDelay:a,staggerDirection:d,maxConcurrent:R,as:v="div",className:A="",itemClassName:u="",autoStart:p=false,...g},b)=>{let f=N.Children.toArray(e),S={animations:[s],delay:a,direction:d,maxConcurrent:R},{refs:n,trigger:c,pause:T,resume:x,restart:l,cancel:o}=X(S,f.length);N__namespace.default.useEffect(()=>{p&&n.length>0&&c();},[p,n.length,c]),N__namespace.default.useImperativeHandle(b,()=>({trigger:c,pause:T,resume:x,restart:l,cancel:o,elementCount:n.length}),[c,T,x,l,o,n.length]);let t=f.map((r,i)=>{if(!N__namespace.default.isValidElement(r))return r;let y=n[i];return y?N__namespace.default.cloneElement(r,{ref:y,className:`${r.props.className||""} staggered-item ${u}`.trim(),"data-stagger-index":i,"data-stagger-total":f.length}):r});return N__namespace.default.createElement(v,{className:`staggered-animate ${A}`.trim(),"data-stagger-direction":d||"forward","data-stagger-count":f.length,...g},t)});re.displayName="StaggeredAnimate";var se=N.forwardRef(({children:e,hoverConfig:s,focusConfig:a,clickConfig:d,as:R="div",className:v="",disabled:A=false,style:u,...p},g)=>{let b=N__namespace.default.useMemo(()=>{let n={};if(s){n["--hover-duration"]=`${s.duration||.2}s`;let c=Array.isArray(s.easing)?s.easing[0]:s.easing;n["--hover-easing"]=c||"ease-out",typeof s.scale=="number"?n["--hover-scale"]=`${s.scale}`:s.scale?.end&&(n["--hover-scale"]=`${s.scale.end}`),s.distance&&(n["--hover-distance"]=`${s.distance}px`);}if(a){n["--focus-duration"]=`${a.duration||.2}s`;let c=Array.isArray(a.easing)?a.easing[0]:a.easing;n["--focus-easing"]=c||"ease-out",typeof a.scale=="number"?n["--focus-scale"]=`${a.scale}`:a.scale?.end&&(n["--focus-scale"]=`${a.scale.end}`);}if(d){n["--click-duration"]=`${d.duration||.1}s`;let c=Array.isArray(d.easing)?d.easing[0]:d.easing;n["--click-easing"]=c||"ease-out",typeof d.scale=="number"?n["--click-scale"]=`${d.scale}`:d.scale?.end&&(n["--click-scale"]=`${d.scale.end}`);}return n},[s,a,d]),f=N__namespace.default.useMemo(()=>{let n=["interactive-animate"];if(s){let c=Array.isArray(s.type)?s.type[0]:s.type;n.push(`interactive-hover-${c}`);}if(a){let c=Array.isArray(a.type)?a.type[0]:a.type;n.push(`interactive-focus-${c}`);}if(d){let c=Array.isArray(d.type)?d.type[0]:d.type;n.push(`interactive-click-${c}`);}return n.join(" ")},[s,a,d]),S={...b,...u};return N__namespace.default.createElement(R,{ref:g,className:`${f} ${v}`.trim(),style:S,"data-interactive":!A,"data-has-hover":!!s,"data-has-focus":!!a,"data-has-click":!!d,...p},e)});se.displayName="InteractiveAnimate";var Re=({trigger:e,children:s,defaultOpen:a=false,duration:d=300,easing:R="cubic-bezier(0.87, 0, 0.13, 1)",className:v="",triggerClassName:A="",contentClassName:u="",id:p,animationType:g="slide-down",variant:b="checkbox"})=>{let f=p||`self-contained-toggle-${Math.random().toString(36).substr(2,9)}`,n=`${`self-contained-toggle self-contained-toggle--${b} self-contained-toggle--${g}`} ${v}`.trim(),c={"--toggle-duration":`${d}ms`,"--toggle-easing":R};return b==="details"?N__namespace.createElement("details",{className:n,style:c,open:a,id:f},[N__namespace.createElement("summary",{key:"summary",className:`toggle-trigger ${A}`.trim()},e),N__namespace.createElement("div",{key:"content",className:`toggle-content ${u}`.trim()},N__namespace.createElement("div",{className:"toggle-content-inner"},s))]):N__namespace.createElement("div",{className:n,style:c},[N__namespace.createElement("input",{key:"input",type:"checkbox",id:f,className:"toggle-checkbox",defaultChecked:a}),N__namespace.createElement("label",{key:"label",htmlFor:f,className:`toggle-trigger ${A}`.trim()},e),N__namespace.createElement("div",{key:"content",className:`toggle-content ${u}`.trim()},N__namespace.createElement("div",{className:"toggle-content-inner"},s))])};var Se=({trigger:e,children:s,defaultOpen:a=false,duration:d=300,easing:R="cubic-bezier(0.87, 0, 0.13, 1)",className:v="",triggerClassName:A="",contentClassName:u="",id:p,animationType:g="slide-down"})=>{let f=`${`self-contained-details self-contained-details--${g}`} ${v}`.trim(),S={"--details-duration":`${d}ms`,"--details-easing":R};return N__namespace.createElement("details",{className:f,style:S,open:a,id:p},[N__namespace.createElement("summary",{key:"summary",className:`details-trigger ${A}`.trim()},e),N__namespace.createElement("div",{key:"content",className:`details-content ${u}`.trim()},N__namespace.createElement("div",{className:"details-content-inner"},s))])},Ee=Se;var $e=({children:e,animationType:s,duration:a=300,easing:d="cubic-bezier(0.87, 0, 0.13, 1)",degrees:R=180,distance:v=200,scale:A=1.1,className:u="",stateSelector:p,triggerState:g="open"})=>{let b=N__namespace.default.useId(),f=`state-animate-${s}`,S={"--animation-duration":`${a}ms`,"--animation-easing":d,"--rotation-degrees":`${R}deg`,"--slide-distance":`${v}px`,"--scale-factor":A};return N__namespace.default.createElement("div",{className:`state-animate ${f} ${u}`,style:S,"data-state-selector":p,"data-trigger-state":g,"data-instance-id":b},e)},Te=$e;var he=({children:e,animationType:s,duration:a=300,easing:d="cubic-bezier(0.87, 0, 0.13, 1)",degrees:R=180,scale:v=1,className:A=""})=>{let u=`state-animate-${s}`,p={"--animation-duration":`${a}ms`,"--animation-easing":d,"--rotation-degrees":`${R}deg`,"--scale-factor":v};return N__namespace.default.createElement("div",{className:`state-animate ${u} ${A}`,style:p},e)},Pe=he;exports.Animate=j;exports.AnimateWrapper=j;exports.InteractiveAnimate=se;exports.ModernAnimate=ae;exports.RadixAnimate=Pe;exports.SelfContainedDetails=Ee;exports.SelfContainedToggle=Re;exports.SequenceAnimate=ne;exports.ServerAnimate=ue;exports.StaggeredAnimate=re;exports.StateBasedAnimate=Te;exports.default=j;exports.useAnimation=J;exports.useAnimationSequence=F;exports.useModernAnimation=W;exports.useStaggeredAnimation=X;
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  Animate: () => Animate,
+  InteractiveAnimate: () => InteractiveAnimate,
+  ModernAnimate: () => ModernAnimate,
+  RadixAnimate: () => RadixAnimate_default,
+  SequenceAnimate: () => SequenceAnimate,
+  ServerAnimate: () => ServerAnimate,
+  StaggeredAnimate: () => StaggeredAnimate,
+  StateBasedAnimate: () => StateBasedAnimate_default,
+  default: () => Animate,
+  useAnimation: () => useAnimation,
+  useAnimationSequence: () => useAnimationSequence,
+  useModernAnimation: () => useModernAnimation,
+  useStaggeredAnimation: () => useStaggeredAnimation
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/hooks/useAnimation.ts
+var import_react = require("react");
+var DEFAULTS = {
+  duration: 0.5,
+  delay: 0,
+  easing: "ease-out",
+  opacityStart: 0,
+  opacityEnd: 1,
+  distance: 50,
+  degrees: 360,
+  // Default end rotation for one-shot keyframe animation
+  degreesStart: 0,
+  // Default start rotation for one-shot keyframe animation
+  scale: 0.8,
+  axis: "x"
+};
+function useAnimation(config, onAnimationComplete) {
+  const {
+    type,
+    duration: configDuration,
+    delay: configDelay,
+    easing: configEasing,
+    distance: configDistance,
+    degrees: configDegrees,
+    scale: configScale,
+    opacity: configOpacity,
+    axis: configAxis
+  } = config;
+  const duration = validateTime(configDuration, DEFAULTS.duration);
+  const delay = validateTime(configDelay, DEFAULTS.delay);
+  const easing = configEasing || DEFAULTS.easing;
+  const distance = configDistance ?? DEFAULTS.distance;
+  const scale = configScale ?? DEFAULTS.scale;
+  const axis = configAxis || DEFAULTS.axis;
+  const opacity = {
+    start: validateOpacity(configOpacity?.start, DEFAULTS.opacityStart),
+    end: validateOpacity(configOpacity?.end, DEFAULTS.opacityEnd)
+  };
+  const [key, setKey] = (0, import_react.useState)(0);
+  const elementRef = (0, import_react.useRef)(null);
+  const animationTimerRef = (0, import_react.useRef)(null);
+  const handleAnimationEndEvent = (0, import_react.useCallback)(
+    (event) => {
+      if (event.target === elementRef.current && onAnimationComplete) {
+        onAnimationComplete(event);
+        if (event.type === "animationend") {
+          elementRef.current?.removeEventListener(
+            "animationend",
+            handleAnimationEndEvent
+          );
+        } else if (event.type === "transitionend") {
+          elementRef.current?.removeEventListener(
+            "transitionend",
+            handleAnimationEndEvent
+          );
+        }
+      }
+    },
+    [onAnimationComplete]
+  );
+  (0, import_react.useEffect)(() => {
+    const node = elementRef.current;
+    if (!node) return;
+    node.style.transition = "";
+    node.style.transform = "";
+    const classesToRemove = Array.from(node.classList).filter(
+      (cls) => cls.startsWith("animate-")
+    );
+    classesToRemove.forEach((cls) => node.classList.remove(cls));
+    node.removeEventListener("animationend", handleAnimationEndEvent);
+    node.removeEventListener("transitionend", handleAnimationEndEvent);
+    if (animationTimerRef.current) {
+      clearTimeout(animationTimerRef.current);
+    }
+    if (type === "rotate") {
+      let endDeg = DEFAULTS.degreesStart;
+      if (typeof configDegrees === "number") {
+        endDeg = configDegrees;
+      } else if (configDegrees && typeof configDegrees.end === "number") {
+        endDeg = configDegrees.end;
+      }
+      node.style.transition = `transform ${duration}s ${easing} ${delay}s`;
+      node.style.transform = `rotate(${endDeg}deg)`;
+      if (onAnimationComplete) {
+        node.addEventListener("transitionend", handleAnimationEndEvent);
+      }
+    } else {
+      let animationClass = `animate-${type}`;
+      if (type === "slide") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${axis}-${directionSuffix}`;
+      } else if (type === "bounce") {
+        const directionSuffix = distance >= 0 ? "positive" : "negative";
+        animationClass = `animate-${type}-${directionSuffix}`;
+      }
+      node.style.setProperty("--animation-duration", `${duration}s`);
+      node.style.setProperty("--animation-delay", `${delay}s`);
+      node.style.setProperty("--animation-easing", easing);
+      if (type === "fade") {
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "slide") {
+        node.style.setProperty("--distance", `${Math.abs(distance)}px`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "scale") {
+        node.style.setProperty("--scale", `${scale}`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (type === "bounce") {
+        node.style.setProperty("--distance", `${distance}px`);
+        node.style.setProperty("--opacity-start", `${opacity.start}`);
+        node.style.setProperty("--opacity-end", `${opacity.end}`);
+      }
+      if (animationClass) {
+        void node.offsetWidth;
+        animationTimerRef.current = Number(
+          window.setTimeout(() => {
+            const currentNode = elementRef.current;
+            if (currentNode) {
+              currentNode.style.animation = "none";
+              void currentNode.offsetWidth;
+              currentNode.style.animation = "";
+              currentNode.classList.add(animationClass);
+              if (onAnimationComplete) {
+                currentNode.addEventListener(
+                  "animationend",
+                  handleAnimationEndEvent
+                );
+              }
+            }
+          }, 20)
+        );
+      }
+    }
+    return () => {
+      if (animationTimerRef.current) {
+        clearTimeout(animationTimerRef.current);
+      }
+      if (node) {
+        node.removeEventListener("animationend", handleAnimationEndEvent);
+        node.removeEventListener("transitionend", handleAnimationEndEvent);
+      }
+    };
+  }, [
+    type,
+    duration,
+    delay,
+    easing,
+    distance,
+    configDegrees,
+    scale,
+    opacity.start,
+    opacity.end,
+    axis,
+    key,
+    onAnimationComplete,
+    handleAnimationEndEvent
+  ]);
+  const replay = (0, import_react.useCallback)(() => {
+    const node = elementRef.current;
+    if (node) {
+      node.style.animation = "none";
+      const classesToRemove = Array.from(node.classList).filter(
+        (cls) => cls.startsWith("animate-")
+      );
+      classesToRemove.forEach((cls) => node.classList.remove(cls));
+      void node.offsetHeight;
+      node.style.animation = "";
+    }
+    setKey((prevKey) => prevKey + 1);
+  }, []);
+  return { ref: elementRef, key, replay };
+}
+function validateTime(value, defaultValue) {
+  const numValue = typeof value === "number" ? value : NaN;
+  if (!isNaN(numValue) && numValue >= 0) {
+    return numValue;
+  }
+  return defaultValue;
+}
+function validateOpacity(value, defaultValue) {
+  const numValue = typeof value === "number" ? value : defaultValue;
+  return Math.max(0, Math.min(1, numValue));
+}
+
+// src/hooks/useModernAnimation.ts
+var import_react2 = require("react");
+function createCombinedAnimation(types, combinedName) {
+  let fromTransforms = [];
+  let toTransforms = [];
+  let fromOpacity = "1";
+  let toOpacity = "1";
+  types.forEach((type) => {
+    switch (type) {
+      case "scale":
+        fromTransforms.push("scale(var(--animation-scale, 0.8))");
+        toTransforms.push("scale(1)");
+        break;
+      case "bounce":
+        fromTransforms.push("translateY(var(--animation-distance, 20px))");
+        toTransforms.push("translateY(0)");
+        break;
+      case "fade":
+        fromOpacity = "var(--opacity-start, 0)";
+        toOpacity = "var(--opacity-end, 1)";
+        break;
+      case "rotate":
+        fromTransforms.push("rotate(0deg)");
+        toTransforms.push("rotate(var(--animation-degrees, 180deg))");
+        break;
+      case "slide":
+        fromTransforms.push("translateX(var(--animation-distance, 50px))");
+        toTransforms.push("translateX(0)");
+        break;
+      case "slide-x":
+        fromTransforms.push("translateX(var(--animation-distance, 50px))");
+        toTransforms.push("translateX(0)");
+        break;
+      case "slide-y":
+        fromTransforms.push("translateY(var(--animation-distance, 50px))");
+        toTransforms.push("translateY(0)");
+        break;
+    }
+  });
+  const fromTransform = fromTransforms.length > 0 ? fromTransforms.join(" ") : "none";
+  const toTransform = toTransforms.length > 0 ? toTransforms.join(" ") : "none";
+  const keyframes = `
+    @keyframes ${combinedName} {
+      from {
+        transform: ${fromTransform};
+        opacity: ${fromOpacity};
+      }
+      to {
+        transform: ${toTransform};
+        opacity: ${toOpacity};
+      }
+    }
+    
+    .animate-combined-${combinedName} {
+      animation-name: ${combinedName};
+      animation-duration: var(--animation-duration, 0.5s);
+      animation-delay: var(--animation-delay, 0s);
+      animation-timing-function: var(--animation-easing, ease-out);
+      animation-fill-mode: forwards;
+      will-change: transform, opacity;
+    }
+  `;
+  const styleElement = document.createElement("style");
+  styleElement.setAttribute("data-animation", combinedName);
+  styleElement.textContent = keyframes;
+  document.head.appendChild(styleElement);
+}
+function useModernAnimation(config) {
+  const elementRef = (0, import_react2.useRef)(null);
+  const [state, setState] = (0, import_react2.useState)("idle");
+  const [currentTrigger, setCurrentTrigger] = (0, import_react2.useState)(
+    config.trigger || "mount"
+  );
+  const prefersReducedMotion = (0, import_react2.useCallback)(() => {
+    return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+  const trigger = (0, import_react2.useCallback)(
+    (triggerType = currentTrigger) => {
+      const element = elementRef.current;
+      if (!element || state === "animating") return;
+      if (config.respectReducedMotion !== false && prefersReducedMotion()) {
+        setState("completed");
+        config.onComplete?.();
+        return;
+      }
+      console.log('[Animation Hook] Setting state to "animating"');
+      setState("animating");
+      setCurrentTrigger(triggerType);
+      if (config.duration !== void 0) {
+        const duration = Array.isArray(config.duration) ? config.duration.length > 0 ? config.duration.reduce((a, b) => Math.max(a, b), 0) : 0.5 : config.duration;
+        element.style.setProperty("--animation-duration", `${duration}s`);
+        console.log(
+          "[Animation Hook] Set --animation-duration:",
+          `${duration}s`
+        );
+      }
+      if (config.delay !== void 0) {
+        const delay = Array.isArray(config.delay) ? config.delay.length > 0 ? config.delay[0] : 0 : config.delay;
+        element.style.setProperty("--animation-delay", `${delay}s`);
+      }
+      if (config.easing) {
+        const easing = Array.isArray(config.easing) ? config.easing.length > 0 ? config.easing[0] : "ease-out" : config.easing;
+        element.style.setProperty("--animation-easing", easing);
+      }
+      if (config.distance !== void 0) {
+        element.style.setProperty(
+          "--animation-distance",
+          `${config.distance}px`
+        );
+      }
+      if (config.axis) {
+        element.style.setProperty("--animation-axis", config.axis);
+      }
+      if (config.degrees !== void 0) {
+        const degrees = typeof config.degrees === "number" ? config.degrees : config.degrees.end;
+        element.style.setProperty("--animation-degrees", `${degrees}deg`);
+      }
+      if (config.scale !== void 0) {
+        const scale = typeof config.scale === "number" ? config.scale : config.scale.end;
+        element.style.setProperty("--animation-scale", `${scale}`);
+      }
+      const types = Array.isArray(config.type) ? config.type : [config.type];
+      if (types.length === 1) {
+        element.classList.add(`animate-${types[0]}`);
+      } else {
+        const combinedAnimationName = types.join("-");
+        element.classList.add(`animate-combined-${combinedAnimationName}`);
+        if (!document.querySelector(
+          `style[data-animation="${combinedAnimationName}"]`
+        )) {
+          createCombinedAnimation(types, combinedAnimationName);
+        }
+      }
+      element.dataset.animationState = "animating";
+      element.dataset.animationTrigger = triggerType;
+      config.onStart?.();
+      const handleAnimationEnd = () => {
+        setState("completed");
+        element.dataset.animationState = "completed";
+        config.onComplete?.();
+        element.removeEventListener("animationend", handleAnimationEnd);
+        element.removeEventListener("transitionend", handleAnimationEnd);
+      };
+      element.addEventListener("animationend", handleAnimationEnd);
+      element.addEventListener("transitionend", handleAnimationEnd);
+    },
+    [config, state, currentTrigger, prefersReducedMotion]
+  );
+  const pause = (0, import_react2.useCallback)(() => {
+    const element = elementRef.current;
+    if (!element || state !== "animating") return;
+    setState("paused");
+    element.dataset.animationState = "paused";
+    element.style.animationPlayState = "paused";
+  }, [state]);
+  const resume = (0, import_react2.useCallback)(() => {
+    const element = elementRef.current;
+    if (!element || state !== "paused") return;
+    setState("animating");
+    element.dataset.animationState = "animating";
+    element.style.animationPlayState = "running";
+  }, [state]);
+  const restart = (0, import_react2.useCallback)(() => {
+    const element = elementRef.current;
+    if (!element) return;
+    const types = Array.isArray(config.type) ? config.type : [config.type];
+    if (types.length === 1) {
+      element.classList.remove(`animate-${types[0]}`);
+    } else {
+      const combinedAnimationName = types.join("-");
+      element.classList.remove(`animate-combined-${combinedAnimationName}`);
+    }
+    element.style.animationPlayState = "";
+    setState("idle");
+    element.dataset.animationState = "idle";
+    element.offsetHeight;
+    setTimeout(() => trigger(), 10);
+  }, [config, trigger]);
+  const cancel = (0, import_react2.useCallback)(() => {
+    const element = elementRef.current;
+    if (!element) return;
+    setState("idle");
+    element.dataset.animationState = "idle";
+    element.style.animationPlayState = "";
+    element.style.animation = "";
+    const types = Array.isArray(config.type) ? config.type : [config.type];
+    if (types.length === 1) {
+      element.classList.remove(`animate-${types[0]}`);
+    } else {
+      const combinedAnimationName = types.join("-");
+      element.classList.remove(`animate-combined-${combinedAnimationName}`);
+    }
+  }, [config]);
+  (0, import_react2.useEffect)(() => {
+    if (config.trigger === "mount" || !config.trigger) {
+      trigger("mount");
+    }
+  }, [config.trigger, trigger]);
+  const dataAttributes = {
+    "data-animation-state": state,
+    "data-animation-trigger": currentTrigger
+  };
+  return {
+    ref: elementRef,
+    state,
+    trigger,
+    pause,
+    resume,
+    restart,
+    cancel,
+    dataAttributes
+  };
+}
+
+// src/hooks/useAnimationSequence.ts
+var import_react3 = require("react");
+function useAnimationSequence(sequence) {
+  const elementRef = (0, import_react3.useRef)(null);
+  const [currentStep, setCurrentStep] = (0, import_react3.useState)(0);
+  const [state, setState] = (0, import_react3.useState)("idle");
+  const [isRunning, setIsRunning] = (0, import_react3.useState)(false);
+  const timeoutsRef = (0, import_react3.useRef)([]);
+  const clearAllTimeouts = (0, import_react3.useCallback)(() => {
+    timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+    timeoutsRef.current = [];
+  }, []);
+  const executeStep = (0, import_react3.useCallback)(
+    async (stepIndex) => {
+      if (stepIndex >= sequence.steps.length) {
+        setState("completed");
+        setIsRunning(false);
+        sequence.onComplete?.();
+        return;
+      }
+      const step = sequence.steps[stepIndex];
+      setCurrentStep(stepIndex);
+      if (step.parallel) {
+        const promises = step.animations.map((animConfig) => {
+          return new Promise((resolve) => {
+            const element = elementRef.current;
+            if (!element) {
+              resolve();
+              return;
+            }
+            Array.from(element.classList).forEach((className) => {
+              if (className.startsWith("animate-")) {
+                element.classList.remove(className);
+              }
+            });
+            element.style.setProperty(
+              "--animation-duration",
+              `${animConfig.duration || 0.5}s`
+            );
+            element.style.setProperty(
+              "--animation-delay",
+              `${animConfig.delay || 0}s`
+            );
+            element.style.setProperty(
+              "--animation-easing",
+              animConfig.easing || "ease-out"
+            );
+            let animationClassName = `animate-${animConfig.type}`;
+            if (animConfig.type === "fade") {
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+            } else if (animConfig.type === "slide") {
+              const distance = animConfig.distance || 50;
+              const axis = animConfig.axis || "y";
+              element.style.setProperty("--distance", `${distance}px`);
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+              animationClassName = `animate-slide-${axis}-${distance > 0 ? "positive" : "negative"}`;
+            } else if (animConfig.type === "scale") {
+              element.style.setProperty(
+                "--scale-start",
+                `${typeof animConfig.scale === "object" && animConfig.scale !== null && typeof animConfig.scale.start === "number" ? animConfig.scale.start : 1}`
+              );
+              element.style.setProperty(
+                "--scale-end",
+                `${(typeof animConfig.scale === "object" && animConfig.scale !== null && "end" in animConfig.scale ? animConfig.scale.end : animConfig.scale) ?? 0.8}`
+              );
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+            } else if (animConfig.type === "rotate") {
+              const startDeg = (typeof animConfig.degrees === "object" ? animConfig.degrees.start : 0) ?? 0;
+              const endDeg = (typeof animConfig.degrees === "object" ? animConfig.degrees.end : animConfig.degrees) ?? 360;
+              element.style.setProperty(
+                "--rotation-degrees-start",
+                `${startDeg}deg`
+              );
+              element.style.setProperty(
+                "--rotation-degrees-end",
+                `${endDeg}deg`
+              );
+            } else if (animConfig.type === "bounce") {
+              element.style.setProperty(
+                "--distance",
+                `${animConfig.distance || 50}px`
+              );
+            }
+            element.classList.add(animationClassName);
+            let fallbackTimeoutId;
+            const handleAnimationEnd = () => {
+              element.removeEventListener("animationend", handleAnimationEnd);
+              element.removeEventListener("transitionend", handleAnimationEnd);
+              clearTimeout(fallbackTimeoutId);
+              resolve();
+            };
+            element.addEventListener("animationend", handleAnimationEnd);
+            element.addEventListener("transitionend", handleAnimationEnd);
+            const totalDuration = (animConfig.duration || 0.5) * 1e3 + (animConfig.delay || 0) * 1e3 + 100;
+            fallbackTimeoutId = setTimeout(handleAnimationEnd, totalDuration);
+            timeoutsRef.current.push(fallbackTimeoutId);
+          });
+        });
+        await Promise.all(promises);
+      } else {
+        for (const animConfig of step.animations) {
+          await new Promise((resolve) => {
+            const element = elementRef.current;
+            if (!element) {
+              resolve();
+              return;
+            }
+            Array.from(element.classList).forEach((className) => {
+              if (className.startsWith("animate-")) {
+                element.classList.remove(className);
+              }
+            });
+            element.style.setProperty(
+              "--animation-duration",
+              `${animConfig.duration || 0.5}s`
+            );
+            element.style.setProperty(
+              "--animation-delay",
+              `${animConfig.delay || 0}s`
+            );
+            element.style.setProperty(
+              "--animation-easing",
+              animConfig.easing || "ease-out"
+            );
+            let animationClassName = `animate-${animConfig.type}`;
+            if (animConfig.type === "fade") {
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+            } else if (animConfig.type === "slide") {
+              const distance = animConfig.distance || 50;
+              const axis = animConfig.axis || "y";
+              element.style.setProperty("--distance", `${distance}px`);
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+              animationClassName = `animate-slide-${axis}-${distance > 0 ? "positive" : "negative"}`;
+            } else if (animConfig.type === "scale") {
+              element.style.setProperty(
+                "--scale-start",
+                `${typeof animConfig.scale === "object" && animConfig.scale !== null && "start" in animConfig.scale && typeof animConfig.scale.start === "number" ? animConfig.scale.start : 1}`
+              );
+              element.style.setProperty(
+                "--scale-end",
+                `${typeof animConfig.scale === "object" && animConfig.scale !== null && "end" in animConfig.scale && typeof animConfig.scale.end === "number" ? animConfig.scale.end : typeof animConfig.scale === "number" ? animConfig.scale : 0.8}`
+              );
+              element.style.setProperty(
+                "--opacity-start",
+                `${animConfig.opacity?.start ?? 0}`
+              );
+              element.style.setProperty(
+                "--opacity-end",
+                `${animConfig.opacity?.end ?? 1}`
+              );
+            } else if (animConfig.type === "rotate") {
+              const startDeg = (typeof animConfig.degrees === "object" ? animConfig.degrees.start : 0) ?? 0;
+              const endDeg = (typeof animConfig.degrees === "object" ? animConfig.degrees.end : animConfig.degrees) ?? 360;
+              element.style.setProperty(
+                "--rotation-degrees-start",
+                `${startDeg}deg`
+              );
+              element.style.setProperty(
+                "--rotation-degrees-end",
+                `${endDeg}deg`
+              );
+            } else if (animConfig.type === "bounce") {
+              element.style.setProperty(
+                "--distance",
+                `${animConfig.distance || 50}px`
+              );
+            }
+            element.classList.add(animationClassName);
+            let fallbackTimeoutId;
+            const handleAnimationEnd = () => {
+              element.removeEventListener("animationend", handleAnimationEnd);
+              element.removeEventListener("transitionend", handleAnimationEnd);
+              clearTimeout(fallbackTimeoutId);
+              resolve();
+            };
+            element.addEventListener("animationend", handleAnimationEnd);
+            element.addEventListener("transitionend", handleAnimationEnd);
+            const totalDuration = (animConfig.duration || 0.5) * 1e3 + (animConfig.delay || 0) * 1e3 + 100;
+            fallbackTimeoutId = setTimeout(handleAnimationEnd, totalDuration);
+            timeoutsRef.current.push(fallbackTimeoutId);
+          });
+        }
+      }
+      sequence.onStepComplete?.(stepIndex);
+      if (step.delay) {
+        const timeout = setTimeout(() => {
+          executeStep(stepIndex + 1);
+        }, step.delay * 1e3);
+        timeoutsRef.current.push(timeout);
+      } else {
+        executeStep(stepIndex + 1);
+      }
+    },
+    [sequence, clearAllTimeouts]
+    // Added clearAllTimeouts
+  );
+  const start = (0, import_react3.useCallback)(() => {
+    if (isRunning) return;
+    setState("animating");
+    setIsRunning(true);
+    setCurrentStep(0);
+    executeStep(0);
+  }, [isRunning, executeStep]);
+  const pause = (0, import_react3.useCallback)(() => {
+    if (!isRunning) return;
+    setState("paused");
+    setIsRunning(false);
+    clearAllTimeouts();
+  }, [isRunning, clearAllTimeouts]);
+  const resume = (0, import_react3.useCallback)(() => {
+    if (isRunning || state !== "paused") return;
+    setState("animating");
+    setIsRunning(true);
+    executeStep(currentStep);
+  }, [isRunning, state, currentStep, executeStep]);
+  const restart = (0, import_react3.useCallback)(() => {
+    const element = elementRef.current;
+    if (element) {
+      Array.from(element.classList).forEach((className) => {
+        if (className.startsWith("animate-")) {
+          element.classList.remove(className);
+        }
+      });
+    }
+    clearAllTimeouts();
+    setState("idle");
+    setIsRunning(false);
+    setCurrentStep(0);
+    Promise.resolve().then(() => {
+      start();
+    });
+  }, [clearAllTimeouts, start]);
+  const cancel = (0, import_react3.useCallback)(() => {
+    const element = elementRef.current;
+    if (element) {
+      Array.from(element.classList).forEach((className) => {
+        if (className.startsWith("animate-")) {
+          element.classList.remove(className);
+        }
+      });
+      element.style.setProperty("--animation-duration", null);
+      element.style.setProperty("--animation-delay", null);
+      element.style.setProperty("--animation-easing", null);
+    }
+    clearAllTimeouts();
+    setState("idle");
+    setIsRunning(false);
+    setCurrentStep(0);
+  }, [clearAllTimeouts]);
+  const goToStep = (0, import_react3.useCallback)(
+    (stepIndex) => {
+      if (stepIndex < 0 || stepIndex >= sequence.steps.length) return;
+      const element = elementRef.current;
+      if (element) {
+        Array.from(element.classList).forEach((className) => {
+          if (className.startsWith("animate-")) {
+            element.classList.remove(className);
+          }
+        });
+      }
+      clearAllTimeouts();
+      setCurrentStep(stepIndex);
+      if (isRunning) {
+        setState("animating");
+        executeStep(stepIndex);
+      } else {
+      }
+    },
+    [sequence.steps.length, clearAllTimeouts, isRunning, executeStep]
+    // Removed 'elementRef'
+  );
+  (0, import_react3.useEffect)(() => {
+    return () => {
+      clearAllTimeouts();
+    };
+  }, [clearAllTimeouts]);
+  return {
+    ref: elementRef,
+    currentStep,
+    totalSteps: sequence.steps.length,
+    state,
+    start,
+    pause,
+    resume,
+    restart,
+    cancel,
+    goToStep
+  };
+}
+
+// src/hooks/useStaggeredAnimation.ts
+var import_react4 = require("react");
+function useStaggeredAnimation(config, elementCount = 0) {
+  const [refs, setRefs] = (0, import_react4.useState)([]);
+  const [isAnimating, setIsAnimating] = (0, import_react4.useState)(false);
+  const timeoutsRef = (0, import_react4.useRef)([]);
+  const activeAnimationsRef = (0, import_react4.useRef)(/* @__PURE__ */ new Set());
+  (0, import_react4.useEffect)(() => {
+    setRefs((oldRefs) => {
+      if (oldRefs.length === elementCount) {
+        return oldRefs;
+      }
+      const newRefsArray = Array.from(
+        { length: elementCount },
+        (_, i) => oldRefs[i] || (0, import_react4.createRef)()
+      );
+      return newRefsArray;
+    });
+  }, [elementCount]);
+  const clearAllTimeouts = (0, import_react4.useCallback)(() => {
+    timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+    timeoutsRef.current = [];
+  }, []);
+  const getStaggerOrder = (0, import_react4.useCallback)(
+    (totalElements) => {
+      const indices = Array.from({ length: totalElements }, (_, i) => i);
+      switch (config.direction) {
+        case "reverse":
+          return indices.reverse();
+        case "center-out":
+          const center = Math.floor(totalElements / 2);
+          const result = [];
+          let left = center;
+          let right = center + 1;
+          result.push(center);
+          while (left > 0 || right < totalElements) {
+            if (left > 0) result.push(--left);
+            if (right < totalElements) result.push(right++);
+          }
+          return result;
+        default:
+          return indices;
+      }
+    },
+    [config.direction]
+  );
+  const animateElement = (0, import_react4.useCallback)(
+    (elementRef, animConfig, elementIndex) => {
+      const element = elementRef.current;
+      if (!element) return Promise.resolve();
+      return new Promise((resolve) => {
+        activeAnimationsRef.current.add(elementIndex);
+        const animationType = Array.isArray(animConfig.type) ? animConfig.type[0] : animConfig.type;
+        element.classList.add(`animate-${animationType}`);
+        if (animConfig.duration !== void 0) {
+          element.style.setProperty(
+            "--animation-duration",
+            `${animConfig.duration}s`
+          );
+        }
+        if (animConfig.delay !== void 0) {
+          element.style.setProperty(
+            "--animation-delay",
+            `${animConfig.delay}s`
+          );
+        }
+        if (animConfig.easing) {
+          const easingValue = Array.isArray(animConfig.easing) ? animConfig.easing[0] : animConfig.easing;
+          element.style.setProperty("--animation-easing", easingValue);
+        }
+        const handleAnimationEnd = () => {
+          activeAnimationsRef.current.delete(elementIndex);
+          element.removeEventListener("animationend", handleAnimationEnd);
+          element.removeEventListener("transitionend", handleAnimationEnd);
+          resolve();
+        };
+        element.addEventListener("animationend", handleAnimationEnd);
+        element.addEventListener("transitionend", handleAnimationEnd);
+        const animDuration = typeof animConfig.duration === "number" ? animConfig.duration : 0.5;
+        const animDelay = typeof animConfig.delay === "number" ? animConfig.delay : 0;
+        const fallbackTimeout = setTimeout(() => {
+          handleAnimationEnd();
+        }, (animDuration + animDelay) * 1e3 + 100);
+        timeoutsRef.current.push(fallbackTimeout);
+      });
+    },
+    []
+  );
+  const trigger = (0, import_react4.useCallback)(() => {
+    if (isAnimating || refs.length === 0) return;
+    setIsAnimating(true);
+    clearAllTimeouts();
+    activeAnimationsRef.current.clear();
+    const staggerOrder = getStaggerOrder(refs.length);
+    let animationIndex = 0;
+    const triggerNext = () => {
+      if (animationIndex >= staggerOrder.length) {
+        setIsAnimating(false);
+        return;
+      }
+      const elementIndex = staggerOrder[animationIndex];
+      const elementRef = refs[elementIndex];
+      if (config.maxConcurrent && activeAnimationsRef.current.size >= config.maxConcurrent) {
+        setTimeout(triggerNext, 50);
+        return;
+      }
+      config.animations.forEach((animConfig, configIndex) => {
+        const baseDelay = typeof animConfig.delay === "number" ? animConfig.delay : 0;
+        const staggerDelay = configIndex * config.delay;
+        const delayedAnimConfig = {
+          ...animConfig,
+          delay: baseDelay + staggerDelay
+        };
+        animateElement(elementRef, delayedAnimConfig, elementIndex);
+      });
+      animationIndex++;
+      if (animationIndex < staggerOrder.length) {
+        const timeout = setTimeout(triggerNext, config.delay * 1e3);
+        timeoutsRef.current.push(timeout);
+      }
+    };
+    triggerNext();
+  }, [
+    isAnimating,
+    refs,
+    config,
+    getStaggerOrder,
+    animateElement,
+    clearAllTimeouts
+  ]);
+  const pause = (0, import_react4.useCallback)(() => {
+    refs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.style.animationPlayState = "paused";
+      }
+    });
+  }, [refs]);
+  const resume = (0, import_react4.useCallback)(() => {
+    refs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.style.animationPlayState = "running";
+      }
+    });
+  }, [refs]);
+  const restart = (0, import_react4.useCallback)(() => {
+    clearAllTimeouts();
+    activeAnimationsRef.current.clear();
+    setIsAnimating(false);
+    refs.forEach((ref) => {
+      if (ref.current) {
+        config.animations.forEach((animConfig) => {
+          const animationType = Array.isArray(animConfig.type) ? animConfig.type[0] : animConfig.type;
+          ref.current?.classList.remove(`animate-${animationType}`);
+        });
+      }
+    });
+    setTimeout(() => {
+      trigger();
+    }, 10);
+  }, [clearAllTimeouts, refs, config.animations, trigger]);
+  const cancel = (0, import_react4.useCallback)(() => {
+    clearAllTimeouts();
+    activeAnimationsRef.current.clear();
+    setIsAnimating(false);
+    refs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.style.animationPlayState = "paused";
+        config.animations.forEach((animConfig) => {
+          const animationType = Array.isArray(animConfig.type) ? animConfig.type[0] : animConfig.type;
+          ref.current?.classList.remove(`animate-${animationType}`);
+        });
+      }
+    });
+  }, [clearAllTimeouts, refs, config.animations]);
+  const addElement = (0, import_react4.useCallback)(() => {
+    const newRef = (0, import_react4.createRef)();
+    setRefs((prev) => [...prev, newRef]);
+    return newRef;
+  }, []);
+  const removeElement = (0, import_react4.useCallback)(
+    (index) => {
+      if (index < 0) return;
+      setRefs((prev) => {
+        if (index >= prev.length) return prev;
+        return prev.filter((_, i) => i !== index);
+      });
+    },
+    []
+    // Empty dependency array
+  );
+  (0, import_react4.useEffect)(() => {
+    return () => {
+      clearAllTimeouts();
+    };
+  }, [clearAllTimeouts]);
+  return {
+    refs,
+    trigger,
+    pause,
+    resume,
+    restart,
+    cancel
+    // addElement, // Commented out
+    // removeElement, // Commented out
+  };
+}
+
+// src/components/ServerAnimate.tsx
+var React = __toESM(require("react"));
+var ServerAnimate = ({
+  children,
+  type,
+  state = "closed",
+  selfContained,
+  duration = 300,
+  easing = "cubic-bezier(0.87, 0, 0.13, 1)",
+  className = "",
+  as: Component = "div",
+  ...props
+}) => {
+  const baseClasses = "server-animate";
+  const typeClass = `server-animate-${type}`;
+  const combinedClassName = `${baseClasses} ${typeClass} ${className}`.trim();
+  const style = {
+    "--animation-duration": `${duration}ms`,
+    "--animation-easing": easing,
+    ...props.style
+  };
+  if (selfContained) {
+    const { method, trigger, content, defaultOpen = false, id } = selfContained;
+    if (method === "details") {
+      return React.createElement(
+        "details",
+        {
+          className: "server-animate-details",
+          style,
+          open: defaultOpen,
+          id,
+          ...props
+        },
+        [
+          React.createElement(
+            "summary",
+            {
+              key: "summary",
+              className: "server-animate-trigger"
+            },
+            [
+              React.createElement(
+                "div",
+                {
+                  key: "trigger-content",
+                  className: `${combinedClassName} details-trigger-animation`,
+                  "data-state": "closed",
+                  style
+                },
+                trigger || children
+              ),
+              React.createElement("div", {
+                key: "chevron",
+                className: "server-animate-chevron"
+              })
+            ]
+          ),
+          React.createElement(
+            "div",
+            {
+              key: "content",
+              className: `server-animate-content ${typeClass}-content`,
+              style
+            },
+            content || children
+          )
+        ]
+      );
+    }
+    if (method === "checkbox") {
+      const accordionId = id || `server-accordion-${Math.random().toString(36).substr(2, 9)}`;
+      return React.createElement(
+        "div",
+        {
+          className: "server-animate-checkbox-wrapper",
+          style,
+          ...props
+        },
+        [
+          React.createElement("input", {
+            key: "input",
+            type: "checkbox",
+            id: accordionId,
+            className: "server-animate-checkbox",
+            defaultChecked: defaultOpen
+          }),
+          React.createElement(
+            "label",
+            {
+              key: "label",
+              htmlFor: accordionId,
+              className: "server-animate-trigger"
+            },
+            [
+              React.createElement(
+                "div",
+                {
+                  key: "trigger-content",
+                  className: `${combinedClassName} checkbox-trigger-animation`,
+                  "data-state": "closed",
+                  style
+                },
+                trigger || children
+              ),
+              React.createElement("div", {
+                key: "chevron",
+                className: "server-animate-chevron"
+              })
+            ]
+          ),
+          React.createElement(
+            "div",
+            {
+              key: "content",
+              className: `server-animate-content ${typeClass}-content`,
+              style
+            },
+            content || children
+          )
+        ]
+      );
+    }
+  }
+  return React.createElement(
+    Component,
+    {
+      ...props,
+      className: combinedClassName,
+      "data-state": state,
+      style
+    },
+    children
+  );
+};
+
+// src/components/Animate.tsx
+var import_react5 = __toESM(require("react"));
+var Animate = (0, import_react5.forwardRef)(
+  ({
+    children,
+    as: Component = "div",
+    className = "",
+    onAnimationComplete,
+    // Animation config props
+    type,
+    duration,
+    delay,
+    easing,
+    distance,
+    degrees,
+    scale,
+    opacity,
+    axis,
+    ...props
+  }, forwardedRef) => {
+    const animationConfig = {
+      type,
+      duration,
+      delay,
+      easing,
+      distance,
+      degrees,
+      scale,
+      opacity,
+      axis
+    };
+    const { ref, key } = useAnimation(animationConfig);
+    const setRefs = (element) => {
+      if (typeof ref === "object" && ref !== null) {
+        ref.current = element;
+      }
+      if (forwardedRef) {
+        if (typeof forwardedRef === "function") {
+          forwardedRef(element);
+        } else {
+          forwardedRef.current = element;
+        }
+      }
+    };
+    const handleAnimationEnd = (e) => {
+      if (e.target === ref.current) {
+        onAnimationComplete?.();
+      }
+      props.onAnimationEnd?.(e);
+    };
+    const combinedClassName = `animated ${className}`.trim();
+    return import_react5.default.createElement(
+      Component,
+      {
+        ...props,
+        ref: setRefs,
+        className: combinedClassName,
+        key,
+        // Key helps force re-animation
+        onAnimationEnd: handleAnimationEnd,
+        // Add data attributes for potential debugging/testing
+        "data-animation-type": type,
+        "data-animation-duration": duration ?? 0.5,
+        "data-animation-delay": delay ?? 0
+      },
+      children
+    );
+  }
+);
+Animate.displayName = "Animate";
+
+// src/components/ModernAnimate.tsx
+var import_react6 = __toESM(require("react"));
+var ModernAnimate = (0, import_react6.forwardRef)(
+  ({
+    children,
+    config,
+    as: Component = "div",
+    className = "",
+    onStateChange,
+    // Separate config from other props that might be HTML attributes
+    ...htmlProps
+    // these are the actual HTML attributes
+  }, forwardedRef) => {
+    const {
+      ref: animationRef,
+      state,
+      trigger,
+      pause,
+      resume,
+      restart,
+      cancel,
+      dataAttributes
+    } = useModernAnimation(config);
+    const elementRef = animationRef;
+    import_react6.default.useEffect(() => {
+      onStateChange?.(state);
+    }, [state, onStateChange]);
+    import_react6.default.useImperativeHandle(
+      forwardedRef,
+      () => ({
+        trigger,
+        pause,
+        resume,
+        restart,
+        cancel,
+        state
+      }),
+      [trigger, pause, resume, restart, cancel, state]
+    );
+    return import_react6.default.createElement(
+      Component,
+      {
+        ref: elementRef,
+        className: `modern-animate ${className}`.trim(),
+        ...dataAttributes,
+        // these are fine, they are data-* attributes
+        ...htmlProps
+        // spread only the remaining valid HTML attributes
+      },
+      children
+    );
+  }
+);
+ModernAnimate.displayName = "ModernAnimate";
+
+// src/components/SequenceAnimate.tsx
+var import_react7 = __toESM(require("react"));
+var SequenceAnimate = (0, import_react7.forwardRef)(
+  ({
+    children,
+    sequence,
+    as: Component = "div",
+    className = "",
+    autoStart = false,
+    onStepChange,
+    ...props
+  }, forwardedRef) => {
+    const {
+      ref: sequenceRef,
+      currentStep,
+      totalSteps,
+      state,
+      start,
+      pause,
+      resume,
+      restart,
+      cancel,
+      goToStep
+    } = useAnimationSequence(sequence);
+    const elementRef = sequenceRef;
+    import_react7.default.useEffect(() => {
+      if (autoStart && state === "idle") {
+        start();
+      }
+    }, [autoStart, state, start]);
+    import_react7.default.useEffect(() => {
+      onStepChange?.(currentStep);
+    }, [currentStep, onStepChange]);
+    import_react7.default.useImperativeHandle(
+      forwardedRef,
+      () => ({
+        start,
+        pause,
+        resume,
+        restart,
+        cancel,
+        goToStep,
+        currentStep,
+        totalSteps,
+        state
+      }),
+      [
+        start,
+        pause,
+        resume,
+        restart,
+        cancel,
+        goToStep,
+        currentStep,
+        totalSteps,
+        state
+      ]
+    );
+    return import_react7.default.createElement(
+      Component,
+      {
+        ref: elementRef,
+        className: `sequence-animate ${className}`.trim(),
+        "data-sequence-state": state,
+        "data-current-step": currentStep,
+        "data-total-steps": totalSteps,
+        ...props
+      },
+      children
+    );
+  }
+);
+SequenceAnimate.displayName = "SequenceAnimate";
+
+// src/components/StaggeredAnimate.tsx
+var import_react8 = __toESM(require("react"));
+var StaggeredAnimate = (0, import_react8.forwardRef)(
+  ({
+    children,
+    itemAnimation,
+    staggerDelay,
+    staggerDirection,
+    maxConcurrent,
+    as: Component = "div",
+    className = "",
+    itemClassName = "",
+    autoStart = false,
+    ...props
+  }, forwardedRef) => {
+    const childrenArray = import_react8.Children.toArray(children);
+    const staggerHookConfig = {
+      animations: [itemAnimation],
+      // Wrap the single itemAnimation into an array as expected by the hook
+      delay: staggerDelay,
+      direction: staggerDirection,
+      maxConcurrent
+    };
+    const { refs, trigger, pause, resume, restart, cancel } = useStaggeredAnimation(staggerHookConfig, childrenArray.length);
+    import_react8.default.useEffect(() => {
+      if (autoStart && refs.length > 0) {
+        trigger();
+      }
+    }, [autoStart, refs.length, trigger]);
+    import_react8.default.useImperativeHandle(
+      forwardedRef,
+      () => ({
+        trigger,
+        pause,
+        resume,
+        restart,
+        cancel,
+        elementCount: refs.length
+      }),
+      [trigger, pause, resume, restart, cancel, refs.length]
+    );
+    const enhancedChildren = childrenArray.map((child, index) => {
+      if (!import_react8.default.isValidElement(child)) return child;
+      const ref = refs[index];
+      if (!ref) return child;
+      return import_react8.default.cloneElement(child, {
+        ref,
+        className: `${child.props.className || ""} staggered-item ${itemClassName}`.trim(),
+        "data-stagger-index": index,
+        "data-stagger-total": childrenArray.length
+      });
+    });
+    return import_react8.default.createElement(
+      Component,
+      {
+        className: `staggered-animate ${className}`.trim(),
+        "data-stagger-direction": staggerDirection || "forward",
+        "data-stagger-count": childrenArray.length,
+        ...props
+      },
+      enhancedChildren
+    );
+  }
+);
+StaggeredAnimate.displayName = "StaggeredAnimate";
+
+// src/components/InteractiveAnimate.tsx
+var import_react9 = __toESM(require("react"));
+var InteractiveAnimate = (0, import_react9.forwardRef)(
+  ({
+    children,
+    hoverConfig,
+    focusConfig,
+    clickConfig,
+    as: Component = "div",
+    className = "",
+    disabled = false,
+    style,
+    ...props
+  }, ref) => {
+    const cssProps = import_react9.default.useMemo(() => {
+      const props2 = {};
+      if (hoverConfig) {
+        props2["--hover-duration"] = `${hoverConfig.duration || 0.2}s`;
+        const hoverEasing = Array.isArray(hoverConfig.easing) ? hoverConfig.easing[0] : hoverConfig.easing;
+        props2["--hover-easing"] = hoverEasing || "ease-out";
+        if (typeof hoverConfig.scale === "number") {
+          props2["--hover-scale"] = `${hoverConfig.scale}`;
+        } else if (hoverConfig.scale?.end) {
+          props2["--hover-scale"] = `${hoverConfig.scale.end}`;
+        }
+        if (hoverConfig.distance) {
+          props2["--hover-distance"] = `${hoverConfig.distance}px`;
+        }
+      }
+      if (focusConfig) {
+        props2["--focus-duration"] = `${focusConfig.duration || 0.2}s`;
+        const focusEasing = Array.isArray(focusConfig.easing) ? focusConfig.easing[0] : focusConfig.easing;
+        props2["--focus-easing"] = focusEasing || "ease-out";
+        if (typeof focusConfig.scale === "number") {
+          props2["--focus-scale"] = `${focusConfig.scale}`;
+        } else if (focusConfig.scale?.end) {
+          props2["--focus-scale"] = `${focusConfig.scale.end}`;
+        }
+      }
+      if (clickConfig) {
+        props2["--click-duration"] = `${clickConfig.duration || 0.1}s`;
+        const clickEasing = Array.isArray(clickConfig.easing) ? clickConfig.easing[0] : clickConfig.easing;
+        props2["--click-easing"] = clickEasing || "ease-out";
+        if (typeof clickConfig.scale === "number") {
+          props2["--click-scale"] = `${clickConfig.scale}`;
+        } else if (clickConfig.scale?.end) {
+          props2["--click-scale"] = `${clickConfig.scale.end}`;
+        }
+      }
+      return props2;
+    }, [hoverConfig, focusConfig, clickConfig]);
+    const interactiveClasses = import_react9.default.useMemo(() => {
+      const classes = ["interactive-animate"];
+      if (hoverConfig) {
+        const hoverType = Array.isArray(hoverConfig.type) ? hoverConfig.type[0] : hoverConfig.type;
+        classes.push(`interactive-hover-${hoverType}`);
+      }
+      if (focusConfig) {
+        const focusType = Array.isArray(focusConfig.type) ? focusConfig.type[0] : focusConfig.type;
+        classes.push(`interactive-focus-${focusType}`);
+      }
+      if (clickConfig) {
+        const clickType = Array.isArray(clickConfig.type) ? clickConfig.type[0] : clickConfig.type;
+        classes.push(`interactive-click-${clickType}`);
+      }
+      return classes.join(" ");
+    }, [hoverConfig, focusConfig, clickConfig]);
+    const combinedStyle = {
+      ...cssProps,
+      ...style
+    };
+    return import_react9.default.createElement(
+      Component,
+      {
+        ref,
+        className: `${interactiveClasses} ${className}`.trim(),
+        style: combinedStyle,
+        "data-interactive": !disabled,
+        "data-has-hover": !!hoverConfig,
+        "data-has-focus": !!focusConfig,
+        "data-has-click": !!clickConfig,
+        ...props
+      },
+      children
+    );
+  }
+);
+InteractiveAnimate.displayName = "InteractiveAnimate";
+
+// src/components/StateBasedAnimate.tsx
+var import_react10 = __toESM(require("react"));
+var StateBasedAnimate = ({
+  children,
+  animationType,
+  duration = 300,
+  easing = "cubic-bezier(0.87, 0, 0.13, 1)",
+  degrees = 180,
+  distance = 200,
+  scale = 1.1,
+  className = "",
+  stateSelector,
+  triggerState = "open"
+}) => {
+  const elementRef = import_react10.default.useRef(null);
+  const [isActive, setIsActive] = import_react10.default.useState(false);
+  import_react10.default.useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+    const checkParentState = () => {
+      let parent = element.parentElement;
+      while (parent) {
+        const state = parent.getAttribute("data-state");
+        if (state === triggerState) {
+          setIsActive(true);
+          return;
+        }
+        parent = parent.parentElement;
+      }
+      setIsActive(false);
+    };
+    checkParentState();
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "attributes" && mutation.attributeName === "data-state") {
+          checkParentState();
+        }
+      });
+    });
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-state"],
+      subtree: true
+    });
+    return () => observer.disconnect();
+  }, [triggerState]);
+  const instanceId = import_react10.default.useId();
+  const animationClass = `state-animate-${animationType}`;
+  const customProperties = {
+    "--animation-duration": `${duration}ms`,
+    "--animation-easing": easing,
+    "--rotation-degrees": `${degrees}deg`,
+    "--slide-distance": `${distance}px`,
+    "--scale-factor": scale
+  };
+  const activeClass = isActive ? "state-animate-active" : "";
+  return import_react10.default.createElement(
+    "span",
+    {
+      ref: elementRef,
+      className: `state-animate ${animationClass} ${activeClass} ${className}`.trim(),
+      style: customProperties,
+      "data-state-selector": stateSelector,
+      "data-trigger-state": triggerState,
+      "data-instance-id": instanceId,
+      "data-is-active": isActive
+    },
+    children
+  );
+};
+var StateBasedAnimate_default = StateBasedAnimate;
+
+// src/components/RadixAnimate.tsx
+var import_react11 = __toESM(require("react"));
+var RadixAnimate = ({
+  children,
+  animationType,
+  duration = 300,
+  easing = "cubic-bezier(0.87, 0, 0.13, 1)",
+  degrees = 180,
+  scale = 1,
+  className = ""
+}) => {
+  const animationClass = `state-animate-${animationType}`;
+  const customProperties = {
+    "--animation-duration": `${duration}ms`,
+    "--animation-easing": easing,
+    "--rotation-degrees": `${degrees}deg`,
+    "--scale-factor": scale
+  };
+  return import_react11.default.createElement(
+    "div",
+    {
+      className: `state-animate ${animationClass} ${className}`,
+      style: customProperties
+    },
+    children
+  );
+};
+var RadixAnimate_default = RadixAnimate;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  Animate,
+  InteractiveAnimate,
+  ModernAnimate,
+  RadixAnimate,
+  SequenceAnimate,
+  ServerAnimate,
+  StaggeredAnimate,
+  StateBasedAnimate,
+  useAnimation,
+  useAnimationSequence,
+  useModernAnimation,
+  useStaggeredAnimation
+});

@@ -58,6 +58,53 @@ const StateBasedAnimate: React.FC<StateBasedAnimateProps> = ({
   stateSelector,
   triggerState = "open",
 }) => {
+  const elementRef = React.useRef<HTMLSpanElement>(null);
+  const [isActive, setIsActive] = React.useState(false);
+
+  // Monitor parent state changes
+  React.useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const checkParentState = () => {
+      // Look for data-state attribute on ancestors
+      let parent = element.parentElement;
+      while (parent) {
+        const state = parent.getAttribute("data-state");
+        if (state === triggerState) {
+          setIsActive(true);
+          return;
+        }
+        parent = parent.parentElement;
+      }
+      setIsActive(false);
+    };
+
+    // Initial check
+    checkParentState();
+
+    // Use MutationObserver to watch for state changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-state"
+        ) {
+          checkParentState();
+        }
+      });
+    });
+
+    // Observe the document body for data-state changes
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-state"],
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, [triggerState]);
+
   // Generate unique ID for this instance
   const instanceId = React.useId();
 
@@ -73,14 +120,20 @@ const StateBasedAnimate: React.FC<StateBasedAnimateProps> = ({
     "--scale-factor": scale,
   } as React.CSSProperties;
 
+  // Apply active state class
+  const activeClass = isActive ? "state-animate-active" : "";
+
   return React.createElement(
-    "div",
+    "span",
     {
-      className: `state-animate ${animationClass} ${className}`,
+      ref: elementRef,
+      className:
+        `state-animate ${animationClass} ${activeClass} ${className}`.trim(),
       style: customProperties,
       "data-state-selector": stateSelector,
       "data-trigger-state": triggerState,
       "data-instance-id": instanceId,
+      "data-is-active": isActive,
     },
     children
   );

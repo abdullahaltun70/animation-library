@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Library Test Showcase</title>
+    <link rel="stylesheet" href="./dist/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .test-button:hover {
+            background: #2563eb;
+        }
+        
+        .animated-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #8b5cf6, #06b6d4);
+            border-radius: 8px;
+            margin: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .collapsible-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .collapsible-trigger:hover {
+            background: #e2e8f0;
+        }
+        
+        .collapsible-content {
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .chevron {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Animation Library Test Showcase</h1>
+    
+    <!-- Test ModernAnimate Array Configurations -->
+    <div class="test-section">
+        <h2>1. ModernAnimate Array Configurations Test</h2>
+        <p>Testing multiple animation types in array format (should apply both animations simultaneously):</p>
+        
+        <!-- Test combined scale + bounce -->
+        <div class="modern-animate" 
+             data-type='["scale", "bounce"]' 
+             data-duration="[1000, 800]" 
+             data-delay="[0, 200]">
+            <div class="animated-box">Scale + Bounce</div>
+        </div>
+        
+        <!-- Test combined fade + slide-up -->
+        <div class="modern-animate" 
+             data-type='["fade", "slide-up"]' 
+             data-duration="[600, 400]">
+            <div class="animated-box">Fade + Slide Up</div>
+        </div>
+        
+        <button class="test-button" onclick="restartModernAnimations()">Restart Animations</button>
+    </div>
+    
+    <!-- Test StateBasedAnimate -->
+    <div class="test-section">
+        <h2>2. StateBasedAnimate Test</h2>
+        <p>Testing state-based animations with collapsible component:</p>
+        
+        <div class="collapsible-root" data-state="closed">
+            <button class="collapsible-trigger" onclick="toggleCollapsible()">
+                <span class="state-animate" data-type="rotate">
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </span>
+                <span>Toggle Content</span>
+            </button>
+            <div class="collapsible-content" style="display: none;">
+                <div class="state-animate" data-type="slide-down">
+                    <p>This is the collapsible content that should slide down when opened!</p>
+                    <p>The chevron icon should also rotate when the state changes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Test Single Animations -->
+    <div class="test-section">
+        <h2>3. Single ModernAnimate Test</h2>
+        <p>Testing single animation types:</p>
+        
+        <div class="modern-animate" data-type="bounce" data-duration="800">
+            <div class="animated-box">Bounce Only</div>
+        </div>
+        
+        <div class="modern-animate" data-type="scale" data-duration="600">
+            <div class="animated-box">Scale Only</div>
+        </div>
+        
+        <button class="test-button" onclick="restartSingleAnimations()">Restart Single Animations</button>
+    </div>
+
+    <script type="module">
+        // Import the animation library
+        import { initializeAnimations } from './dist/client.mjs';
+        
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAnimations();
+        });
+        
+        // Global functions for testing
+        window.restartModernAnimations = function() {
+            const elements = document.querySelectorAll('[data-type*="["]');
+            elements.forEach(el => {
+                // Trigger restart by removing and re-adding the element
+                const parent = el.parentNode;
+                const nextSibling = el.nextSibling;
+                parent.removeChild(el);
+                setTimeout(() => {
+                    parent.insertBefore(el, nextSibling);
+                    // Re-initialize animations
+                    initializeAnimations();
+                }, 10);
+            });
+        };
+        
+        window.restartSingleAnimations = function() {
+            const elements = document.querySelectorAll('[data-type="bounce"], [data-type="scale"]');
+            elements.forEach(el => {
+                const parent = el.parentNode;
+                const nextSibling = el.nextSibling;
+                parent.removeChild(el);
+                setTimeout(() => {
+                    parent.insertBefore(el, nextSibling);
+                    initializeAnimations();
+                }, 10);
+            });
+        };
+        
+        window.toggleCollapsible = function() {
+            const root = document.querySelector('.collapsible-root');
+            const content = document.querySelector('.collapsible-content');
+            const currentState = root.getAttribute('data-state');
+            const newState = currentState === 'closed' ? 'open' : 'closed';
+            
+            root.setAttribute('data-state', newState);
+            
+            if (newState === 'open') {
+                content.style.display = 'block';
+            } else {
+                setTimeout(() => {
+                    content.style.display = 'none';
+                }, 300); // Wait for animation to complete
+            }
+        };
+    </script>
+</body>
+</html>

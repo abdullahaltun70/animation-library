@@ -24,10 +24,11 @@
   transition: transform var(--animation-duration, 300ms) var(--animation-easing, cubic-bezier(0.87, 0, 0.13, 1));
 }
 
-/* When parent has data-state="open" - apply rotation */
+/* When parent has data-state="open" - apply rotation with more flexible selectors */
 [data-state="open"] .state-animate-rotate > *,
 [data-state="expanded"] .state-animate-rotate > *,
-[data-state="checked"] .state-animate-rotate > * {
+[data-state="checked"] .state-animate-rotate > *,
+.state-animate-rotate.state-animate-active > * {
   transform: rotate(var(--rotation-degrees, 180deg));
 }
 
@@ -43,7 +44,8 @@
 }
 
 [data-state="open"] .state-animate-slide-down > *,
-[data-state="expanded"] .state-animate-slide-down > * {
+[data-state="expanded"] .state-animate-slide-down > *,
+.state-animate-slide-down.state-animate-active > * {
   transform: translateY(0);
   opacity: 1;
 }
@@ -60,7 +62,8 @@
 }
 
 [data-state="open"] .state-animate-slide-up > *,
-[data-state="expanded"] .state-animate-slide-up > * {
+[data-state="expanded"] .state-animate-slide-up > *,
+.state-animate-slide-up.state-animate-active > * {
   transform: translateY(0);
   opacity: 1;
 }
@@ -73,7 +76,8 @@
 
 [data-state="open"] .state-animate-fade > *,
 [data-state="expanded"] .state-animate-fade > *,
-[data-state="checked"] .state-animate-fade > * {
+[data-state="checked"] .state-animate-fade > *,
+.state-animate-fade.state-animate-active > * {
   opacity: 1;
 }
 
@@ -86,7 +90,8 @@
 
 [data-state="open"] .state-animate-scale > *,
 [data-state="expanded"] .state-animate-scale > *,
-[data-state="checked"] .state-animate-scale > * {
+[data-state="checked"] .state-animate-scale > *,
+.state-animate-scale.state-animate-active > * {
   transform: scale(var(--scale-factor, 1));
   opacity: 1;
 }
