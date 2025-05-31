@@ -62,21 +62,21 @@ Add the CSS to your application. The method depends on your framework:
 
 ```css
 /* app/globals.css */
-@import "@abdullah-altun/react-animation-library/dist/styles.css";
+@import "@abdullah-altun/react-animation-library/styles.css";
 ```
 
 #### Next.js (Pages Router)
 
 ```css
 /* pages/_app.js or styles/globals.css */
-@import "@abdullah-altun/react-animation-library/dist/styles.css";
+@import "@abdullah-altun/react-animation-library/styles.css";
 ```
 
 #### Vite/CRA
 
 ```css
 /* src/index.css or src/App.css */
-@import "@abdullah-altun/react-animation-library/dist/styles.css";
+@import "@abdullah-altun/react-animation-library/styles.css";
 ```
 
 ### Basic Usage
@@ -660,10 +660,10 @@ Combine multiple animation types for complex effects:
 
 ```tsx
 // app/layout.tsx
-import "@abdullah-altun/react-animation-library/dist/styles.css";
+import "@abdullah-altun/react-animation-library/styles.css";
 
 // pages/_app.tsx (Pages Router)
-import "@abdullah-altun/react-animation-library/dist/styles.css";
+import "@abdullah-altun/react-animation-library/styles.css";
 
 // Component usage
 
