@@ -1,6 +1,6 @@
 {
   "name": "@abdullah-altun/react-animation-library",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Modern React animation library with CSS-based state management, interactive micro-animations, and advanced orchestration",
   "homepage": "https://github.com/abdullahaltun70/react-animation-library#readme",
   "repository": {
@@ -17,8 +17,7 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md",
-    "CHANGELOG.md"
+    "README.md"
   ],
   "exports": {
     ".": {
